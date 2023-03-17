@@ -1,9 +1,35 @@
 import { Box } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { TNamedCandle } from '../../types'
 import { ChartCustom } from '../common/ChartCustom/ChartCustom'
 import { NavBar } from '../common/NavBar/NavBar'
 
 export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
+    // const [sortedVolume, setSortedPrice] = useState<TNamedCandle[]>([])
+    // const [sortedPrice, setSortedPrice] = useState<TNamedCandle[]>([])
+    const [test, setTest] = useState<TNamedCandle[]>([])
+
+    useEffect(() => {
+        const today = new Date()
+        const time =
+            today.getHours() +
+            ':' +
+            today.getMinutes() +
+            ':' +
+            today.getSeconds()
+        console.log(`inside use effect at time: ${time}`)
+        const fetchData = async () => {
+            const data = await fetch(
+                'http://localhost:8081/priceVolumeData?stableCoinName=BUSD&interval=1m'
+            )
+            const dataParsed = await data.json()
+            setTest(dataParsed)
+        }
+        const timer = setInterval(async () => await fetchData(), 60000)
+
+        return () => clearInterval(timer)
+    }, [])
+    console.log(test)
     return (
         <Box
             sx={{
@@ -35,8 +61,4 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
             </Box>
         </Box>
     )
-}
-
-export const priceAndVolumeDataLoader = () => {
-    return <>something</>
 }

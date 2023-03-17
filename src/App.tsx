@@ -1,11 +1,8 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { ErrorPage } from './components/layout/errorPage'
+import { ErrorPage } from './components/pages/ErrorPage'
 import { RootLayout } from './components/layout/RootLayout'
-import {
-    priceAndVolumeDataLoader,
-    PriceAndVolumeDataPage,
-} from './components/pages/PriceAndVolumeDataPage'
+import { PriceAndVolumeDataPage } from './components/pages/PriceAndVolumeDataPage'
 
 const router = createBrowserRouter([
     {
@@ -16,7 +13,6 @@ const router = createBrowserRouter([
             {
                 path: '/priceAndVolumeData',
                 element: <PriceAndVolumeDataPage />,
-                loader: priceAndVolumeDataLoader,
             },
         ],
     },
