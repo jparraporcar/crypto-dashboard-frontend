@@ -10,7 +10,7 @@ import {
     ChartData,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { TNamedCandle } from '../../../types'
+import { TNamedCandles } from '../../../types'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 

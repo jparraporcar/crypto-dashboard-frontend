@@ -22,7 +22,7 @@ export interface CandlesOptions {
 
 export type TObject = { [key: string]: string }
 
-export type TNamedCandle = { [key: string]: CandleChartResult }
+export type TNamedCandles = { [key: string]: CandleChartResult }
 
 export type CandleChartInterval_LT =
     | '1m'
@@ -40,3 +40,7 @@ export type CandleChartInterval_LT =
     | '3d'
     | '1w'
     | '1M'
+
+export type TVolumeVector = number[]
+
+export type TPriceVector = number[]
