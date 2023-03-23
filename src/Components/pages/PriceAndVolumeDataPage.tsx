@@ -113,7 +113,7 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
         if (candlesData.length > 0) {
             setNamedCandlesDataWindow((prevState: TNamedCandles[]) => {
                 let newState
-                if (prevState.length < 5) {
+                if (prevState.length < 100) {
                     // rolling window still not full
                     newState = [...prevState]
                     newState.push(candlesData[0]) // extract the object of type TNamedCandles from the backend 'wrapping array'
@@ -129,7 +129,7 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         console.log('inside useEffect 5')
-        if (namedCandlesDataWindow.length == 5) {
+        if (namedCandlesDataWindow.length == 100) {
             const vArrayVolume = namedCandlesDataWindowToVectorsOfConstants(
                 namedCandlesDataWindow,
                 normCandle,
