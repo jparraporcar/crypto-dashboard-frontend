@@ -8,7 +8,7 @@ import './index.css'
 import { ThemeProvider } from '@emotion/react'
 import { appTheme } from './appTheme'
 
-const container = document.getElementById('root')!
+const container = document.getElementById('root') as HTMLElement
 const root = createRoot(container)
 
 root.render(
