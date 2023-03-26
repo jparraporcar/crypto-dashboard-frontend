@@ -1,4 +1,5 @@
 import { Box } from '@mui/material'
+import { ChartData } from 'chart.js'
 import React, { useEffect, useRef, useState } from 'react'
 import {
     CandleChartResult,
@@ -6,6 +7,7 @@ import {
     TNamedCandles,
     TVolumeVector,
 } from '../../types'
+import { divideVectors, getVectorsAverage } from '../../utils'
 import { ChartCustom } from '../common/ChartCustom/ChartCustom'
 import { NavBar } from '../common/NavBar/NavBar'
 
@@ -15,10 +17,14 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
     const timerRef = useRef<NodeJS.Timer>()
     const [fetchCounter, setFetchCounter] = useState<number>(0)
     const [normCandle, setNormCandle] = useState<TNamedCandles[]>([])
-    const [chartVolumeData, setChartVolumeData] = useState<any>()
-    const [chartPriceData, setChartPriceData] = useState<any>()
-    const [chartMavgVolumeData, setChartMavgVolumeData] = useState<any>()
-    const [chartMavgPriceData, setChartMavgPriceData] = useState<any>()
+    const [chartVolumeData, setChartVolumeData] =
+        useState<ChartData<'bar', number[]>>()
+    const [chartPriceData, setChartPriceData] =
+        useState<ChartData<'bar', number[]>>()
+    const [chartMavgVolumeData, setChartMavgVolumeData] =
+        useState<ChartData<'bar', number[]>>()
+    const [chartMavgPriceData, setChartMavgPriceData] =
+        useState<ChartData<'bar', number[]>>()
     const [namedCandlesDataWindow, setNamedCandlesDataWindow] = useState<
         TNamedCandles[]
     >([])
@@ -35,7 +41,7 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
                 const data = await fetch(
                     'http://localhost:8081/priceVolumeData?stableCoinName=BUSD&interval=1m'
                 )
-                const dataParsed = await data.json()
+                const dataParsed = (await data.json()) as TNamedCandles[]
                 console.log(dataParsed)
                 setcandlesData(dataParsed)
             }
@@ -197,51 +203,6 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
         }
         return result
     }
-
-    function divideVectors(v1: number[], v2: number[]) {
-        if (v1.length !== v2.length) {
-            throw new Error('Vectors must have equal length')
-        }
-
-        const result = []
-        for (let i = 0; i < v1.length; i++) {
-            result.push(v1[i] / v2[i])
-        }
-        return result
-    }
-
-    function sumVectors(v1: number[], v2: number[]) {
-        if (v1.length !== v2.length) {
-            throw new Error('Vectors must have equal length')
-        }
-
-        const result = []
-        for (let i = 0; i < v1.length; i++) {
-            result.push(v1[i] + v2[i])
-        }
-        return result
-    }
-
-    function initializeArray(length: number, constant: number) {
-        const ArrayZeros = new Array(length)
-        for (let i = 0; i < ArrayZeros.length; i++) {
-            ArrayZeros[i] = constant
-        }
-        return ArrayZeros
-    }
-
-    function getVectorsAverage(vArray: TPriceVector[] | TVolumeVector[]) {
-        let vAcumRes = initializeArray(vArray[0].length, 0)
-        const vLength = initializeArray(vArray[0].length, vArray.length)
-        for (let i = 0; i < vArray.length; i++) {
-            const vActual = vArray[i]
-            vAcumRes = sumVectors(vAcumRes, vActual)
-        }
-        return divideVectors(vAcumRes, vLength)
-    }
-
-    console.log(multiplePriceAvg)
-    console.log(multipleVolumeAvg)
 
     return (
         <Box

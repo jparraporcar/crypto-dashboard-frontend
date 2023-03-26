@@ -10,7 +10,6 @@ import {
     ChartData,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { TNamedCandles } from '../../../types'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -29,7 +28,7 @@ export const options = {
 }
 
 interface IPropsData {
-    dataChart: any
+    dataChart: ChartData<'bar', number[]>
 }
 
 export const ChartCustom: React.FC<IPropsData> = ({

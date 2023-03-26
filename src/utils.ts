@@ -1,52 +1,43 @@
-// import { TNamedCandle } from '../src/types'
+import { TPriceVector, TVolumeVector } from './types'
 
-// export const sortByVolume = () => {}
-// export const sortByPrice = () => {}
-// export const getVolume = () => {}
-// export const getPrice = () => {}
-// export const getTickers = (candleData: TNamedCandle[]) => {
-//     const candleDataMod = candleData.map((el, i)=> return )
-// }
+export function divideVectors(v1: number[], v2: number[]) {
+    if (v1.length !== v2.length) {
+        throw new Error('Vectors must have equal length')
+    }
 
-// 0
-// :
-// 1INCHBUSD
-// :
-// baseAssetVolume
-// :
-// "0.00000000"
-// close
-// :
-// "0.50700000"
-// closeTime
-// :
-// 1679046299999
-// high
-// :
-// "0.50700000"
-// low
-// :
-// "0.50700000"
-// open
-// :
-// "0.50700000"
-// openTime
-// :
-// 1679046240000
-// quoteAssetVolume
-// :
-// "0.00000000"
-// quoteVolume
-// :
-// "0.00000000"
-// trades
-// :
-// 0
-// volume
-// :
-// "0.00000000"
-// [[Prototype]]
-// :
-// Object
+    const result = []
+    for (let i = 0; i < v1.length; i++) {
+        result.push(v1[i] / v2[i])
+    }
+    return result
+}
 
-export {}
+export function sumVectors(v1: number[], v2: number[]) {
+    if (v1.length !== v2.length) {
+        throw new Error('Vectors must have equal length')
+    }
+
+    const result = []
+    for (let i = 0; i < v1.length; i++) {
+        result.push(v1[i] + v2[i])
+    }
+    return result
+}
+
+export function initializeArray(length: number, constant: number) {
+    const ArrayZeros = new Array(length)
+    for (let i = 0; i < ArrayZeros.length; i++) {
+        ArrayZeros[i] = constant
+    }
+    return ArrayZeros
+}
+
+export function getVectorsAverage(vArray: TPriceVector[] | TVolumeVector[]) {
+    let vAcumRes = initializeArray(vArray[0].length, 0)
+    const vLength = initializeArray(vArray[0].length, vArray.length)
+    for (let i = 0; i < vArray.length; i++) {
+        const vActual = vArray[i]
+        vAcumRes = sumVectors(vAcumRes, vActual)
+    }
+    return divideVectors(vAcumRes, vLength)
+}
