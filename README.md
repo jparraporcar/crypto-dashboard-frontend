@@ -1,2 +1,2 @@
 # crypto-dashboard
-Dashboard for interacting with crypto
+Dashboard to retrieve information related with crypto
