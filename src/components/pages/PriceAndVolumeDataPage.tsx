@@ -39,7 +39,7 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
             isInitialized.current = true
             const fetchData = async () => {
                 const data = await fetch(
-                    'http://localhost:8081/priceVolumeData?stableCoinName=BUSD&interval=1m'
+                    'https://czzlqeqevd.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?stableCoinName=BUSD&interval=1m'
                 )
                 const dataParsed = (await data.json()) as TNamedCandles[]
                 console.log(dataParsed)
