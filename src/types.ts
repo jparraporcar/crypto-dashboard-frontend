@@ -24,6 +24,8 @@ export type TObject = { [key: string]: string }
 
 export type TNamedCandles = { [key: string]: CandleChartResult }
 
+export type TNamedCandlesT = { [key: string]: CandleChartResult[] }
+
 export type CandleChartInterval_LT =
     | '1m'
     | '3m'

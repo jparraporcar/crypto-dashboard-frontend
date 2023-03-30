@@ -1,17 +1,20 @@
 import { Box } from '@mui/material'
 import { ChartData } from 'chart.js'
 import React, { useEffect, useRef, useState } from 'react'
+import { TNamedCandles, TNamedCandlesT } from '../../types'
 import {
-    CandleChartResult,
-    TPriceVector,
-    TNamedCandles,
-    TVolumeVector,
-} from '../../types'
-import { divideVectors, getVectorsAverage } from '../../utils'
+    divideVectors,
+    getVectorsAverage,
+    namedCandlesDataWindowToNormVectorOfConstants,
+    transformFromT,
+} from '../../utils'
 import { ChartCustom } from '../common/ChartCustom/ChartCustom'
 import { NavBar } from '../common/NavBar/NavBar'
 
-export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
+// modifications log:
+// -> retrieve data every minute, which is the least candle interval that can be retrieved
+
+export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [candlesData, setcandlesData] = useState<TNamedCandles[]>([])
     const isInitialized = useRef<boolean>(false)
     const timerRef = useRef<NodeJS.Timer>()
@@ -35,15 +38,25 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
         if (isInitialized.current) {
             return
         } else {
-            console.log('inside useffect 1')
             isInitialized.current = true
             const fetchData = async () => {
                 const data = await fetch(
-                    'https://czzlqeqevd.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?stableCoinName=BUSD&interval=1m'
+                    'https://czzlqeqevd.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?stableCoinName=USDT&interval=1m'
                 )
                 const dataParsed = (await data.json()) as TNamedCandles[]
-                console.log(dataParsed)
-                setcandlesData(dataParsed)
+                if (dataParsed) {
+                    setcandlesData(dataParsed)
+                }
+            }
+            const fetchDataWindow = async () => {
+                const data = await fetch(
+                    'https://czzlqeqevd.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?stableCoinName=USDT&interval=1m&windowLength=50'
+                )
+                const dataParsed = (await data.json()) as TNamedCandlesT[]
+                if (dataParsed) {
+                    console.log(dataParsed)
+                    setNamedCandlesDataWindow(transformFromT(dataParsed))
+                }
             }
             try {
                 timerRef.current = setInterval(() => {
@@ -56,18 +69,19 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
                         today.getSeconds()
                     console.log(`fetching data at time:${time}`)
                     fetchData()
-                }, 40000)
+                    fetchDataWindow()
+                }, 45000)
             } catch (err) {
+                console.log(err)
                 setTimeout(async () => {
                     console.log('waiting 40s to send next request')
                     await fetchData()
-                }, 40000)
+                }, 30000)
             }
         }
     }, [isInitialized.current])
 
     useEffect(() => {
-        console.log('inside useffect 2')
         if (fetchCounter === 0 && candlesData.length > 0) {
             setFetchCounter((prevState) => prevState + 1)
             setNormCandle(candlesData)
@@ -75,37 +89,42 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
     }, [fetchCounter, candlesData])
 
     useEffect(() => {
-        console.log('inside useffect 3')
         if (candlesData.length > 0 && normCandle.length > 0) {
             setChartVolumeData({
-                labels: Object.keys(candlesData[0]),
+                labels: Object.keys(candlesData[0]).sort(),
                 datasets: [
                     {
                         label: 'Volume',
                         data: divideVectors(
-                            Object.values(candlesData[0]).map((el) =>
-                                Number(el.quoteAssetVolume)
-                            ),
-                            Object.values(normCandle[0]).map((el) =>
-                                Number(el.quoteAssetVolume)
-                            )
+                            Object.keys(candlesData[0])
+                                .sort()
+                                .map((key) =>
+                                    Number(candlesData[0][key].quoteVolume)
+                                ),
+                            Object.keys(normCandle[0])
+                                .sort()
+                                .map((key) =>
+                                    Number(normCandle[0][key].quoteVolume)
+                                )
                         ),
                         backgroundColor: '#f7d759',
                     },
                 ],
             })
             setChartPriceData({
-                labels: Object.keys(candlesData[0]),
+                labels: Object.keys(candlesData[0]).sort(),
                 datasets: [
                     {
                         label: 'Price',
                         data: divideVectors(
-                            Object.values(candlesData[0]).map((el) =>
-                                Number(el.close)
-                            ),
-                            Object.values(normCandle[0]).map((el) =>
-                                Number(el.close)
-                            )
+                            Object.keys(candlesData[0])
+                                .sort()
+                                .map((key) =>
+                                    Number(candlesData[0][key].close)
+                                ),
+                            Object.keys(normCandle[0])
+                                .sort()
+                                .map((key) => Number(normCandle[0][key].close))
                         ),
                         backgroundColor: '#f7d759',
                     },
@@ -115,52 +134,49 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
     }, [candlesData, normCandle])
 
     useEffect(() => {
-        console.log('inside useEffect 4')
-        if (candlesData.length > 0) {
-            setNamedCandlesDataWindow((prevState: TNamedCandles[]) => {
-                let newState
-                if (prevState.length < 100) {
-                    // rolling window still not full
-                    newState = [...prevState]
-                    newState.push(candlesData[0]) // extract the object of type TNamedCandles from the backend 'wrapping array'
-                } else {
-                    newState = [...prevState]
-                    newState.push(candlesData[0])
-                    newState.shift()
-                }
-                return newState
-            })
+        if (namedCandlesDataWindow.length > 0) {
+            const vArrayWindowMultiplesVolume =
+                namedCandlesDataWindowToNormVectorOfConstants(
+                    namedCandlesDataWindow,
+                    namedCandlesDataWindow[0],
+                    'quoteVolume'
+                )
+            console.log(
+                'vArrayWindowMultiplesVolume',
+                vArrayWindowMultiplesVolume
+            )
+            console.log(
+                'getVectorsAverage(vArrayWindowMultiplesVolume)',
+                getVectorsAverage(vArrayWindowMultiplesVolume)
+            )
+            setMultipleVolumeAvg(getVectorsAverage(vArrayWindowMultiplesVolume))
+
+            const vArrayWindowMultiplesPrice =
+                namedCandlesDataWindowToNormVectorOfConstants(
+                    namedCandlesDataWindow,
+                    namedCandlesDataWindow[0],
+                    'close'
+                )
+            console.log(
+                'vArrayWindowMultiplesPrice',
+                vArrayWindowMultiplesPrice
+            )
+            console.log(
+                'getVectorsAverage(vArrayWindowMultiplesPrice)',
+                getVectorsAverage(vArrayWindowMultiplesPrice)
+            )
+            setMultiplePriceAvg(getVectorsAverage(vArrayWindowMultiplesPrice))
         }
-    }, [candlesData])
+    }, [namedCandlesDataWindow, normCandle])
 
     useEffect(() => {
-        console.log('inside useEffect 5')
-        if (namedCandlesDataWindow.length == 100) {
-            const vArrayVolume = namedCandlesDataWindowToVectorsOfConstants(
-                namedCandlesDataWindow,
-                normCandle,
-                'quoteAssetVolume'
-            )
-            setMultipleVolumeAvg(getVectorsAverage(vArrayVolume))
-
-            const vArrayPrice = namedCandlesDataWindowToVectorsOfConstants(
-                namedCandlesDataWindow,
-                normCandle,
-                'close'
-            )
-            setMultiplePriceAvg(getVectorsAverage(vArrayPrice))
-        }
-    }, [namedCandlesDataWindow])
-
-    useEffect(() => {
-        console.log('inside useffect 6', candlesData)
         if (
             multiplePriceAvg.length > 0 &&
             multipleVolumeAvg.length > 0 &&
             candlesData.length > 0
         ) {
             setChartMavgPriceData({
-                labels: Object.keys(candlesData[0]),
+                labels: Object.keys(candlesData[0]).sort(),
                 datasets: [
                     {
                         label: 'Multiple of price average',
@@ -170,7 +186,7 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
                 ],
             })
             setChartMavgVolumeData({
-                labels: Object.keys(candlesData[0]),
+                labels: Object.keys(candlesData[0]).sort(),
                 datasets: [
                     {
                         label: 'Multiple of volume average',
@@ -182,26 +198,8 @@ export const PriceAndVolumeDataPage: React.FC = (): JSX.Element => {
         }
     }, [candlesData, multiplePriceAvg, multipleVolumeAvg])
 
-    function namedCandlesDataWindowToVectorsOfConstants(
-        namedCandles: TNamedCandles[],
-        namedCandlesNorm: TNamedCandles[],
-        prop: keyof CandleChartResult
-    ) {
-        const result: TPriceVector[] | TVolumeVector[] = []
-        const norm = Object.values(namedCandlesNorm[0]).map(
-            (candle: CandleChartResult) => {
-                return Number(candle[`${prop}`])
-            }
-        )
-        for (let i = 0; i < namedCandles.length; i++) {
-            const v = Object.values(namedCandles[i]).map(
-                (candle: CandleChartResult) => {
-                    return Number(candle[`${prop}`])
-                }
-            )
-            result.push(divideVectors(v, norm))
-        }
-        return result
+    if (candlesData.length > 0) {
+        console.log('openTime', candlesData[0]['BTCUSDT'].openTime)
     }
 
     return (
