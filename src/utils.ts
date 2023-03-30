@@ -73,7 +73,6 @@ export function namedCandlesDataWindowToNormVectorOfConstants(
 
 export const transformFromT = (input: TNamedCandlesT[]) => {
     const keys = Object.keys(input[0]).sort()
-    console.log('keys', keys)
     const values = Object.keys(input[0])
         .sort()
         .map((key) => input[0][key])

@@ -1,6 +1,6 @@
 import { Box, Divider, IconButton, Typography } from '@mui/material'
 import React from 'react'
-import { BitcoinIcon } from '../BitcoinIcon/BitcoinIcon'
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin'
 import { MainMenu } from '../MainMenu/MainMenu'
 
 export const NavBar: React.FC = (): JSX.Element => {
@@ -35,10 +35,7 @@ export const NavBar: React.FC = (): JSX.Element => {
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
                 >
-                    <BitcoinIcon
-                        sx={{ fontSize: '40px' }}
-                        viewBox="0 0 74 75"
-                    />
+                    <CurrencyBitcoinIcon />
                 </IconButton>
                 <Typography
                     variant="h6"

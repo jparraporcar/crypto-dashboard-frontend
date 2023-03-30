@@ -54,7 +54,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 )
                 const dataParsed = (await data.json()) as TNamedCandlesT[]
                 if (dataParsed) {
-                    console.log(dataParsed)
                     setNamedCandlesDataWindow(transformFromT(dataParsed))
                 }
             }
@@ -70,7 +69,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     console.log(`fetching data at time:${time}`)
                     fetchData()
                     fetchDataWindow()
-                }, 45000)
+                }, 60000)
             } catch (err) {
                 console.log(err)
                 setTimeout(async () => {
@@ -141,14 +140,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     namedCandlesDataWindow[0],
                     'quoteVolume'
                 )
-            console.log(
-                'vArrayWindowMultiplesVolume',
-                vArrayWindowMultiplesVolume
-            )
-            console.log(
-                'getVectorsAverage(vArrayWindowMultiplesVolume)',
-                getVectorsAverage(vArrayWindowMultiplesVolume)
-            )
             setMultipleVolumeAvg(getVectorsAverage(vArrayWindowMultiplesVolume))
 
             const vArrayWindowMultiplesPrice =
@@ -157,14 +148,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     namedCandlesDataWindow[0],
                     'close'
                 )
-            console.log(
-                'vArrayWindowMultiplesPrice',
-                vArrayWindowMultiplesPrice
-            )
-            console.log(
-                'getVectorsAverage(vArrayWindowMultiplesPrice)',
-                getVectorsAverage(vArrayWindowMultiplesPrice)
-            )
             setMultiplePriceAvg(getVectorsAverage(vArrayWindowMultiplesPrice))
         }
     }, [namedCandlesDataWindow, normCandle])
@@ -197,10 +180,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             })
         }
     }, [candlesData, multiplePriceAvg, multipleVolumeAvg])
-
-    if (candlesData.length > 0) {
-        console.log('openTime', candlesData[0]['BTCUSDT'].openTime)
-    }
 
     return (
         <Box
