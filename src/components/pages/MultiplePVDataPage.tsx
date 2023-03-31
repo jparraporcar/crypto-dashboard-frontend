@@ -58,6 +58,9 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 }
             }
             try {
+                // execute fetchData functions without delay first time
+                fetchData()
+                fetchDataWindow()
                 timerRef.current = setInterval(() => {
                     const today = new Date()
                     const time =
