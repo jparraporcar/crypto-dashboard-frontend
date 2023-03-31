@@ -183,6 +183,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
 
     return (
         <Box
+            component="div"
             sx={{
                 backgroundColor: '#f7d759',
                 border: '1px solid grey',
@@ -191,6 +192,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         >
             <NavBar />
             <Box
+                component="div"
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -205,10 +207,10 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             >
                 {chartPriceData && chartVolumeData ? (
                     <>
-                        <Box>
+                        <Box component="div">
                             <ChartCustom dataChart={chartVolumeData} />
                         </Box>
-                        <Box>
+                        <Box component="div">
                             <ChartCustom dataChart={chartPriceData} />
                         </Box>
                     </>
@@ -217,10 +219,10 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 )}
                 {chartMavgPriceData && chartMavgVolumeData ? (
                     <>
-                        <Box>
+                        <Box component="div">
                             <ChartCustom dataChart={chartMavgPriceData} />
                         </Box>
-                        <Box>
+                        <Box component="div">
                             <ChartCustom dataChart={chartMavgVolumeData} />
                         </Box>
                     </>

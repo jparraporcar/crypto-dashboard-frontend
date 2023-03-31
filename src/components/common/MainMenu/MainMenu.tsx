@@ -13,7 +13,7 @@ export const MainMenu: React.FC<IPropsMainMenu> = ({
     open,
 }): JSX.Element => {
     return (
-        <Box sx={{ backgroundColor: 'yellow' }}>
+        <Box component="div" sx={{ backgroundColor: 'yellow' }}>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}

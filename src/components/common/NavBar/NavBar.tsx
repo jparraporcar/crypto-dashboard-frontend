@@ -14,6 +14,7 @@ export const NavBar: React.FC = (): JSX.Element => {
     }
     return (
         <Box
+            component="div"
             sx={{
                 display: 'flex',
                 flexDirection: 'row',
@@ -22,6 +23,7 @@ export const NavBar: React.FC = (): JSX.Element => {
             }}
         >
             <Box
+                component="div"
                 sx={{
                     display: 'flex',
                     flexDirection: 'row',
@@ -48,7 +50,7 @@ export const NavBar: React.FC = (): JSX.Element => {
                 </Typography>
                 <Divider orientation="vertical" flexItem={true} />
             </Box>
-            <Box sx={{ marginRight: '30px' }}>
+            <Box component="div" sx={{ marginRight: '30px' }}>
                 <Typography
                     variant="h5"
                     marginLeft="30px"
