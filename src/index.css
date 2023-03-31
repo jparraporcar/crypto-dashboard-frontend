@@ -1,18 +1,13 @@
 * {
     box-sizing: border-box;
+    margin: 0;
 }
 
-#root {
-    height: 100%;
-}
-
-html {
-    height: 100%;
-}
-
+#root,
+html,
 body {
     height: 100%;
-    margin: 0;
+    width: 100vw;
     font-family: 'PT Sans Narrow', sans-serif;
 }
 

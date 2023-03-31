@@ -188,6 +188,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 backgroundColor: '#f7d759',
                 border: '1px solid grey',
                 position: 'relative',
+                width: '100vw',
             }}
         >
             <NavBar />
@@ -200,7 +201,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     alignItems: 'center',
                     position: 'absolute',
                     top: '57px',
-                    width: '100%',
+                    width: '100vw',
                     padding: '30px',
                     height: '100%',
                 }}

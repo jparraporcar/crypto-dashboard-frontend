@@ -4,7 +4,7 @@ import { Canvas } from 'react-three-fiber'
 import { GltfModel } from './GltfModel'
 import React from 'react'
 
-export const ModelViewer = () => {
+export const ModelViewer: React.FC = (): JSX.Element => {
     return (
         <Canvas
             camera={{
@@ -13,7 +13,7 @@ export const ModelViewer = () => {
                 far: 100000,
                 position: [1000, 1000, 1000],
             }}
-            style={{ backgroundColor: 'white' }}
+            style={{ height: '100vh' }}
         >
             <Suspense>
                 <pointLight intensity={50} position={[500, 1000, 1200]} />

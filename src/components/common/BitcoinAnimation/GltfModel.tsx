@@ -17,7 +17,7 @@ export const GltfModel = () => {
         <primitive
             ref={ref}
             object={gltf.scene}
-            position={[-200, 600, 200]}
+            position={[200, 600, 210]}
         ></primitive>
     )
 }
