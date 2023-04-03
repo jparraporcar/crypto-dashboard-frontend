@@ -2,15 +2,16 @@ import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModelViewer } from '../common/BitcoinAnimation/ModelViewer'
-export const AuthPage: React.FC = (): JSX.Element => {
+export const WelcomePage: React.FC = (): JSX.Element => {
     const navigate = useNavigate()
 
     return (
         <Box component="div" sx={{ height: '100vh' }}>
-            <Box>
+            <Box component="div">
                 <ModelViewer />
             </Box>
             <Box
+                component="div"
                 sx={{
                     position: 'absolute',
                     zIndex: '1000',
@@ -24,19 +25,24 @@ export const AuthPage: React.FC = (): JSX.Element => {
                     alignItems: 'center',
                 }}
             >
-                <Box>
-                    <Typography variant="h6" marginBottom={2}>
-                        Welcome to Crypto Dashboard. Get extra info about your
-                        favourite tokens
+                <Box component="div">
+                    <Typography
+                        variant="h5"
+                        marginBottom={4}
+                        textAlign="center"
+                    >
+                        Welcome to Crypto Dashboard
+                        <br />
+                        Get extra info about your favourite tokens
                     </Typography>
                 </Box>
-                <Box>
+                <Box component="div">
                     <Button
                         size="large"
                         variant="outlined"
-                        onClick={() => navigate('/multiplePVData')}
+                        onClick={() => navigate('/registration')}
                     >
-                        Home
+                        Register here
                     </Button>
                 </Box>
             </Box>

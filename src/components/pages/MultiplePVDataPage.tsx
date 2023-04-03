@@ -188,13 +188,15 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         <Box
             component="div"
             sx={{
-                backgroundColor: '#f7d759',
-                border: '1px solid grey',
                 position: 'relative',
                 width: '100vw',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
             }}
         >
-            <NavBar />
+            <NavBar mainTitle="Volume and Price Statistics" />
             <Box
                 component="div"
                 sx={{

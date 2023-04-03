@@ -3,7 +3,11 @@ import React from 'react'
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin'
 import { MainMenu } from '../MainMenu/MainMenu'
 
-export const NavBar: React.FC = (): JSX.Element => {
+interface IPropsNavBar {
+    mainTitle: string
+}
+
+export const NavBar: React.FC<IPropsNavBar> = ({ mainTitle }): JSX.Element => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -16,10 +20,17 @@ export const NavBar: React.FC = (): JSX.Element => {
         <Box
             component="div"
             sx={{
+                position: 'absolute',
+                top: '0px',
+                left: '0px',
                 display: 'flex',
                 flexDirection: 'row',
+                justifyContent: 'space-between',
                 alignItems: 'center',
-                justifyContent: 'flex-start',
+                width: '100vw',
+                height: '40px',
+                border: '1px solid grey',
+                backgroundColor: '#f7d759',
             }}
         >
             <Box
@@ -27,42 +38,54 @@ export const NavBar: React.FC = (): JSX.Element => {
                 sx={{
                     display: 'flex',
                     flexDirection: 'row',
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
                 }}
             >
-                <IconButton
-                    id="basic-button"
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
+                <Box
+                    component="div"
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}
                 >
-                    <CurrencyBitcoinIcon />
-                </IconButton>
+                    <IconButton
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
+                        <CurrencyBitcoinIcon />
+                    </IconButton>
+                    <Divider orientation="vertical" flexItem={true} />
+                </Box>
+                <Box component="div" sx={{ marginRight: '30px' }}>
+                    <Typography
+                        variant="h6"
+                        marginLeft="15px"
+                        sx={{ textShadow: '1px 1px 1px grey' }}
+                    >
+                        {mainTitle}
+                    </Typography>
+                    <MainMenu
+                        handleClose={handleClose}
+                        anchorEl={anchorEl}
+                        open={open}
+                    />
+                </Box>
+            </Box>
+            <Box component="div">
                 <Typography
                     variant="h6"
+                    marginRight="15px"
                     sx={{
-                        marginRight: '15px',
                         textShadow: '1px 1px 1px grey',
                     }}
                 >
-                    Menu
+                    Crypto Dashboard
                 </Typography>
-                <Divider orientation="vertical" flexItem={true} />
-            </Box>
-            <Box component="div" sx={{ marginRight: '30px' }}>
-                <Typography
-                    variant="h5"
-                    marginLeft="30px"
-                    sx={{ textShadow: '1px 1px 1px grey' }}
-                >
-                    Volume and Price statistics
-                </Typography>
-                <MainMenu
-                    handleClose={handleClose}
-                    anchorEl={anchorEl}
-                    open={open}
-                />
             </Box>
         </Box>
     )

@@ -6,7 +6,7 @@ export const appTheme = createTheme({
             main: '#f7d759',
         },
         secondary: {
-            main: '#DCDCDC',
+            main: '#FFFFFF',
         },
     },
     components: {
@@ -16,6 +16,13 @@ export const appTheme = createTheme({
                     '&[role="menu"]': {
                         backgroundColor: '#f3d970',
                     },
+                },
+            },
+        },
+        MuiFilledInput: {
+            styleOverrides: {
+                input: {
+                    backgroundColor: 'white',
                 },
             },
         },

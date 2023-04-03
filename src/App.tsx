@@ -2,8 +2,9 @@ import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { RootLayout } from './components/layout/RootLayout'
-import { AuthPage } from './components/pages/AuthPage'
+import { WelcomePage } from './components/pages/WelcomePage'
 import { MultiplePVDataPage } from './components/pages/MultiplePVDataPage'
+import { RegistrationPage } from './components/pages/RegistrationPage'
 
 // modifications log:
 // -> Added new pages for multiple rolling window and authentication
@@ -15,7 +16,11 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <AuthPage />,
+                element: <WelcomePage />,
+            },
+            {
+                path: '/Registration',
+                element: <RegistrationPage />,
             },
             {
                 path: '/multiplePVData',
