@@ -27,7 +27,7 @@ export const NavBar: React.FC<IPropsNavBar> = ({ mainTitle }): JSX.Element => {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                width: '100vw',
+                width: '100%',
                 height: '40px',
                 border: '1px solid grey',
                 backgroundColor: '#f7d759',
