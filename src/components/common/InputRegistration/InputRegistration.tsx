@@ -1,20 +1,20 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import {
+    Box,
+    Button,
+    IconButton,
+    InputAdornment,
+    TextField,
+    Typography,
+} from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import { VisibilityOff, Visibility } from '@mui/icons-material'
+import axios from 'axios'
 
 const userSchema = z
     .object({
-        fullName: z
-            .string()
-            .min(5, {
-                message: 'Only letters and minimum 5',
-            })
-            .regex(/^[a-zA-Z ]*$/, {
-                message: 'Only letters',
-            })
-            .max(20, { message: 'Only letters and minimum 5' }),
         userName: z
             .string()
             .regex(/[A-Za-z0-9]+/, {
@@ -52,11 +52,11 @@ export const InputRegistration: React.FC = (): JSX.Element => {
         control,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
         defaultValues: {
-            fullName: '',
             userName: '',
             email: '',
             password: '',
@@ -65,9 +65,53 @@ export const InputRegistration: React.FC = (): JSX.Element => {
         resolver: zodResolver(userSchema),
     })
 
-    const onSubmit: SubmitHandler<TUserSchema> = (data) => {
-        console.log(errors)
-        console.log(data)
+    const onSubmit: SubmitHandler<TUserSchema> = async (data) => {
+        if (Object.keys(errors).length === 0) {
+            // reset({
+            //     userName: '',
+            //     email: '',
+            //     password: '',
+            //     passwordConf: '',
+            // })
+        } else {
+            return
+        }
+
+        const putUserResponse = await axios.post(
+            'https://vlegsjd371.execute-api.ap-northeast-1.amazonaws.com/dev/registerUser',
+            data
+        )
+        console.log(putUserResponse)
+    }
+
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show)
+
+    const handleMouseDownPassword = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+        event.preventDefault()
+    }
+
+    const endAdornmentProp = {
+        endAdornment: (
+            <InputAdornment
+                position="end"
+                sx={{
+                    paddingRight: '8px',
+                }}
+            >
+                <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+            </InputAdornment>
+        ),
     }
 
     return (
@@ -100,27 +144,6 @@ export const InputRegistration: React.FC = (): JSX.Element => {
                     alignItems: 'center',
                 }}
             >
-                <Controller
-                    name="fullName"
-                    control={control}
-                    render={({ field }) => (
-                        <TextField
-                            {...field}
-                            id="filled"
-                            label="Full name"
-                            variant="filled"
-                            margin="dense"
-                            error={errors.fullName ? true : false}
-                            helperText={
-                                errors.fullName
-                                    ? errors.fullName.message?.toString()
-                                    : ''
-                            }
-                            sx={{ width: ' 320px' }}
-                        />
-                    )}
-                />
-
                 <Controller
                     name="userName"
                     control={control}
@@ -167,6 +190,7 @@ export const InputRegistration: React.FC = (): JSX.Element => {
                     render={({ field }) => (
                         <TextField
                             {...field}
+                            type={showPassword ? 'text' : 'password'}
                             id="filled"
                             label="Password"
                             variant="filled"
@@ -178,6 +202,7 @@ export const InputRegistration: React.FC = (): JSX.Element => {
                                     : ''
                             }
                             sx={{ width: ' 320px' }}
+                            InputProps={endAdornmentProp}
                         />
                     )}
                 />
@@ -187,6 +212,7 @@ export const InputRegistration: React.FC = (): JSX.Element => {
                     render={({ field }) => (
                         <TextField
                             {...field}
+                            type={showPassword ? 'text' : 'password'}
                             id="filled"
                             label="Password confirmation"
                             variant="filled"
@@ -198,6 +224,7 @@ export const InputRegistration: React.FC = (): JSX.Element => {
                                     : ''
                             }
                             sx={{ width: ' 320px' }}
+                            InputProps={endAdornmentProp}
                         />
                     )}
                 />
