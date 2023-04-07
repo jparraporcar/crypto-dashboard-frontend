@@ -7,7 +7,6 @@ provider:
     runtime: nodejs16.x
     stage: ${opt:stage, 'dev'}
     region: ${opt:region, 'ap-northeast-1'}
-    profile: default
 
 plugins:
     - serverless-finch
