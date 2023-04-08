@@ -6,12 +6,16 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { VisibilityOff, Visibility } from '@mui/icons-material'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { register } from '../../../app/slices/authSlice'
+import { useAppSelector } from '../../../app/hooks'
+import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
 
 const userSchema = z
     .object({
@@ -48,6 +52,10 @@ const userSchema = z
 type TUserSchema = z.infer<typeof userSchema>
 
 export const InputRegistration: React.FC = (): JSX.Element => {
+    const dispatch = useDispatch()
+    const authState = useAppSelector((state) => state.auth)
+    const snackbarCustomState = useAppSelector((state) => state.layout.snackbar)
+
     const {
         control,
         handleSubmit,
@@ -67,27 +75,64 @@ export const InputRegistration: React.FC = (): JSX.Element => {
 
     const onSubmit: SubmitHandler<TUserSchema> = async (data) => {
         if (Object.keys(errors).length === 0) {
-            // reset({
-            //     userName: '',
-            //     email: '',
-            //     password: '',
-            //     passwordConf: '',
-            // })
+            reset({
+                userName: '',
+                email: '',
+                password: '',
+                passwordConf: '',
+            })
         } else {
             return
         }
 
-        const putUserResponse = await axios.post(
-            'https://vlegsjd371.execute-api.ap-northeast-1.amazonaws.com/dev/registerUser',
+        const registerResponse = (await axios.post(
+            'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/registerUser',
             data
-        )
-        console.log(putUserResponse)
+        )) as any
+        console.log(registerResponse)
+        if (
+            registerResponse['$metadata'] &&
+            registerResponse['$metadata'].httpStatusCode === 200
+        ) {
+            dispatch(register)
+            //TODO Add a personalized message
+
+            dispatch(
+                setSnackbarCustom({
+                    ...snackbarCustomState,
+                    isOpen: true,
+                    message: 'User has been signed up, now you can login',
+                    severity: 'success',
+                })
+            )
+        } else if (
+            registerResponse['name'] === 'ConditionalCheckFailedException'
+        ) {
+            //TODO necessary to implement option for requesting new password
+            dispatch(
+                setSnackbarCustom({
+                    ...snackbarCustomState,
+                    isOpen: true,
+                    message:
+                        'The username and/or gmail already exist, request a new password plz',
+                    severity: 'info',
+                })
+            )
+        } else {
+            dispatch(
+                setSnackbarCustom({
+                    ...snackbarCustomState,
+                    isOpen: true,
+                    message: 'An unknown error ocurred plz try later',
+                    severity: 'error',
+                })
+            )
+        }
     }
 
     const [showPassword, setShowPassword] = useState<boolean>(false)
 
     const handleClickShowPassword = () => setShowPassword((show) => !show)
-
     const handleMouseDownPassword = (
         event: React.MouseEvent<HTMLButtonElement>
     ) => {
