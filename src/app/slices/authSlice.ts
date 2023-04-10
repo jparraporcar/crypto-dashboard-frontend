@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IAuthState {
-    isRegistered: boolean
+    isSignedUp: boolean
     isLoggedIn: boolean
 }
 
 const initialState: IAuthState = {
-    isRegistered: false,
+    isSignedUp: false,
     isLoggedIn: false,
 }
 
@@ -15,18 +15,18 @@ export const authSlice = createSlice({
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        login: (state) => {
-            state.isLoggedIn = true
+        login: (state, action: PayloadAction<boolean>) => {
+            state.isLoggedIn = action.payload
         },
-        logout: (state) => {
-            state.isLoggedIn = false
+        logout: (state, action: PayloadAction<boolean>) => {
+            state.isLoggedIn = action.payload
         },
-        register: (state) => {
-            state.isRegistered = true
+        signup: (state, action: PayloadAction<boolean>) => {
+            state.isSignedUp = action.payload
         },
     },
 })
 
-export const { login, logout, register } = authSlice.actions
+export const { login, logout, signup } = authSlice.actions
 
 export default authSlice.reducer

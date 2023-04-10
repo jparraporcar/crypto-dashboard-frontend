@@ -13,9 +13,10 @@ import * as z from 'zod'
 import { VisibilityOff, Visibility } from '@mui/icons-material'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { register } from '../../../app/slices/authSlice'
+import { signup } from '../../../app/slices/authSlice'
 import { useAppSelector } from '../../../app/hooks'
 import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
+import { useNavigate } from 'react-router-dom'
 
 const userSchema = z
     .object({
@@ -52,8 +53,8 @@ const userSchema = z
 type TUserSchema = z.infer<typeof userSchema>
 
 export const InputRegistration: React.FC = (): JSX.Element => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
-    const authState = useAppSelector((state) => state.auth)
     const snackbarCustomState = useAppSelector((state) => state.layout.snackbar)
 
     const {
@@ -75,58 +76,62 @@ export const InputRegistration: React.FC = (): JSX.Element => {
 
     const onSubmit: SubmitHandler<TUserSchema> = async (data) => {
         if (Object.keys(errors).length === 0) {
-            reset({
-                userName: '',
-                email: '',
-                password: '',
-                passwordConf: '',
-            })
+            try {
+                const registerResponse = (await axios.post(
+                    'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/registerUser',
+                    data
+                )) as any
+                console.log(registerResponse)
+                if (registerResponse.data === 'USER_REGISTERED') {
+                    //TODO Add a personalized message
+                    dispatch(
+                        setSnackbarCustom({
+                            ...snackbarCustomState,
+                            isOpen: true,
+                            message:
+                                'User has been signed up, now you can login',
+                            severity: 'success',
+                            autoHideDuration: 3000,
+                        })
+                    )
+                    reset({
+                        userName: '',
+                        email: '',
+                        password: '',
+                        passwordConf: '',
+                    })
+                } else {
+                    //TODO: pending to deal with this scenario
+                    console.log(registerResponse)
+                }
+            } catch (err: any) {
+                console.log('error', err)
+                if (err.response.data.name === 'EXISTING_RESOURCE_ERROR') {
+                    //TODO necessary to implement option for requesting new password
+                    dispatch(
+                        setSnackbarCustom({
+                            ...snackbarCustomState,
+                            isOpen: true,
+                            message:
+                                'The username and/or email already exist, request a new password or choose other credentials plz',
+                            severity: 'info',
+                            autoHideDuration: 3000,
+                        })
+                    )
+                } else {
+                    dispatch(
+                        setSnackbarCustom({
+                            ...snackbarCustomState,
+                            isOpen: true,
+                            message: 'An unknown error ocurred plz try later',
+                            severity: 'error',
+                            autoHideDuration: 3000,
+                        })
+                    )
+                }
+            }
         } else {
             return
-        }
-
-        const registerResponse = (await axios.post(
-            'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/registerUser',
-            data
-        )) as any
-        console.log(registerResponse)
-        if (
-            registerResponse['$metadata'] &&
-            registerResponse['$metadata'].httpStatusCode === 200
-        ) {
-            dispatch(register)
-            //TODO Add a personalized message
-
-            dispatch(
-                setSnackbarCustom({
-                    ...snackbarCustomState,
-                    isOpen: true,
-                    message: 'User has been signed up, now you can login',
-                    severity: 'success',
-                })
-            )
-        } else if (
-            registerResponse['name'] === 'ConditionalCheckFailedException'
-        ) {
-            //TODO necessary to implement option for requesting new password
-            dispatch(
-                setSnackbarCustom({
-                    ...snackbarCustomState,
-                    isOpen: true,
-                    message:
-                        'The username and/or gmail already exist, request a new password plz',
-                    severity: 'info',
-                })
-            )
-        } else {
-            dispatch(
-                setSnackbarCustom({
-                    ...snackbarCustomState,
-                    isOpen: true,
-                    message: 'An unknown error ocurred plz try later',
-                    severity: 'error',
-                })
-            )
         }
     }
 
@@ -161,139 +166,127 @@ export const InputRegistration: React.FC = (): JSX.Element => {
 
     return (
         <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit(onSubmit)}
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: '100%',
-                height: '100%',
-                marginTop: '20px',
-                marginBottom: '20px',
             }}
         >
-            <Box>
-                <Typography variant="h6" color="secondary" marginBottom="20px">
-                    REGISTRATION FORM
-                </Typography>
-            </Box>
+            <Controller
+                name="userName"
+                control={control}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        label="Username"
+                        variant="filled"
+                        margin="dense"
+                        error={errors.userName ? true : false}
+                        helperText={
+                            errors.userName
+                                ? errors.userName.message?.toString()
+                                : ''
+                        }
+                        sx={{ width: ' 320px' }}
+                    />
+                )}
+            />
+            <Controller
+                name="email"
+                control={control}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        label="Email"
+                        variant="filled"
+                        margin="dense"
+                        error={errors.email ? true : false}
+                        helperText={
+                            errors.email ? errors.email.message?.toString() : ''
+                        }
+                        sx={{ width: ' 320px' }}
+                    />
+                )}
+            />
+            <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        type={showPassword ? 'text' : 'password'}
+                        label="Password"
+                        variant="filled"
+                        margin="dense"
+                        error={errors.password ? true : false}
+                        helperText={
+                            errors.password
+                                ? errors.password.message?.toString()
+                                : ''
+                        }
+                        sx={{ width: ' 320px' }}
+                        InputProps={endAdornmentProp}
+                    />
+                )}
+            />
+            <Controller
+                name="passwordConf"
+                control={control}
+                render={({ field }) => (
+                    <TextField
+                        {...field}
+                        type={showPassword ? 'text' : 'password'}
+                        label="Password confirmation"
+                        variant="filled"
+                        margin="dense"
+                        error={errors.passwordConf ? true : false}
+                        helperText={
+                            errors.passwordConf
+                                ? errors.passwordConf.message?.toString()
+                                : ''
+                        }
+                        sx={{ width: ' 320px' }}
+                        InputProps={endAdornmentProp}
+                    />
+                )}
+            />
             <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-                onSubmit={handleSubmit(onSubmit)}
                 sx={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '320px',
+                    marginTop: '25px',
                 }}
             >
-                <Controller
-                    name="userName"
-                    control={control}
-                    render={({ field }) => (
-                        <TextField
-                            {...field}
-                            id="filled"
-                            label="Username"
-                            variant="filled"
-                            margin="dense"
-                            error={errors.userName ? true : false}
-                            helperText={
-                                errors.userName
-                                    ? errors.userName.message?.toString()
-                                    : ''
-                            }
-                            sx={{ width: ' 320px' }}
-                        />
-                    )}
-                />
-                <Controller
-                    name="email"
-                    control={control}
-                    render={({ field }) => (
-                        <TextField
-                            {...field}
-                            id="filled"
-                            label="Email"
-                            variant="filled"
-                            margin="dense"
-                            error={errors.email ? true : false}
-                            helperText={
-                                errors.email
-                                    ? errors.email.message?.toString()
-                                    : ''
-                            }
-                            sx={{ width: ' 320px' }}
-                        />
-                    )}
-                />
-                <Controller
-                    name="password"
-                    control={control}
-                    render={({ field }) => (
-                        <TextField
-                            {...field}
-                            type={showPassword ? 'text' : 'password'}
-                            id="filled"
-                            label="Password"
-                            variant="filled"
-                            margin="dense"
-                            error={errors.password ? true : false}
-                            helperText={
-                                errors.password
-                                    ? errors.password.message?.toString()
-                                    : ''
-                            }
-                            sx={{ width: ' 320px' }}
-                            InputProps={endAdornmentProp}
-                        />
-                    )}
-                />
-                <Controller
-                    name="passwordConf"
-                    control={control}
-                    render={({ field }) => (
-                        <TextField
-                            {...field}
-                            type={showPassword ? 'text' : 'password'}
-                            id="filled"
-                            label="Password confirmation"
-                            variant="filled"
-                            margin="dense"
-                            error={errors.passwordConf ? true : false}
-                            helperText={
-                                errors.passwordConf
-                                    ? errors.passwordConf.message?.toString()
-                                    : ''
-                            }
-                            sx={{ width: ' 320px' }}
-                            InputProps={endAdornmentProp}
-                        />
-                    )}
-                />
-                <Box
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-evenly',
-                        width: '320px',
-                        marginTop: '25px',
-                    }}
+                <Button
+                    color="secondary"
+                    size="large"
+                    variant="outlined"
+                    type="submit"
                 >
-                    <Button
-                        color="secondary"
-                        size="large"
-                        variant="outlined"
-                        type="submit"
-                    >
-                        Accept
-                    </Button>
-                    <Button color="secondary" size="large" variant="outlined">
-                        Cancel
-                    </Button>
-                </Box>
+                    Signup
+                </Button>
+                <Button
+                    color="secondary"
+                    size="large"
+                    variant="outlined"
+                    onClick={() =>
+                        reset({
+                            userName: '',
+                            email: '',
+                            password: '',
+                            passwordConf: '',
+                        })
+                    }
+                >
+                    Reset
+                </Button>
             </Box>
         </Box>
     )

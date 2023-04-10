@@ -40,7 +40,7 @@ export const WelcomePage: React.FC = (): JSX.Element => {
                     <Button
                         size="large"
                         variant="outlined"
-                        onClick={() => navigate('/registration')}
+                        onClick={() => navigate('/Credentials')}
                     >
                         Register here
                     </Button>

@@ -41,7 +41,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             isInitialized.current = true
             const fetchData = async () => {
                 const data = await fetch(
-                    'https://czzlqeqevd.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?stableCoinName=USDT&interval=1m'
+                    'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?stableCoinName=USDT&interval=1m'
                 )
                 const dataParsed = (await data.json()) as TNamedCandles[]
                 if (dataParsed) {
@@ -50,7 +50,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             }
             const fetchDataWindow = async () => {
                 const data = await fetch(
-                    'https://czzlqeqevd.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?stableCoinName=USDT&interval=1m&windowLength=50'
+                    'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?stableCoinName=USDT&interval=1m&windowLength=40'
                 )
                 const dataParsed = (await data.json()) as TNamedCandlesT[]
                 if (dataParsed) {
