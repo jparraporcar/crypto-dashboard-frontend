@@ -233,6 +233,7 @@ export const InputLogin: React.FC = (): JSX.Element => {
                     justifyContent: 'space-between',
                     width: '320px',
                     marginTop: '25px',
+                    marginBottom: '25px',
                 }}
             >
                 <Button

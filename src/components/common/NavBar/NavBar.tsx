@@ -20,7 +20,8 @@ export const NavBar: React.FC<IPropsNavBar> = ({ mainTitle }): JSX.Element => {
         <Box
             component="div"
             sx={{
-                position: 'absolute',
+                position: 'fixed',
+                zIndex: 2000,
                 top: '0px',
                 left: '0px',
                 display: 'flex',

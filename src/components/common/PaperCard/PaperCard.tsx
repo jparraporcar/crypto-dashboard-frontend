@@ -1,25 +1,18 @@
-import { Box, Paper } from '@mui/material'
+import { Box, Paper, SxProps } from '@mui/material'
 import React from 'react'
 
 interface IPropsSimplePaper {
     content: JSX.Element
+    sxCustom: SxProps
 }
 
 export const PaperCard: React.FC<IPropsSimplePaper> = ({
     content,
+    sxCustom,
 }): JSX.Element => {
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                '& > :not(style)': {
-                    m: 1,
-                    width: 500,
-                    height: '100%',
-                },
-            }}
-        >
-            <Paper elevation={4} sx={{ backgroundColor: '#f7d759' }}>
+        <Box sx={sxCustom}>
+            <Paper elevation={20} sx={{ backgroundColor: '#f7d759' }}>
                 {content}
             </Paper>
         </Box>
