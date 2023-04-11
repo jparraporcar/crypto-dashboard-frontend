@@ -41,7 +41,7 @@ export const settingsLoader = async () => {
             return dataLocalResponse
         } else {
             const response = await axios.get(
-                'http://localhost:4000/dev/allSpotTickerNames?stableCoinName=USDT'
+                'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/allSpotTickerNames?stableCoinName=USDT'
             )
             localStorage.setItem(
                 'allSpotTickerNames',
