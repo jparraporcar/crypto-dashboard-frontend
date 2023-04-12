@@ -114,3 +114,11 @@ const createListOfSameInstantCandles = (
     }
     return result
 }
+
+export const getObjCheckTickers = (data: string[]) => {
+    const obj = {} as { [key: string]: boolean }
+    data.forEach((tickerName) => {
+        obj[tickerName] = false
+    })
+    return obj
+}

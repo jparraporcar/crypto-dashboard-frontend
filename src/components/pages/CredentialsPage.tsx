@@ -17,22 +17,21 @@ export const CredentialsPage: React.FC = (): JSX.Element => {
     return (
         <Box
             sx={{
-                position: 'relative',
                 width: '100vw',
                 height: '100vh',
             }}
         >
-            <NavBar mainTitle="User credentials" />
+            <Box>
+                <NavBar mainTitle="User credentials" />
+            </Box>
             <Box
                 sx={{
-                    position: 'absolute',
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    top: '40px',
                     width: '100vw',
-                    height: 'calc(100vh - 40px)',
+                    height: '100vh',
                 }}
             >
                 <PaperCard

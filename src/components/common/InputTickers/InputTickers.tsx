@@ -1,49 +1,53 @@
 import {
-    Box,
     FormControl,
-    FormLabel,
     FormGroup,
     FormControlLabel,
     Checkbox,
-    FormHelperText,
     Grid,
 } from '@mui/material'
 import { AxiosResponse } from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { getObjCheckTickers } from '../../../utils'
 
-const getArrayTickers = (data: string[]) => {
-    const obj = {} as { [key: string]: boolean }
-    data.forEach((tickerName) => {
-        obj[tickerName] = false
-    })
-    return obj
-}
-
-export const InputSettings: React.FC = (): JSX.Element => {
+export const InputTickers: React.FC = (): JSX.Element => {
     const { data } = useLoaderData() as AxiosResponse<string[]>
-    const [checkState, setCheckState] = useState<{
-        [key: string]: boolean
-    }>(getArrayTickers(data))
+    const [checkData, setCheckData] = useState(getObjCheckTickers(data)) // object with all the boolean values for the checkboxes
+    const [filteredKeys, setFilteredKeys] = useState<string[]>() // array of filtered keys to map into checkboxes
+    const termState = useAppSelector((state) => state.tickers.searchTerm)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setCheckState({
-            ...checkState,
+        setCheckData((prevState) => ({
+            ...prevState,
             [event.target.name]: event.target.checked,
-        })
+        }))
     }
+
+    useEffect(() => {
+        if (termState.toUpperCase() !== '') {
+            setFilteredKeys(
+                Object.keys(checkData).filter((key) =>
+                    key.includes(termState.toUpperCase())
+                )
+            )
+        } else {
+            setFilteredKeys(data)
+        }
+    }, [termState])
+
+    console.log(checkData)
 
     return (
         <FormControl
-            sx={{ m: 3 }}
+            sx={{ margin: '0px', padding: '0px' }}
             variant="standard"
             color="primary"
             component="fieldset"
         >
             <Grid container>
-                {Object.keys(checkState)
-                    .sort()
-                    .map((key: string) => {
+                {filteredKeys &&
+                    filteredKeys.sort().map((key: string) => {
                         return (
                             <Grid item key={key} sm={1}>
                                 <FormGroup sx={{ width: '120px' }}>
@@ -55,7 +59,7 @@ export const InputSettings: React.FC = (): JSX.Element => {
                                         }}
                                         control={
                                             <Checkbox
-                                                checked={checkState[key]}
+                                                checked={checkData[key]}
                                                 onChange={handleChange}
                                                 name={key}
                                             />
