@@ -1,9 +1,11 @@
 import { Box } from '@mui/material'
 import { ChartData } from 'chart.js'
 import React, { useEffect, useRef, useState } from 'react'
+import { useAppSelector } from '../../app/hooks'
 import { TNamedCandles, TNamedCandlesT } from '../../types'
 import {
     divideVectors,
+    getPairsNames,
     getVectorsAverage,
     namedCandlesDataWindowToNormVectorOfConstants,
     transformFromT,
@@ -33,6 +35,8 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     >([])
     const [multiplePriceAvg, setMultiplePriceAvg] = useState<number[]>([])
     const [multipleVolumeAvg, setMultipleVolumeAvg] = useState<number[]>([])
+    const settingsState = useAppSelector((state) => state.tickers.settings)
+    const pairsNames = getPairsNames(settingsState)
 
     useEffect(() => {
         if (isInitialized.current) {
@@ -41,7 +45,11 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             isInitialized.current = true
             const fetchData = async () => {
                 const data = await fetch(
-                    'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?stableCoinName=USDT&interval=1m'
+                    `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?stableCoinName=${
+                        settingsState.stableCoin
+                    }&interval=${
+                        settingsState.interval
+                    }&symbols=${JSON.stringify(pairsNames)}`
                 )
                 const dataParsed = (await data.json()) as TNamedCandles[]
                 if (dataParsed) {
@@ -50,7 +58,11 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             }
             const fetchDataWindow = async () => {
                 const data = await fetch(
-                    'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?stableCoinName=USDT&interval=1m&windowLength=40'
+                    `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?stableCoinName=${
+                        settingsState.stableCoin
+                    }&interval=${settingsState.interval}&windowLength=${
+                        settingsState.windowLength
+                    }&symbols=${JSON.stringify(pairsNames)}`
                 )
                 const dataParsed = (await data.json()) as TNamedCandlesT[]
                 if (dataParsed) {

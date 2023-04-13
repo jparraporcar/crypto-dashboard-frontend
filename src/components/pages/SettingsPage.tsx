@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     Divider,
     FormControl,
     InputLabel,
@@ -7,14 +8,121 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
+import { height } from '@mui/system'
 import axios from 'axios'
-import React from 'react'
-import { json } from 'react-router-dom'
+import React, { useState } from 'react'
+import { json, useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { setSnackbarCustom } from '../../app/slices/layoutSlice'
+import { setSettings } from '../../app/slices/tickersSlice'
+import { CandleChartInterval_LT, TStableCoin } from '../../types'
 import { InputTickers } from '../common/InputTickers/InputTickers'
 import { NavBar } from '../common/NavBar/NavBar'
 import { SearchBar } from '../common/SearchBar/SearchBar'
 
 export const SettingsPage: React.FC = (): JSX.Element => {
+    const navigate = useNavigate()
+    const [windowLengthError, setWindowLengthError] = useState<
+        | {
+              error: boolean
+              message: string
+          }
+        | undefined
+    >(undefined)
+    const dispatch = useAppDispatch()
+    const settingsState = useAppSelector((state) => state.tickers.settings)
+    const snackbarCustomState = useAppSelector((state) => state.layout.snackbar)
+
+    const handleStableCoinChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        dispatch(
+            setSettings({
+                ...settingsState,
+                ['stableCoin']: event.target.value as TStableCoin,
+            })
+        )
+    }
+
+    const handleIntervalChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        dispatch(
+            setSettings({
+                ...settingsState,
+                ['interval']: event.target.value as CandleChartInterval_LT,
+            })
+        )
+    }
+
+    const handleWindowLengthBlur = (
+        event: React.FocusEvent<HTMLInputElement>
+    ) => {
+        if (event.target.value === '') {
+            setWindowLengthError({
+                error: true,
+                message: 'it cannot be empty',
+            })
+        }
+    }
+
+    const handleWindowLengthChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (Number(event.target.value) > 50) {
+            setWindowLengthError({
+                error: true,
+                message: 'No greater than 50',
+            })
+            return
+        } else if (event.target.value === '') {
+            setWindowLengthError({
+                error: true,
+                message: 'it cannot be empty',
+            })
+        } else {
+            setWindowLengthError(undefined)
+        }
+        dispatch(
+            setSettings({
+                ...settingsState,
+                ['windowLength']: Number(event.target.value),
+            })
+        )
+    }
+
+    const handleAcceptSettings = () => {
+        if (!settingsState.tokensList || windowLengthError !== undefined) {
+            dispatch(
+                setSnackbarCustom({
+                    ...snackbarCustomState,
+                    isOpen: true,
+                    message:
+                        'At least 5 tokens must be chosen / window length must be less than 50 / window length cannot be empty ',
+                    severity: 'error',
+                    autoHideDuration: 3000,
+                })
+            )
+            return
+        } else if (
+            settingsState.tokensList.length < 5 ||
+            windowLengthError !== undefined
+        ) {
+            dispatch(
+                setSnackbarCustom({
+                    ...snackbarCustomState,
+                    isOpen: true,
+                    message:
+                        'At least 5 tokens must be chosen / window length must be less than 50 / window length cannot be empty ',
+                    severity: 'error',
+                    autoHideDuration: 3000,
+                })
+            )
+            return
+        }
+        navigate('/multiplePVData')
+    }
+
     return (
         <Box
             sx={{
@@ -36,76 +144,112 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                         height: '25vh',
                         padding: '25px',
                         display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-evenly',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-end',
                     }}
                 >
-                    <Box component="form" sx={{ width: '25ch' }}>
-                        <FormControl fullWidth>
-                            <InputLabel
-                                variant="standard"
-                                htmlFor="uncontrolled-native"
-                            >
-                                Time frame
-                            </InputLabel>
-                            <NativeSelect
-                                inputProps={{
-                                    name: 'Time frame',
-                                    id: 'uncontrolled-native',
-                                }}
-                            >
-                                <option value={'1M'}>1M</option>
-                                <option value={'1W'}>1W</option>
-                                <option value={'1D'}>1D</option>
-                                <option value={'4h'}>4h</option>
-                                <option value={'1h'}>1h</option>
-                                <option value={'30m'}>30m</option>
-                                <option value={'15m'}>15m</option>
-                                <option value={'5m'}>5m</option>
-                                <option value={'1m'}>1m</option>
-                            </NativeSelect>
-                        </FormControl>
-                    </Box>
-                    <Box component="form" sx={{ width: '25ch' }}>
-                        <FormControl fullWidth>
-                            <InputLabel
-                                variant="standard"
-                                htmlFor="uncontrolled-native"
-                            >
-                                Stable coin
-                            </InputLabel>
-                            <NativeSelect
-                                inputProps={{
-                                    name: 'Stable coin',
-                                    id: 'uncontrolled-native',
-                                }}
-                            >
-                                <option value={'USDT'}>USDT</option>
-                                <option value={'BSUD'}>BSUD</option>
-                            </NativeSelect>
-                        </FormControl>
-                    </Box>
                     <Box
-                        component="form"
                         sx={{
-                            '& .MuiTextField-root': { width: '25ch' },
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-evenly',
+                            width: '180px',
                         }}
-                        noValidate
-                        autoComplete="off"
                     >
-                        <TextField
-                            inputProps={{
-                                max: '50',
-                                min: '0',
+                        <Box component="form">
+                            <FormControl fullWidth>
+                                <InputLabel
+                                    variant="standard"
+                                    htmlFor="uncontrolled-native"
+                                >
+                                    Time frame
+                                </InputLabel>
+                                <NativeSelect
+                                    inputProps={{
+                                        name: 'Time frame',
+                                        id: 'uncontrolled-native',
+                                    }}
+                                    onChange={handleIntervalChange}
+                                >
+                                    <option value={'1m'}>1m</option>
+                                    <option value={'3m'}>3m</option>
+                                    <option value={'5m'}>5m</option>
+                                    <option value={'15m'}>15m</option>
+                                    <option value={'30m'}>30m</option>
+                                    <option value={'1h'}>1h</option>
+                                    <option value={'2h'}>2h</option>
+                                    <option value={'4h'}>4h</option>
+                                    <option value={'6h'}>6h</option>
+                                    <option value={'8h'}>8h</option>
+                                    <option value={'12h'}>12h</option>
+                                    <option value={'1d'}>1d</option>
+                                    <option value={'3d'}>3d</option>
+                                    <option value={'1w'}>1w</option>
+                                    <option value={'1M'}>1M</option>
+                                </NativeSelect>
+                            </FormControl>
+                        </Box>
+                        <Box component="form" sx={{ width: '25ch' }}>
+                            <FormControl fullWidth>
+                                <InputLabel
+                                    variant="standard"
+                                    htmlFor="uncontrolled-native"
+                                >
+                                    Stable coin
+                                </InputLabel>
+                                <NativeSelect
+                                    inputProps={{
+                                        name: 'Stable coin',
+                                        id: 'uncontrolled-native',
+                                    }}
+                                    onChange={handleStableCoinChange}
+                                >
+                                    <option value={'USDT'}>USDT</option>
+                                    <option value={'BSUD'}>BSUD</option>
+                                </NativeSelect>
+                            </FormControl>
+                        </Box>
+                        <Box
+                            component="form"
+                            sx={{
+                                '& .MuiTextField-root': { width: '25ch' },
                             }}
-                            id="window-length"
-                            label="Window length"
-                            type="number"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            variant="standard"
-                        />
+                            noValidate
+                            autoComplete="off"
+                        >
+                            <TextField
+                                error={
+                                    windowLengthError && windowLengthError.error
+                                }
+                                helperText={
+                                    windowLengthError &&
+                                    windowLengthError.message
+                                }
+                                inputProps={{
+                                    max: '50',
+                                    min: '0',
+                                }}
+                                id="window-length"
+                                label="Window length"
+                                type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                variant="standard"
+                                onChange={handleWindowLengthChange}
+                                onBlur={handleWindowLengthBlur}
+                            />
+                        </Box>
+                    </Box>
+                    <Box sx={{ marginLeft: '40px' }}>
+                        <Button
+                            variant="contained"
+                            onClick={handleAcceptSettings}
+                        >
+                            Accept settings
+                        </Button>
                     </Box>
                 </Box>
                 <Box
@@ -144,8 +288,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                         sx={{
                             height: '55vh',
                             overflow: 'scroll',
-                            marginTop: '15px',
-                            padding: '25px',
+                            padding: '15px 25px 25px 25px',
                         }}
                     >
                         <InputTickers />

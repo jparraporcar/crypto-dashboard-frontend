@@ -42,7 +42,7 @@ export const WelcomePage: React.FC = (): JSX.Element => {
                         variant="outlined"
                         onClick={() => navigate('/Credentials')}
                     >
-                        Register here
+                        Access here
                     </Button>
                 </Box>
             </Box>

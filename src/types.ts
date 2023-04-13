@@ -46,3 +46,14 @@ export type CandleChartInterval_LT =
 export type TVolumeVector = number[]
 
 export type TPriceVector = number[]
+
+export type TStableCoin = 'USDT' | 'BUSD'
+
+export type ObjCheck = { [key: string]: boolean } | null
+
+export type UserSettings = {
+    interval: CandleChartInterval_LT
+    stableCoin: TStableCoin
+    windowLength: number
+    tokensList: string[] | undefined
+}

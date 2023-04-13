@@ -1,9 +1,11 @@
+import { Settings } from 'http2'
 import {
     CandleChartResult,
     TNamedCandles,
     TNamedCandlesT,
     TPriceVector,
     TVolumeVector,
+    UserSettings,
 } from './types'
 
 export function divideVectors(v1: number[], v2: number[]) {
@@ -121,4 +123,11 @@ export const getObjCheckTickers = (data: string[]) => {
         obj[tickerName] = false
     })
     return obj
+}
+
+export const getPairsNames = (settings: UserSettings) => {
+    const output = settings.tokensList!.map(
+        (cleanName) => cleanName + settings.stableCoin
+    )
+    return output
 }

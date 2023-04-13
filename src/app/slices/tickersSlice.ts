@@ -1,22 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { getObjCheckTickers } from '../../utils'
-
-type ObjCheck = { [key: string]: boolean } | null
+import { ObjCheck, UserSettings } from '../../types'
 
 export interface ITickersState {
     allTickers: string[] | undefined
-    allTickersObjCheck: ObjCheck | undefined
-    customerTickers: string[] | undefined
-    customerTickersObjCheck: ObjCheck | undefined
+    allTickersCheck: ObjCheck | undefined
+    userTickers: string[] | undefined
+    userTickersCheck: ObjCheck | undefined
     searchTerm: string
+    settings: UserSettings
 }
 
 const initialState: ITickersState = {
     allTickers: undefined,
-    allTickersObjCheck: undefined,
-    customerTickers: undefined,
-    customerTickersObjCheck: undefined,
+    allTickersCheck: undefined,
+    userTickers: undefined,
+    userTickersCheck: undefined,
     searchTerm: '',
+    settings: {
+        interval: '15m',
+        stableCoin: 'USDT',
+        windowLength: 15,
+        tokensList: undefined,
+    },
 }
 
 export const tickersSlice = createSlice({
@@ -27,30 +32,27 @@ export const tickersSlice = createSlice({
         setAllTickers: (state, action: PayloadAction<string[]>) => {
             state.allTickers = action.payload
         },
-        setAllTickersObjCheck: (state, action: PayloadAction<ObjCheck>) => {
-            state.allTickersObjCheck = action.payload
+        setAllTickersCheck: (state, action: PayloadAction<ObjCheck>) => {
+            state.allTickersCheck = action.payload
         },
-        setCustomerTickers: (state, action: PayloadAction<string[]>) => {
-            state.customerTickers = action.payload
-        },
-        setCustomerTickersObjCheck: (
-            state,
-            action: PayloadAction<ObjCheck>
-        ) => {
-            state.customerTickersObjCheck = action.payload
+        setUserTickers: (state, action: PayloadAction<string[]>) => {
+            state.userTickers = action.payload
         },
         setSearchTerm: (state, action: PayloadAction<string>) => {
             state.searchTerm = action.payload
+        },
+        setSettings: (state, action: PayloadAction<UserSettings>) => {
+            state.settings = action.payload
         },
     },
 })
 
 export const {
     setAllTickers,
-    setAllTickersObjCheck,
-    setCustomerTickers,
-    setCustomerTickersObjCheck,
+    setAllTickersCheck,
+    setUserTickers,
     setSearchTerm,
+    setSettings,
 } = tickersSlice.actions
 
 export default tickersSlice.reducer

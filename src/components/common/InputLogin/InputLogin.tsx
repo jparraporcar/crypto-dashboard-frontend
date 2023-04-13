@@ -68,11 +68,10 @@ export const InputLogin: React.FC = (): JSX.Element => {
                     'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/loginUser',
                     data
                 )) as any
-                console.log(loginResponse)
                 if (loginResponse.data.message === 'USER_LOGGEDIN') {
                     const decoded = jwt_decode(loginResponse.data.token)
                     console.log(decoded)
-                    //TODO Add anpm  personalized message
+                    //TODO: Add personalized message
                     dispatch(
                         setSnackbarCustom({
                             ...snackbarCustomState,
@@ -82,7 +81,7 @@ export const InputLogin: React.FC = (): JSX.Element => {
                             autoHideDuration: 3000,
                         })
                     )
-                    setTimeout(() => navigate('/multiplePVData'), 3000)
+                    setTimeout(() => navigate('/settings'), 3000)
                 } else {
                     //TODO: pending to deal with this scenario
                     console.log(loginResponse)
