@@ -23,11 +23,7 @@ export const InputTickers: React.FC = (): JSX.Element => {
     const settingsState = useAppSelector((state) => state.tickers.settings)
     const dispatch = useAppDispatch()
 
-    //TODO: minimum 5 tockens have to be chosen otherwise validation error at this point, since the format of the plots would look really
-    // ugly with less tokens. Depending on the amount of tokens to be shown, the plot type could be change to donuts?, even let the user
-    // chose between different types of plots
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCheckData((prevState) => ({
             ...prevState,
             [event.target.name]: event.target.checked,
@@ -37,12 +33,13 @@ export const InputTickers: React.FC = (): JSX.Element => {
     const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAllBoxesChecked(event.target.checked)
         setCheckData((prevState: { [key: string]: boolean }) => {
-            const propNames = Object.keys(prevState) // get an array of the property names
+            const newState = { ...prevState }
+            const propNames = Object.keys(newState) // get an array of the property names
             for (let i = 0; i < propNames.length; i++) {
                 const propName = propNames[i]
-                prevState[propName] = event.target.checked // update the value of the property
+                newState[propName] = event.target.checked // update the value of the property
             }
-            return prevState
+            return newState
         })
     }
 
@@ -62,7 +59,7 @@ export const InputTickers: React.FC = (): JSX.Element => {
         dispatch(
             setSettings({
                 ...settingsState,
-                tokensList: Object.keys(checkData).filter(
+                symbolsList: Object.keys(checkData).filter(
                     (key: string) => checkData[key] === true
                 ),
             })
@@ -123,7 +120,7 @@ export const InputTickers: React.FC = (): JSX.Element => {
                                                 control={
                                                     <Checkbox
                                                         checked={checkData[key]}
-                                                        onChange={handleChange}
+                                                        onChange={handleSelect}
                                                         name={key}
                                                     />
                                                 }

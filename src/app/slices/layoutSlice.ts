@@ -7,6 +7,14 @@ export interface ILayoutState {
         severity: 'success' | 'error' | 'warning' | 'info' | undefined
         autoHideDuration: number | undefined
     }
+    chartView: {
+        multipleOfVolume: boolean
+        multipleOfPrice: boolean
+        multipleOfVolumePrice: boolean
+        multipleOfVolumeAvg: boolean
+        multipleOfPriceAvg: boolean
+        multipleOfVolumePriceAvg: boolean
+    }
 }
 
 const initialState: ILayoutState = {
@@ -15,6 +23,14 @@ const initialState: ILayoutState = {
         isOpen: false,
         severity: undefined,
         autoHideDuration: undefined,
+    },
+    chartView: {
+        multipleOfVolume: false,
+        multipleOfPrice: false,
+        multipleOfVolumePrice: false,
+        multipleOfVolumeAvg: true,
+        multipleOfPriceAvg: true,
+        multipleOfVolumePriceAvg: false,
     },
 }
 
@@ -34,9 +50,23 @@ export const layoutSlice = createSlice({
                 autoHideDuration: action.payload.autoHideDuration,
             }
         },
+        setChartView: (
+            state,
+            action: PayloadAction<ILayoutState['chartView']>
+        ) => {
+            state.chartView = {
+                multipleOfVolume: action.payload.multipleOfVolume,
+                multipleOfPrice: action.payload.multipleOfPrice,
+                multipleOfVolumePrice: action.payload.multipleOfVolumePrice,
+                multipleOfVolumeAvg: action.payload.multipleOfVolumeAvg,
+                multipleOfPriceAvg: action.payload.multipleOfPriceAvg,
+                multipleOfVolumePriceAvg:
+                    action.payload.multipleOfVolumePriceAvg,
+            }
+        },
     },
 })
 
-export const { setSnackbarCustom } = layoutSlice.actions
+export const { setSnackbarCustom, setChartView } = layoutSlice.actions
 
 export default layoutSlice.reducer

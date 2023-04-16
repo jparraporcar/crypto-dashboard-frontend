@@ -1,25 +1,45 @@
 import { Box, Divider, IconButton, Typography } from '@mui/material'
 import React from 'react'
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin'
-import { MainMenu } from '../MainMenu/MainMenu'
+import { MenuWrapper } from '../MenuWrapper/MenuWrapper'
 
 interface IPropsNavBar {
     mainTitle: string
+    menuContent: JSX.Element
+    position?: string
+    zIndex?: number
+    top?: number
 }
 
-export const NavBar: React.FC<IPropsNavBar> = ({ mainTitle }): JSX.Element => {
+export const NavBar: React.FC<IPropsNavBar> = ({
+    mainTitle,
+    position,
+    zIndex,
+    top,
+    menuContent,
+}): JSX.Element => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget)
+    const handleIconButtonClick = (
+        event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+        if (open) {
+            setAnchorEl(null)
+        } else {
+            setAnchorEl(event.currentTarget)
+        }
     }
-    const handleClose = () => {
+    const handleMainMenuClose = () => {
         setAnchorEl(null)
     }
+
     return (
         <Box
             component="div"
             sx={{
+                position: position ? position : 'static',
+                zIndex: zIndex ? zIndex : 0,
+                top: top ? top : 0,
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
@@ -52,7 +72,7 @@ export const NavBar: React.FC<IPropsNavBar> = ({ mainTitle }): JSX.Element => {
                         aria-controls={open ? 'basic-menu' : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
-                        onClick={handleClick}
+                        onClick={handleIconButtonClick}
                     >
                         <CurrencyBitcoinIcon />
                     </IconButton>
@@ -66,10 +86,11 @@ export const NavBar: React.FC<IPropsNavBar> = ({ mainTitle }): JSX.Element => {
                     >
                         {mainTitle}
                     </Typography>
-                    <MainMenu
-                        handleClose={handleClose}
+                    <MenuWrapper
                         anchorEl={anchorEl}
                         open={open}
+                        handleMainMenuClose={handleMainMenuClose}
+                        menuContent={menuContent}
                     />
                 </Box>
             </Box>

@@ -3,6 +3,7 @@ import React from 'react'
 import { NavBar } from '../common/NavBar/NavBar'
 import { PaperCard } from '../common/PaperCard/PaperCard'
 import { NavTabsWrapper } from '../common/NavTabsWrapper/NavTabsWrapper'
+import { MenuGeneric } from '../common/MenuGeneric/MenuGeneric'
 
 export const CredentialsPage: React.FC = (): JSX.Element => {
     //TODO: Pending to understand the styles below
@@ -22,7 +23,10 @@ export const CredentialsPage: React.FC = (): JSX.Element => {
             }}
         >
             <Box>
-                <NavBar mainTitle="User credentials" />
+                <NavBar
+                    mainTitle="User credentials"
+                    menuContent={<MenuGeneric />}
+                />
             </Box>
             <Box
                 sx={{

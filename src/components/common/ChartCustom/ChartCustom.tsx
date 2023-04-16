@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -22,7 +22,6 @@ export const options = {
         },
         title: {
             display: true,
-            text: 'Chart.js Bar Chart',
         },
     },
 }

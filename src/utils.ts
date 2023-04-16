@@ -126,8 +126,6 @@ export const getObjCheckTickers = (data: string[]) => {
 }
 
 export const getPairsNames = (settings: UserSettings) => {
-    const output = settings.tokensList!.map(
-        (cleanName) => cleanName + settings.stableCoin
-    )
+    const output = settings.symbolsList!.map((cleanName) => cleanName + 'USDT')
     return output
 }

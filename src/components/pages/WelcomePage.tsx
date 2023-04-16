@@ -2,6 +2,7 @@ import { Box, Button, Typography } from '@mui/material'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModelViewer } from '../common/BitcoinAnimation/ModelViewer'
+import { Hourglass } from '../common/Hourglass/Hourglass'
 export const WelcomePage: React.FC = (): JSX.Element => {
     const navigate = useNavigate()
 

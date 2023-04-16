@@ -8,20 +8,19 @@ import {
     TextField,
     Typography,
 } from '@mui/material'
-import { height } from '@mui/system'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { json, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { setSnackbarCustom } from '../../app/slices/layoutSlice'
 import { setSettings } from '../../app/slices/tickersSlice'
-import { CandleChartInterval_LT, TStableCoin } from '../../types'
+import { CandleChartInterval_LT } from '../../types'
 import { InputTickers } from '../common/InputTickers/InputTickers'
 import { NavBar } from '../common/NavBar/NavBar'
 import { SearchBar } from '../common/SearchBar/SearchBar'
+import { MenuGeneric } from '../common/MenuGeneric/MenuGeneric'
 
 export const SettingsPage: React.FC = (): JSX.Element => {
-    const navigate = useNavigate()
     const [windowLengthError, setWindowLengthError] = useState<
         | {
               error: boolean
@@ -32,18 +31,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
     const dispatch = useAppDispatch()
     const settingsState = useAppSelector((state) => state.tickers.settings)
     const snackbarCustomState = useAppSelector((state) => state.layout.snackbar)
-
-    const handleStableCoinChange = (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        dispatch(
-            setSettings({
-                ...settingsState,
-                ['stableCoin']: event.target.value as TStableCoin,
-            })
-        )
-    }
-
+    const navigate = useNavigate()
     const handleIntervalChange = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
@@ -92,20 +80,20 @@ export const SettingsPage: React.FC = (): JSX.Element => {
     }
 
     const handleAcceptSettings = () => {
-        if (!settingsState.tokensList || windowLengthError !== undefined) {
+        if (!settingsState.symbolsList || windowLengthError !== undefined) {
             dispatch(
                 setSnackbarCustom({
                     ...snackbarCustomState,
                     isOpen: true,
                     message:
-                        'At least 5 tokens must be chosen / window length must be less than 50 / window length cannot be empty ',
+                        'At least 5 symbols must be chosen / window length must be less than 50 / window length cannot be empty ',
                     severity: 'error',
                     autoHideDuration: 3000,
                 })
             )
             return
         } else if (
-            settingsState.tokensList.length < 5 ||
+            settingsState.symbolsList.length < 5 ||
             windowLengthError !== undefined
         ) {
             dispatch(
@@ -113,7 +101,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                     ...snackbarCustomState,
                     isOpen: true,
                     message:
-                        'At least 5 tokens must be chosen / window length must be less than 50 / window length cannot be empty ',
+                        'At least 5 symbols must be chosen / window length must be less than 50 / window length cannot be empty ',
                     severity: 'error',
                     autoHideDuration: 3000,
                 })
@@ -131,7 +119,10 @@ export const SettingsPage: React.FC = (): JSX.Element => {
             }}
         >
             <Box>
-                <NavBar mainTitle="User personal settings" />
+                <NavBar
+                    mainTitle="User personal settings"
+                    menuContent={<MenuGeneric />}
+                />
             </Box>
             <Box
                 sx={{
@@ -167,6 +158,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                                     Time frame
                                 </InputLabel>
                                 <NativeSelect
+                                    value={settingsState.interval}
                                     inputProps={{
                                         name: 'Time frame',
                                         id: 'uncontrolled-native',
@@ -178,36 +170,6 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                                     <option value={'5m'}>5m</option>
                                     <option value={'15m'}>15m</option>
                                     <option value={'30m'}>30m</option>
-                                    <option value={'1h'}>1h</option>
-                                    <option value={'2h'}>2h</option>
-                                    <option value={'4h'}>4h</option>
-                                    <option value={'6h'}>6h</option>
-                                    <option value={'8h'}>8h</option>
-                                    <option value={'12h'}>12h</option>
-                                    <option value={'1d'}>1d</option>
-                                    <option value={'3d'}>3d</option>
-                                    <option value={'1w'}>1w</option>
-                                    <option value={'1M'}>1M</option>
-                                </NativeSelect>
-                            </FormControl>
-                        </Box>
-                        <Box component="form" sx={{ width: '25ch' }}>
-                            <FormControl fullWidth>
-                                <InputLabel
-                                    variant="standard"
-                                    htmlFor="uncontrolled-native"
-                                >
-                                    Stable coin
-                                </InputLabel>
-                                <NativeSelect
-                                    inputProps={{
-                                        name: 'Stable coin',
-                                        id: 'uncontrolled-native',
-                                    }}
-                                    onChange={handleStableCoinChange}
-                                >
-                                    <option value={'USDT'}>USDT</option>
-                                    <option value={'BSUD'}>BSUD</option>
                                 </NativeSelect>
                             </FormControl>
                         </Box>
@@ -220,6 +182,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                             autoComplete="off"
                         >
                             <TextField
+                                value={settingsState.windowLength}
                                 error={
                                     windowLengthError && windowLengthError.error
                                 }
@@ -276,7 +239,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                                     paddingLeft: '25px',
                                 }}
                             >
-                                All Binance Spot Market tokens
+                                All Binance Spot Market USDT pairs
                             </Typography>
                         </Box>
                         <Box>
@@ -300,8 +263,8 @@ export const SettingsPage: React.FC = (): JSX.Element => {
 }
 
 export const settingsLoader = async () => {
-    // do API call to lambda backend endpoint to retrieve all Binance SPOT MARKET tokens names
-    // inmediately before the SettingPage is loaded. The the customer chose which tokens to get info from.
+    // do API call to lambda backend endpoint to retrieve all Binance SPOT MARKET symbols names
+    // inmediately before the SettingPage is loaded. The the customer chose which symbols to get info from.
     try {
         // USDT by default but later on the user must be able to choose between USDT or BUSD or any other one
         const dataLocal = localStorage.getItem('allSpotTickerNames')
