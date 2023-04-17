@@ -41,13 +41,6 @@ export const MenuPVData: React.FC = () => {
                 Returns
             </MenuItem>
             <MenuItem
-                id="multipleOfVolumePrice"
-                onClick={handleMenuItemClick}
-                sx={chartViewState.multipleOfVolumePrice ? selectedStyle : {}}
-            >
-                Multiple of volume / Returns
-            </MenuItem>
-            <MenuItem
                 id="multipleOfVolumeAvg"
                 onClick={handleMenuItemClick}
                 sx={chartViewState.multipleOfVolumeAvg ? selectedStyle : {}}
@@ -60,15 +53,6 @@ export const MenuPVData: React.FC = () => {
                 sx={chartViewState.multipleOfPriceAvg ? selectedStyle : {}}
             >
                 Average returns
-            </MenuItem>
-            <MenuItem
-                id="multipleOfVolumePriceAvg"
-                onClick={handleMenuItemClick}
-                sx={
-                    chartViewState.multipleOfVolumePriceAvg ? selectedStyle : {}
-                }
-            >
-                Multiple of volume average / Average returns
             </MenuItem>
         </>
     )

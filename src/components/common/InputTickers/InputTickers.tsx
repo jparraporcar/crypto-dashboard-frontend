@@ -59,13 +59,41 @@ export const InputTickers: React.FC = (): JSX.Element => {
         dispatch(
             setSettings({
                 ...settingsState,
-                symbolsList: Object.keys(checkData).filter(
+                symbolsListSelected: Object.keys(checkData).filter(
                     (key: string) => checkData[key] === true
                 ),
+                pairsListSelected: Object.keys(checkData)
+                    .filter((key: string) => checkData[key] === true)
+                    .map((cleanName) => cleanName + 'USDT'),
             })
         )
     }, [checkData, allBoxesChecked])
 
+    useEffect(() => {
+        // if any selection has taken place store the value
+        // this condition avoid the data being cleared when coming from another route and the state initializes
+        // with this logic, the last token deselected by the user remains in localStorage
+        if (Object.keys(checkData).find((key) => checkData[key] !== false)) {
+            localStorage.setItem(
+                'symbolsListSelected',
+                JSON.stringify(
+                    Object.keys(checkData).filter(
+                        (key: string) => checkData[key] === true
+                    )
+                )
+            )
+
+            localStorage.setItem(
+                'pairsListSelected',
+                JSON.stringify(
+                    Object.keys(checkData)
+                        .filter((key: string) => checkData[key] === true)
+                        .map((cleanName) => cleanName + 'USDT')
+                )
+            )
+        }
+    }, [checkData])
+    console.log(checkData)
     return (
         <Box>
             <Box>

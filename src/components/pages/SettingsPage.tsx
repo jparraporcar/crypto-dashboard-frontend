@@ -80,7 +80,10 @@ export const SettingsPage: React.FC = (): JSX.Element => {
     }
 
     const handleAcceptSettings = () => {
-        if (!settingsState.symbolsList || windowLengthError !== undefined) {
+        if (
+            !settingsState.symbolsListSelected ||
+            windowLengthError !== undefined
+        ) {
             dispatch(
                 setSnackbarCustom({
                     ...snackbarCustomState,
@@ -93,7 +96,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
             )
             return
         } else if (
-            settingsState.symbolsList.length < 5 ||
+            settingsState.symbolsListSelected.length < 5 ||
             windowLengthError !== undefined
         ) {
             dispatch(

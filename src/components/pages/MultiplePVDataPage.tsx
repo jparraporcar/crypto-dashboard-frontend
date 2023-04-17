@@ -1,11 +1,10 @@
-import { Box } from '@mui/material'
+import { Box, SxProps, Typography } from '@mui/material'
 import { ChartData } from 'chart.js'
 import React, { useEffect, useRef, useState } from 'react'
 import { useAppSelector } from '../../app/hooks'
 import { TNamedCandles, TNamedCandlesT } from '../../types'
 import {
     divideVectors,
-    getPairsNames,
     getVectorsAverage,
     namedCandlesDataWindowToNormVectorOfConstants,
     transformFromT,
@@ -24,14 +23,12 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         useState<ChartData<'bar', number[]>>()
     const [chartPriceData, setChartPriceData] =
         useState<ChartData<'bar', number[]>>()
-    const [chartVolumePriceData, setChartVolumePriceData] =
-        useState<ChartData<'bar', number[]>>()
+    useState<ChartData<'bar', number[]>>()
     const [chartMavgVolumeData, setChartMavgVolumeData] =
         useState<ChartData<'bar', number[]>>()
     const [chartMavgPriceData, setChartMavgPriceData] =
         useState<ChartData<'bar', number[]>>()
-    const [chartMavgVolumePriceData, setChartMavgVolumePriceData] =
-        useState<ChartData<'bar', number[]>>()
+    useState<ChartData<'bar', number[]>>()
     const [namedCandlesDataWindow, setNamedCandlesDataWindow] = useState<
         TNamedCandles[]
     >([])
@@ -43,16 +40,16 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const settingsState = useAppSelector((state) => state.tickers.settings)
-    const pairsNames = getPairsNames(settingsState)
     const chartViewState = useAppSelector((state) => state.layout.chartView)
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true)
             // DEVELOPMENT REMOTE
-            const data = await fetch(
+            const dataInst = await fetch(
                 `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?interval=${
                     settingsState.interval
-                }&symbols=${JSON.stringify(pairsNames)}`
+                }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
             // DEVELOPMENT REMOTE
 
@@ -65,20 +62,14 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             //     )}`
             // )
             // DEVELOPMENT LOCAL
-            const dataParsed = (await data.json()) as TNamedCandles[]
-            if (dataParsed) {
-                console.log('nowindow', dataParsed)
-                setcandlesData(dataParsed)
-            }
-        }
-        const fetchDataWindow = async () => {
+
             // DEVELOPMENT REMOTE
-            const data = await fetch(
+            const dataWindow = await fetch(
                 `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?interval=${
                     settingsState.interval
                 }&windowLength=${
                     settingsState.windowLength
-                }&symbols=${JSON.stringify(pairsNames)}`
+                }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
             // DEVELOPMENT REMOTE
 
@@ -91,19 +82,22 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             //     )
             // DEVELOPMENT LOCAL
 
-            const dataParsed = (await data.json()) as TNamedCandlesT[]
-            if (dataParsed) {
-                console.log('window', dataParsed)
-                setNamedCandlesDataWindow(transformFromT(dataParsed))
+            const dataParsedWindow =
+                (await dataWindow.json()) as TNamedCandlesT[]
+            const dataParsedInst = (await dataInst.json()) as TNamedCandles[]
+
+            if (dataParsedInst && dataParsedWindow) {
+                console.log('nowindow', dataParsedInst)
+                setcandlesData(dataParsedInst)
+                setNamedCandlesDataWindow(transformFromT(dataParsedWindow))
             }
+            setIsLoading(false)
         }
+
         try {
             // execute fetchData functions without delay first time
             console.log('effect is running')
-            setIsLoading(true)
             fetchData()
-            fetchDataWindow()
-            setIsLoading(false)
             const intervalMilliseconds =
                 Number(settingsState.interval.replace('m', '')) * 60 * 1000
             console.log(settingsState.interval, intervalMilliseconds)
@@ -117,7 +111,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     today.getSeconds()
                 console.log(`fetching data at time:${time}`)
                 fetchData()
-                fetchDataWindow()
             }, intervalMilliseconds)
         } catch (err) {
             console.log(err)
@@ -177,16 +170,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     },
                 ],
             })
-            setChartVolumePriceData({
-                labels: Object.keys(candlesData[0]).sort(),
-                datasets: [
-                    {
-                        label: 'Multiple of volume / returns',
-                        data: divideVectors(v1, v2),
-                        backgroundColor: '#f7d759',
-                    },
-                ],
-            })
         }
     }, [candlesData, normCandle])
 
@@ -239,17 +222,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     },
                 ],
             })
-
-            setChartMavgVolumePriceData({
-                labels: Object.keys(candlesData[0]).sort(),
-                datasets: [
-                    {
-                        label: 'Multiple of volume average / Average returns',
-                        data: multipleVolumePriceAvg,
-                        backgroundColor: '#f7d759',
-                    },
-                ],
-            })
         }
     }, [
         candlesData,
@@ -257,6 +229,13 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         multiplePriceAvg,
         multipleVolumePriceAvg,
     ])
+
+    const sxChartContainer: SxProps = {
+        position: 'relative',
+        margin: 'auto',
+        height: '50vh',
+        width: '75vw',
+    }
 
     return (
         <Box
@@ -288,58 +267,44 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     top: '57px',
                     width: '100vw',
                     padding: '30px',
-                    height: '100%',
+                    height: '100vh',
                 }}
             >
-                {isLoading ? (
+                {isLoading && (
                     <Box>
                         <Hourglass />
                     </Box>
-                ) : (
-                    <>
-                        {chartViewState.multipleOfVolume && chartVolumeData && (
-                            <Box component="div">
-                                <ChartCustom dataChart={chartVolumeData} />
-                            </Box>
-                        )}
-                        {chartViewState.multipleOfPrice && chartPriceData && (
-                            <Box component="div">
-                                <ChartCustom dataChart={chartPriceData} />
-                            </Box>
-                        )}
-                        {chartViewState.multipleOfVolumePrice &&
-                            chartVolumePriceData && (
-                                <Box component="div">
-                                    <ChartCustom
-                                        dataChart={chartVolumePriceData}
-                                    />
-                                </Box>
-                            )}
-                        {chartViewState.multipleOfVolumeAvg &&
-                            chartMavgVolumeData && (
-                                <Box component="div">
-                                    <ChartCustom
-                                        dataChart={chartMavgVolumeData}
-                                    />
-                                </Box>
-                            )}
-                        {chartViewState.multipleOfPriceAvg &&
-                            chartMavgPriceData && (
-                                <Box component="div">
-                                    <ChartCustom
-                                        dataChart={chartMavgPriceData}
-                                    />
-                                </Box>
-                            )}
-                        {chartViewState.multipleOfVolumePriceAvg &&
-                            chartMavgVolumePriceData && (
-                                <Box component="div">
-                                    <ChartCustom
-                                        dataChart={chartMavgVolumePriceData}
-                                    />
-                                </Box>
-                            )}
-                    </>
+                )}
+                {!isLoading &&
+                    !chartViewState.multipleOfPrice &&
+                    !chartViewState.multipleOfPriceAvg &&
+                    !chartViewState.multipleOfVolume &&
+                    !chartViewState.multipleOfVolumeAvg && (
+                        <Box>
+                            <Typography variant="h3">
+                                Please choose a chart to show
+                            </Typography>
+                        </Box>
+                    )}
+                {chartViewState.multipleOfVolume && chartVolumeData && (
+                    <Box component="div" sx={sxChartContainer}>
+                        <ChartCustom dataChart={chartVolumeData} />
+                    </Box>
+                )}
+                {chartViewState.multipleOfPrice && chartPriceData && (
+                    <Box component="div" sx={sxChartContainer}>
+                        <ChartCustom dataChart={chartPriceData} />
+                    </Box>
+                )}
+                {chartViewState.multipleOfVolumeAvg && chartMavgVolumeData && (
+                    <Box component="div" sx={sxChartContainer}>
+                        <ChartCustom dataChart={chartMavgVolumeData} />
+                    </Box>
+                )}
+                {chartViewState.multipleOfPriceAvg && chartMavgPriceData && (
+                    <Box component="div" sx={sxChartContainer}>
+                        <ChartCustom dataChart={chartMavgPriceData} />
+                    </Box>
                 )}
             </Box>
         </Box>

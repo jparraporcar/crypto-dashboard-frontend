@@ -1,19 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ObjCheck, UserSettings } from '../../types'
+import { UserSettings } from '../../types'
 
 export interface ISymbolsState {
-    userPairsShare: string[]
+    userPairsSelected: string[]
     searchTerm: string
     settings: UserSettings
 }
 
 const initialState: ISymbolsState = {
-    userPairsShare: [],
+    userPairsSelected: [],
     searchTerm: '',
     settings: {
         interval: '1m',
         windowLength: 5,
-        symbolsList: undefined,
+        symbolsListSelected: JSON.parse(
+            localStorage.getItem('symbolsListSelected') || '[]'
+        ),
+        pairsListSelected: JSON.parse(
+            localStorage.getItem('pairsListSelected') || '[]'
+        ),
     },
 }
 
@@ -21,9 +26,6 @@ export const tickersSlice = createSlice({
     name: 'tickers',
     initialState,
     reducers: {
-        setUserPairsShare: (state, action: PayloadAction<string[]>) => {
-            state.userPairsShare = action.payload
-        },
         setSearchTerm: (state, action: PayloadAction<string>) => {
             state.searchTerm = action.payload
         },
@@ -33,7 +35,6 @@ export const tickersSlice = createSlice({
     },
 })
 
-export const { setUserPairsShare, setSearchTerm, setSettings } =
-    tickersSlice.actions
+export const { setSearchTerm, setSettings } = tickersSlice.actions
 
 export default tickersSlice.reducer

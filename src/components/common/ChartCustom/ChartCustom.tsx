@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -33,5 +33,5 @@ interface IPropsData {
 export const ChartCustom: React.FC<IPropsData> = ({
     dataChart,
 }): JSX.Element => {
-    return <Bar height={400} width={900} options={options} data={dataChart} />
+    return <Bar options={options} data={dataChart} />
 }

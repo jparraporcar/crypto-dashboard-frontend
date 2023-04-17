@@ -1,4 +1,3 @@
-import { Settings } from 'http2'
 import {
     CandleChartResult,
     TNamedCandles,
@@ -123,9 +122,4 @@ export const getObjCheckTickers = (data: string[]) => {
         obj[tickerName] = false
     })
     return obj
-}
-
-export const getPairsNames = (settings: UserSettings) => {
-    const output = settings.symbolsList!.map((cleanName) => cleanName + 'USDT')
-    return output
 }

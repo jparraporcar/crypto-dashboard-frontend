@@ -10,10 +10,8 @@ export interface ILayoutState {
     chartView: {
         multipleOfVolume: boolean
         multipleOfPrice: boolean
-        multipleOfVolumePrice: boolean
         multipleOfVolumeAvg: boolean
         multipleOfPriceAvg: boolean
-        multipleOfVolumePriceAvg: boolean
     }
 }
 
@@ -27,10 +25,8 @@ const initialState: ILayoutState = {
     chartView: {
         multipleOfVolume: false,
         multipleOfPrice: false,
-        multipleOfVolumePrice: false,
         multipleOfVolumeAvg: true,
         multipleOfPriceAvg: true,
-        multipleOfVolumePriceAvg: false,
     },
 }
 
@@ -57,11 +53,8 @@ export const layoutSlice = createSlice({
             state.chartView = {
                 multipleOfVolume: action.payload.multipleOfVolume,
                 multipleOfPrice: action.payload.multipleOfPrice,
-                multipleOfVolumePrice: action.payload.multipleOfVolumePrice,
                 multipleOfVolumeAvg: action.payload.multipleOfVolumeAvg,
                 multipleOfPriceAvg: action.payload.multipleOfPriceAvg,
-                multipleOfVolumePriceAvg:
-                    action.payload.multipleOfVolumePriceAvg,
             }
         },
     },

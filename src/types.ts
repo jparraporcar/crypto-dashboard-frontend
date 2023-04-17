@@ -52,5 +52,6 @@ export type ObjCheck = { [key: string]: boolean } | null
 export type UserSettings = {
     interval: CandleChartInterval_LT
     windowLength: number
-    symbolsList: string[] | undefined
+    symbolsListSelected: string[]
+    pairsListSelected: string[]
 }
