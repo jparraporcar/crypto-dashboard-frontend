@@ -11,6 +11,8 @@ import {
     LineElement,
 } from 'chart.js'
 import { Line } from 'react-chartjs-2'
+import { setEvolSymbol } from '../../../app/slices/layoutSlice'
+import { useAppDispatch } from '../../../app/hooks'
 
 ChartJS.register(
     CategoryScale,
@@ -28,7 +30,19 @@ interface IPropsData {
 export const ChartCustomLine: React.FC<IPropsData> = ({
     dataChart,
 }): JSX.Element => {
+    const dispatch = useAppDispatch()
     const options = {
+        onClick: (event: any, elements: any) => {
+            if (elements.length > 0) {
+                dispatch(
+                    setEvolSymbol({
+                        chartTitle: '',
+                        chartSymbol: '',
+                        chartIndex: undefined,
+                    })
+                )
+            }
+        },
         maintainAspectRatio: false,
         responsive: true,
         plugins: {
