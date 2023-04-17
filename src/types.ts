@@ -55,3 +55,6 @@ export type UserSettings = {
     symbolsListSelected: string[]
     pairsListSelected: string[]
 }
+
+export type chartVolTitle = 'Multiple of volume' | 'Multiple of volume average'
+export type chartPriceTitle = 'Returns' | 'Average returns'

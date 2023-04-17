@@ -5,14 +5,16 @@ import { useAppSelector } from '../../app/hooks'
 import { TNamedCandles, TNamedCandlesT } from '../../types'
 import {
     divideVectors,
+    getVectorOfOpenTime,
     getVectorsAverage,
     namedCandlesDataWindowToNormVectorOfConstants,
     transformFromT,
 } from '../../utils'
-import { ChartCustom } from '../common/ChartCustom/ChartCustom'
 import { NavBar } from '../common/NavBar/NavBar'
 import { Hourglass } from '../common/Hourglass/Hourglass'
 import { MenuPVData } from '../common/MenuPVData/MenuPVData'
+import { ChartCustomBar } from '../common/ChartCustom/ChartCustomBar'
+import { ChartCustomLine } from '../common/ChartCustom/ChartCustomLine'
 
 export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [candlesData, setcandlesData] = useState<TNamedCandles[]>([])
@@ -20,15 +22,19 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [fetchCounter, setFetchCounter] = useState<number>(0)
     const [normCandle, setNormCandle] = useState<TNamedCandles[]>([])
     const [chartVolumeData, setChartVolumeData] =
-        useState<ChartData<'bar', number[]>>()
+        useState<ChartData<'bar', number[], string>>()
     const [chartPriceData, setChartPriceData] =
-        useState<ChartData<'bar', number[]>>()
-    useState<ChartData<'bar', number[]>>()
+        useState<ChartData<'bar', number[], string>>()
+    useState<ChartData<'bar', number[], string>>()
     const [chartMavgVolumeData, setChartMavgVolumeData] =
-        useState<ChartData<'bar', number[]>>()
+        useState<ChartData<'bar', number[], string>>()
     const [chartMavgPriceData, setChartMavgPriceData] =
-        useState<ChartData<'bar', number[]>>()
-    useState<ChartData<'bar', number[]>>()
+        useState<ChartData<'bar', number[], string>>()
+    const [chartMavgVolumeDataEvol, setChartMavgVolumeDataEvol] =
+        useState<ChartData<'line', number[], string>>()
+    const [chartMavgPriceDataEvol, setChartMavgPriceDataEvol] =
+        useState<ChartData<'line', number[], string>>()
+
     const [namedCandlesDataWindow, setNamedCandlesDataWindow] = useState<
         TNamedCandles[]
     >([])
@@ -41,44 +47,44 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
 
     const settingsState = useAppSelector((state) => state.tickers.settings)
     const chartViewState = useAppSelector((state) => state.layout.chartView)
+    const evolSymbolState = useAppSelector((state) => state.layout.evolSymbol)
 
     useEffect(() => {
         const fetchData = async () => {
             // DEVELOPMENT REMOTE
+            // const dataInst = await fetch(
+            //     `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?interval=${
+            //         settingsState.interval
+            //     }&symbols=${localStorage.getItem('pairsListSelected')}`
+            // )
+            // DEVELOPMENT REMOTE
+
+            // DEVELOPMENT LOCAL
             const dataInst = await fetch(
-                `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?interval=${
+                `http://localhost:4000/dev/priceVolumeData?interval=${
                     settingsState.interval
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
-            // DEVELOPMENT REMOTE
-
             // DEVELOPMENT LOCAL
-            // const data = await fetch(
-            //     `http://localhost:4000/dev/priceVolumeData?stableCoinName=${
-            //         settingsState.stableCoin
-            //     }&interval=${settingsState.interval}&symbols=${JSON.stringify(
-            //         pairsNames
-            //     )}`
+
+            // DEVELOPMENT REMOTE
+            // const dataWindow = await fetch(
+            //     `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?interval=${
+            //         settingsState.interval
+            //     }&windowLength=${
+            //         settingsState.windowLength
+            //     }&symbols=${localStorage.getItem('pairsListSelected')}`
             // )
-            // DEVELOPMENT LOCAL
-
             // DEVELOPMENT REMOTE
+
+            // DEVELOPMENT LOCAL
             const dataWindow = await fetch(
-                `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?interval=${
+                `http://localhost:4000/dev/priceVolumeDataWindow?interval=${
                     settingsState.interval
                 }&windowLength=${
                     settingsState.windowLength
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
-            // DEVELOPMENT REMOTE
-
-            // DEVELOPMENT LOCAL
-            // const fetchDataWindow = async () => {
-            //     const data = await fetch(
-            //         `http://localhost:4000/dev/priceVolumeDataWindow?interval=${settingsState.interval}&windowLength=${
-            //             settingsState.windowLength
-            //         }&symbols=${JSON.stringify(pairsNames)}`
-            //     )
             // DEVELOPMENT LOCAL
 
             const dataParsedWindow =
@@ -173,26 +179,80 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         if (namedCandlesDataWindow.length > 0) {
-            const vArrayWindowMultiplesVolume =
+            const vArrayWindowMultiplesAvgVolume =
                 namedCandlesDataWindowToNormVectorOfConstants(
                     namedCandlesDataWindow,
                     namedCandlesDataWindow[0],
                     'quoteVolume'
                 )
-            setMultipleVolumeAvg(getVectorsAverage(vArrayWindowMultiplesVolume))
+            console.log(vArrayWindowMultiplesAvgVolume)
+            setMultipleVolumeAvg(
+                getVectorsAverage(vArrayWindowMultiplesAvgVolume)
+            )
 
-            const vArrayWindowMultiplesPrice =
+            const vArrayWindowMultiplesAvgPrice =
                 namedCandlesDataWindowToNormVectorOfConstants(
                     namedCandlesDataWindow,
                     namedCandlesDataWindow[0],
                     'close'
                 )
-            setMultiplePriceAvg(getVectorsAverage(vArrayWindowMultiplesPrice))
+            setMultiplePriceAvg(
+                getVectorsAverage(vArrayWindowMultiplesAvgPrice)
+            )
             setMultipleVolumePriceAvg(
                 divideVectors(multipleVolumeAvg, multiplePriceAvg)
             )
         }
     }, [namedCandlesDataWindow, normCandle])
+
+    useEffect(() => {
+        if (
+            namedCandlesDataWindow.length > 0 &&
+            evolSymbolState.chartIndex !== undefined
+        ) {
+            console.log(namedCandlesDataWindow)
+            console.log(Object.keys(namedCandlesDataWindow[0]).length)
+            console.log(evolSymbolState)
+            const vOpenTime = getVectorOfOpenTime(namedCandlesDataWindow)
+            console.log(vOpenTime)
+            const vArrayWindowMultiplesAvgVolume =
+                namedCandlesDataWindowToNormVectorOfConstants(
+                    namedCandlesDataWindow,
+                    namedCandlesDataWindow[0],
+                    'quoteVolume'
+                )
+            const vArrayWindowMultiplesAvgPrice =
+                namedCandlesDataWindowToNormVectorOfConstants(
+                    namedCandlesDataWindow,
+                    namedCandlesDataWindow[0],
+                    'close'
+                )
+            setChartMavgVolumeDataEvol({
+                labels: vOpenTime,
+                datasets: [
+                    {
+                        label: `Multiple of volume evolution of ${evolSymbolState.chartSymbol}`,
+                        data: vArrayWindowMultiplesAvgVolume.map(
+                            (el) => el[evolSymbolState.chartIndex!]
+                        ),
+                        backgroundColor: '#f7d759',
+                    },
+                ],
+            })
+            setChartMavgPriceDataEvol({
+                labels: vOpenTime,
+                datasets: [
+                    {
+                        label: `Average returns evolution of ${evolSymbolState.chartSymbol}`,
+                        data: vArrayWindowMultiplesAvgPrice.map(
+                            (el) => el[evolSymbolState.chartIndex!]
+                        ),
+                        backgroundColor: '#f7d759',
+                    },
+                ],
+            })
+        }
+    }, [evolSymbolState, namedCandlesDataWindow])
 
     useEffect(() => {
         if (
@@ -286,24 +346,45 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     )}
                 {chartViewState.multipleOfVolume && chartVolumeData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustom dataChart={chartVolumeData} />
+                        <ChartCustomBar dataChart={chartVolumeData} />
                     </Box>
                 )}
                 {chartViewState.multipleOfPrice && chartPriceData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustom dataChart={chartPriceData} />
+                        <ChartCustomBar dataChart={chartPriceData} />
                     </Box>
                 )}
                 {chartViewState.multipleOfVolumeAvg && chartMavgVolumeData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustom dataChart={chartMavgVolumeData} />
+                        <ChartCustomBar dataChart={chartMavgVolumeData} />
                     </Box>
                 )}
                 {chartViewState.multipleOfPriceAvg && chartMavgPriceData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustom dataChart={chartMavgPriceData} />
+                        <ChartCustomBar dataChart={chartMavgPriceData} />
                     </Box>
                 )}
+                {evolSymbolState.chartSymbol !== '' &&
+                    (evolSymbolState.chartTitle === 'Multiple of volume' ||
+                        evolSymbolState.chartTitle ===
+                            'Multiple of volume average') &&
+                    chartMavgVolumeDataEvol && (
+                        <Box component="div" sx={sxChartContainer}>
+                            <ChartCustomLine
+                                dataChart={chartMavgVolumeDataEvol}
+                            />
+                        </Box>
+                    )}
+                {evolSymbolState.chartSymbol !== '' &&
+                    (evolSymbolState.chartTitle === 'Returns' ||
+                        evolSymbolState.chartTitle === 'Average returns') &&
+                    chartMavgPriceDataEvol && (
+                        <Box component="div" sx={sxChartContainer}>
+                            <ChartCustomLine
+                                dataChart={chartMavgPriceDataEvol}
+                            />
+                        </Box>
+                    )}
             </Box>
         </Box>
     )

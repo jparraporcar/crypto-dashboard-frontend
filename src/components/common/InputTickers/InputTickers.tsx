@@ -93,7 +93,6 @@ export const InputTickers: React.FC = (): JSX.Element => {
             )
         }
     }, [checkData])
-    console.log(checkData)
     return (
         <Box>
             <Box>

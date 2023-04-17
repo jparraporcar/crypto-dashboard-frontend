@@ -4,7 +4,6 @@ import {
     TNamedCandlesT,
     TPriceVector,
     TVolumeVector,
-    UserSettings,
 } from './types'
 
 export function divideVectors(v1: number[], v2: number[]) {
@@ -70,6 +69,24 @@ export function namedCandlesDataWindowToNormVectorOfConstants(
         result.push(divideVectors(v, norm))
     }
     return result
+}
+
+export const getVectorOfOpenTime = (
+    namedCandles: TNamedCandles[]
+): string[] => {
+    const firstKeyForConvenience = Object.keys(namedCandles[0])[0]
+    console.log(firstKeyForConvenience)
+    const vOpenTime = namedCandles.map((el) => {
+        const epochTime = el[firstKeyForConvenience].openTime
+        const dateObj = new Date(epochTime)
+        const hours = dateObj.getHours() // get the hours
+        const minutes = dateObj.getMinutes() // get the minutes
+        const formatedTime = `${hours.toString().padStart(2, '0')}:${minutes
+            .toString()
+            .padStart(2, '0')}`
+        return formatedTime
+    })
+    return vOpenTime
 }
 
 export const transformFromT = (input: TNamedCandlesT[]) => {

@@ -12,6 +12,13 @@ export interface ILayoutState {
         multipleOfPrice: boolean
         multipleOfVolumeAvg: boolean
         multipleOfPriceAvg: boolean
+        multipleOfVolumeAvgEvol: boolean
+        multipleOfPriceAvgEvol: boolean
+    }
+    evolSymbol: {
+        chartTitle: string
+        chartSymbol: string
+        chartIndex: number | undefined
     }
 }
 
@@ -27,6 +34,13 @@ const initialState: ILayoutState = {
         multipleOfPrice: false,
         multipleOfVolumeAvg: true,
         multipleOfPriceAvg: true,
+        multipleOfVolumeAvgEvol: false,
+        multipleOfPriceAvgEvol: false,
+    },
+    evolSymbol: {
+        chartTitle: '',
+        chartSymbol: '',
+        chartIndex: undefined,
     },
 }
 
@@ -55,11 +69,20 @@ export const layoutSlice = createSlice({
                 multipleOfPrice: action.payload.multipleOfPrice,
                 multipleOfVolumeAvg: action.payload.multipleOfVolumeAvg,
                 multipleOfPriceAvg: action.payload.multipleOfPriceAvg,
+                multipleOfVolumeAvgEvol: action.payload.multipleOfVolumeAvgEvol,
+                multipleOfPriceAvgEvol: action.payload.multipleOfPriceAvgEvol,
             }
+        },
+        setEvolSymbol: (
+            state,
+            action: PayloadAction<ILayoutState['evolSymbol']>
+        ) => {
+            state.evolSymbol = action.payload
         },
     },
 })
 
-export const { setSnackbarCustom, setChartView } = layoutSlice.actions
+export const { setSnackbarCustom, setChartView, setEvolSymbol } =
+    layoutSlice.actions
 
 export default layoutSlice.reducer

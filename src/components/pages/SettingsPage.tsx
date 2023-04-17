@@ -266,7 +266,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
 }
 
 export const settingsLoader = async () => {
-    // do API call to lambda backend endpoint to retrieve all Binance SPOT MARKET symbols names
+    // do API call to lambda backend endpoint to retrieve all Binance SPOT MARKET symbols names WITH STATUS 'TRADING' and USDT pairs
     // inmediately before the SettingPage is loaded. The the customer chose which symbols to get info from.
     try {
         // USDT by default but later on the user must be able to choose between USDT or BUSD or any other one
@@ -276,12 +276,21 @@ export const settingsLoader = async () => {
             const dataLocalResponse = { data: JSON.parse(dataLocal) }
             return dataLocalResponse
         } else {
+            // DEVELOPMENT REMOTE
+            // const response = await axios.get(
+            //     'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/allSpotTickerNames?stableCoinName=USDT'
+            // )
+            // DEVELOPMENT REMOTE
+
+            // DEVELOPMENT LOCAL
             const response = await axios.get(
-                'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/allSpotTickerNames?stableCoinName=USDT'
+                'http://localhost:4000/dev/allSpotTickerNames?stableCoinName=USDT'
             )
+            // DEVELOPMENT LOCAL
+
             localStorage.setItem(
                 'allSpotTickerNames',
-                JSON.stringify(response.data)
+                JSON.stringify(response.data.sort())
             )
             return response
         }
