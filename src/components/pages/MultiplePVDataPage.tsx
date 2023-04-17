@@ -52,39 +52,39 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     useEffect(() => {
         const fetchData = async () => {
             // DEVELOPMENT REMOTE
-            // const dataInst = await fetch(
-            //     `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?interval=${
-            //         settingsState.interval
-            //     }&symbols=${localStorage.getItem('pairsListSelected')}`
-            // )
-            // DEVELOPMENT REMOTE
-
-            // DEVELOPMENT LOCAL
             const dataInst = await fetch(
-                `http://localhost:4000/dev/priceVolumeData?interval=${
+                `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?interval=${
                     settingsState.interval
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
-            // DEVELOPMENT LOCAL
-
             // DEVELOPMENT REMOTE
-            // const dataWindow = await fetch(
-            //     `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?interval=${
+
+            // DEVELOPMENT LOCAL
+            // const dataInst = await fetch(
+            //     `http://localhost:4000/dev/priceVolumeData?interval=${
             //         settingsState.interval
-            //     }&windowLength=${
-            //         settingsState.windowLength
             //     }&symbols=${localStorage.getItem('pairsListSelected')}`
             // )
-            // DEVELOPMENT REMOTE
-
             // DEVELOPMENT LOCAL
+
+            // DEVELOPMENT REMOTE
             const dataWindow = await fetch(
-                `http://localhost:4000/dev/priceVolumeDataWindow?interval=${
+                `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?interval=${
                     settingsState.interval
                 }&windowLength=${
                     settingsState.windowLength
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
+            // DEVELOPMENT REMOTE
+
+            // DEVELOPMENT LOCAL
+            // const dataWindow = await fetch(
+            //     `http://localhost:4000/dev/priceVolumeDataWindow?interval=${
+            //         settingsState.interval
+            //     }&windowLength=${
+            //         settingsState.windowLength
+            //     }&symbols=${localStorage.getItem('pairsListSelected')}`
+            // )
             // DEVELOPMENT LOCAL
 
             const dataParsedWindow =
