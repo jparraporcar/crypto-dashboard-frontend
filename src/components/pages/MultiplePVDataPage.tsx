@@ -44,7 +44,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true)
             // DEVELOPMENT REMOTE
             const dataInst = await fetch(
                 `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?interval=${
@@ -91,7 +90,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 setcandlesData(dataParsedInst)
                 setNamedCandlesDataWindow(transformFromT(dataParsedWindow))
             }
-            setIsLoading(false)
         }
 
         try {
