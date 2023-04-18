@@ -166,6 +166,7 @@ export const InputLogin: React.FC = (): JSX.Element => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
+                margin: '0px 15px',
             }}
         >
             <Controller

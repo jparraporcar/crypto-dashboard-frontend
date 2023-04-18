@@ -10,8 +10,7 @@ export const CredentialsPage: React.FC = (): JSX.Element => {
     const sxCredentialsPage: SxProps = {
         display: 'block',
         '& > :not(style)': {
-            m: 1,
-            width: 500,
+            width: '100%',
             height: '100%',
         },
     }
@@ -25,6 +24,8 @@ export const CredentialsPage: React.FC = (): JSX.Element => {
             <Box>
                 <NavBar
                     mainTitle="User credentials"
+                    position="fixed"
+                    zIndex={2000}
                     menuContent={<MenuGeneric />}
                 />
             </Box>

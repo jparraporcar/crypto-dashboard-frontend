@@ -13,7 +13,6 @@ import * as z from 'zod'
 import { VisibilityOff, Visibility } from '@mui/icons-material'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { signup } from '../../../app/slices/authSlice'
 import { useAppSelector } from '../../../app/hooks'
 import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
 import { useNavigate } from 'react-router-dom'
@@ -175,6 +174,7 @@ export const InputRegistration: React.FC = (): JSX.Element => {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
+                margin: '0px 15px',
             }}
         >
             <Controller
