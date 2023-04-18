@@ -2,6 +2,7 @@ import {
     Box,
     Button,
     Divider,
+    Fab,
     FormControl,
     InputLabel,
     NativeSelect,
@@ -19,6 +20,7 @@ import { InputTickers } from '../common/InputTickers/InputTickers'
 import { NavBar } from '../common/NavBar/NavBar'
 import { SearchBar } from '../common/SearchBar/SearchBar'
 import { MenuGeneric } from '../common/MenuGeneric/MenuGeneric'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
 export const SettingsPage: React.FC = (): JSX.Element => {
     const [windowLengthError, setWindowLengthError] = useState<
@@ -111,7 +113,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
             )
             return
         }
-        navigate('/multiplePVData')
+        navigate('/multiplePVData', { state: '/multiplePVData' })
     }
 
     return (
@@ -125,18 +127,35 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                 <NavBar
                     mainTitle="User personal settings"
                     menuContent={<MenuGeneric />}
+                    position="fixed"
+                    zIndex={2000}
                 />
             </Box>
+            <Fab
+                sx={{
+                    position: 'fixed',
+                    top: '40px',
+                    marginLeft: '5px',
+                    marginTop: '5px',
+                }}
+                color="primary"
+                aria-label="add"
+                size="small"
+                onClick={() => navigate(1)}
+            >
+                <ArrowForwardIcon />
+            </Fab>
             <Box
                 sx={{
                     width: '100vw',
                     height: '100vh',
+                    marginTop: '70px',
                 }}
             >
                 <Box
                     sx={{
                         height: '25vh',
-                        padding: '25px',
+                        padding: '0px 25px 25px 25px',
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
@@ -224,6 +243,8 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                         borderRadius: '10px',
                         marginLeft: '25px',
                         marginRight: '25px',
+                        height: '60vh',
+                        overflow: 'scroll',
                     }}
                 >
                     <Box

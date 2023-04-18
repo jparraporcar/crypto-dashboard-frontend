@@ -45,6 +45,7 @@ export const NavBar: React.FC<IPropsNavBar> = ({
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 width: '100%',
+                height: '40px',
                 border: '1px solid grey',
                 backgroundColor: '#f7d759',
             }}
@@ -101,7 +102,7 @@ export const NavBar: React.FC<IPropsNavBar> = ({
                         textShadow: '1px 1px 1px grey',
                     }}
                 >
-                    Crypto Dashboard
+                    CryptoDash
                 </Typography>
             </Box>
         </Box>

@@ -20,6 +20,7 @@ export interface ILayoutState {
         chartSymbol: string
         chartIndex: number | undefined
     }
+    isLoading: boolean
 }
 
 const initialState: ILayoutState = {
@@ -42,6 +43,7 @@ const initialState: ILayoutState = {
         chartSymbol: '',
         chartIndex: undefined,
     },
+    isLoading: false,
 }
 
 export const layoutSlice = createSlice({
@@ -79,10 +81,13 @@ export const layoutSlice = createSlice({
         ) => {
             state.evolSymbol = action.payload
         },
+        setIsLoading: (state, action: PayloadAction<boolean>) => {
+            state.isLoading = action.payload
+        },
     },
 })
 
-export const { setSnackbarCustom, setChartView, setEvolSymbol } =
+export const { setSnackbarCustom, setChartView, setEvolSymbol, setIsLoading } =
     layoutSlice.actions
 
 export default layoutSlice.reducer

@@ -10,7 +10,7 @@ import {
     ChartData,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { useAppDispatch } from '../../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { setEvolSymbol } from '../../../app/slices/layoutSlice'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
@@ -23,9 +23,21 @@ export const ChartCustomBar: React.FC<IPropsData> = ({
     dataChart,
 }): JSX.Element => {
     const dispatch = useAppDispatch()
+    const evolSymbolState = useAppSelector((state) => state.layout.evolSymbol)
     const options = {
         onClick: (event: any, elements: any) => {
             if (elements.length > 0) {
+                if (evolSymbolState.chartSymbol !== '') {
+                    console.log('here')
+                    dispatch(
+                        setEvolSymbol({
+                            chartTitle: '',
+                            chartSymbol: '',
+                            chartIndex: undefined,
+                        })
+                    )
+                    return
+                }
                 dispatch(
                     setEvolSymbol({
                         chartTitle: dataChart

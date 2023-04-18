@@ -1,7 +1,7 @@
-import { Box, SxProps, Typography } from '@mui/material'
+import { Box, Fab, SxProps, Typography } from '@mui/material'
 import { ChartData } from 'chart.js'
 import React, { useEffect, useRef, useState } from 'react'
-import { useAppSelector } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { TNamedCandles, TNamedCandlesT } from '../../types'
 import {
     divideVectors,
@@ -15,6 +15,9 @@ import { Hourglass } from '../common/Hourglass/Hourglass'
 import { MenuPVData } from '../common/MenuPVData/MenuPVData'
 import { ChartCustomBar } from '../common/ChartCustom/ChartCustomBar'
 import { ChartCustomLine } from '../common/ChartCustom/ChartCustomLine'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { setIsLoading } from '../../app/slices/layoutSlice'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [candlesData, setcandlesData] = useState<TNamedCandles[]>([])
@@ -43,11 +46,29 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [multipleVolumePriceAvg, setMultipleVolumePriceAvg] = useState<
         number[]
     >([])
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-
     const settingsState = useAppSelector((state) => state.tickers.settings)
     const chartViewState = useAppSelector((state) => state.layout.chartView)
     const evolSymbolState = useAppSelector((state) => state.layout.evolSymbol)
+    const isLoadingState = useAppSelector((state) => state.layout.isLoading)
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const location = useLocation()
+    useEffect(() => {
+        console.log('inside useEffect')
+        // handling the transition between /multiplePVData -> /settings and avoiding setting the state to true in each data refetch
+        // at each scheduled interval since it is smoother not to see the loader in that scenario
+        if (location.state === '/multiplePVData') {
+            const newLocation = { ...location, state: {} }
+            window.history.replaceState(
+                null,
+                '',
+                newLocation.pathname + newLocation.search
+            )
+            console.log(isLoadingState, 'before dispatching true')
+            dispatch(setIsLoading(true))
+            console.log(isLoadingState, 'after dispatching true')
+        }
+    }, [])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -92,9 +113,10 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             const dataParsedInst = (await dataInst.json()) as TNamedCandles[]
 
             if (dataParsedInst && dataParsedWindow) {
-                console.log('nowindow', dataParsedInst)
                 setcandlesData(dataParsedInst)
                 setNamedCandlesDataWindow(transformFromT(dataParsedWindow))
+                dispatch(setIsLoading(false))
+                console.log('setting isLoading to false')
             }
         }
 
@@ -104,7 +126,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             fetchData()
             const intervalMilliseconds =
                 Number(settingsState.interval.replace('m', '')) * 60 * 1000
-            console.log(settingsState.interval, intervalMilliseconds)
             timerRef.current = setInterval(() => {
                 const today = new Date()
                 const time =
@@ -185,7 +206,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     namedCandlesDataWindow[0],
                     'quoteVolume'
                 )
-            console.log(vArrayWindowMultiplesAvgVolume)
             setMultipleVolumeAvg(
                 getVectorsAverage(vArrayWindowMultiplesAvgVolume)
             )
@@ -291,7 +311,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const sxChartContainer: SxProps = {
         position: 'relative',
         margin: 'auto',
-        height: '50vh',
+        height: 'calc(50vh - 25px)',
         width: '75vw',
     }
 
@@ -308,12 +328,26 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             }}
         >
             <NavBar
-                mainTitle={`Volume and Price Statistics: interval ${settingsState.interval} / window length: ${settingsState.windowLength}`}
+                mainTitle={`V&P stats: ${settingsState.interval} / ${settingsState.windowLength} candles`}
                 menuContent={<MenuPVData />}
                 position="fixed"
                 zIndex={2000}
                 top={0}
             />
+            <Fab
+                sx={{
+                    position: 'fixed',
+                    top: '40px',
+                    marginLeft: '5px',
+                    marginTop: '5px',
+                }}
+                color="primary"
+                aria-label="add"
+                size="small"
+                onClick={() => navigate(-1)}
+            >
+                <ArrowBackIcon />
+            </Fab>
             <Box
                 component="div"
                 sx={{
@@ -322,18 +356,20 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                     position: 'absolute',
-                    top: '57px',
+                    top: '40px',
                     width: '100vw',
-                    padding: '30px',
-                    height: '100vh',
+                    padding: '0px 40px 30px 30px',
+                    height: 'calc(100vh - 40px)',
                 }}
             >
-                {isLoading && (
-                    <Box>
+                {isLoadingState && (
+                    <Box
+                        sx={{ position: 'absolute', top: 'calc(50vh - 57px)' }}
+                    >
                         <Hourglass />
                     </Box>
                 )}
-                {!isLoading &&
+                {!isLoadingState &&
                     !chartViewState.multipleOfPrice &&
                     !chartViewState.multipleOfPriceAvg &&
                     !chartViewState.multipleOfVolume &&
