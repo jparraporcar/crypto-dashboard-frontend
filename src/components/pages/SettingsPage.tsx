@@ -8,12 +8,16 @@ import {
     NativeSelect,
     TextField,
     Typography,
+    useMediaQuery,
 } from '@mui/material'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { json, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { setSnackbarCustom } from '../../app/slices/layoutSlice'
+import {
+    setIsAllowedForward,
+    setSnackbarCustom,
+} from '../../app/slices/layoutSlice'
 import { setSettings } from '../../app/slices/tickersSlice'
 import { CandleChartInterval_LT } from '../../types'
 import { InputTickers } from '../common/InputTickers/InputTickers'
@@ -34,6 +38,11 @@ export const SettingsPage: React.FC = (): JSX.Element => {
     const settingsState = useAppSelector((state) => state.tickers.settings)
     const snackbarCustomState = useAppSelector((state) => state.layout.snackbar)
     const navigate = useNavigate()
+    const isMobile = useMediaQuery('(max-width: 600px)')
+    const isAllowedForwardState = useAppSelector(
+        (state) => state.layout.isAllowedForward
+    )
+
     const handleIntervalChange = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
@@ -113,9 +122,10 @@ export const SettingsPage: React.FC = (): JSX.Element => {
             )
             return
         }
+        dispatch(setIsAllowedForward(true))
         navigate('/multiplePVData', { state: '/multiplePVData' })
     }
-
+    console.log('isAllowedForwardState', isAllowedForwardState)
     return (
         <Box
             sx={{
@@ -131,20 +141,23 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                     zIndex={2000}
                 />
             </Box>
-            <Fab
-                sx={{
-                    position: 'fixed',
-                    top: '40px',
-                    marginLeft: '5px',
-                    marginTop: '5px',
-                }}
-                color="primary"
-                aria-label="add"
-                size="small"
-                onClick={() => navigate(1)}
-            >
-                <ArrowForwardIcon />
-            </Fab>
+            {isMobile && (
+                <Fab
+                    sx={{
+                        position: 'fixed',
+                        top: '40px',
+                        left: 'calc(100% - 45px)',
+                        marginTop: '5px',
+                    }}
+                    color="primary"
+                    aria-label="add"
+                    size="small"
+                    disabled={!isAllowedForwardState}
+                    onClick={() => navigate(1)}
+                >
+                    <ArrowForwardIcon />
+                </Fab>
+            )}
             <Box
                 sx={{
                     width: '100vw',

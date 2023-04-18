@@ -15,18 +15,19 @@ export const authSlice = createSlice({
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        login: (state, action: PayloadAction<boolean>) => {
+        setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload
         },
-        logout: (state, action: PayloadAction<boolean>) => {
+        setIsLoggedOut: (state, action: PayloadAction<boolean>) => {
             state.isLoggedIn = action.payload
         },
-        signup: (state, action: PayloadAction<boolean>) => {
+        setIsSignedUp: (state, action: PayloadAction<boolean>) => {
             state.isSignedUp = action.payload
         },
     },
 })
 
-export const { login, logout, signup } = authSlice.actions
+export const { setIsLoggedIn, setIsLoggedOut, setIsSignedUp } =
+    authSlice.actions
 
 export default authSlice.reducer

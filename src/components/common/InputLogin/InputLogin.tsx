@@ -13,7 +13,7 @@ import * as z from 'zod'
 import { VisibilityOff, Visibility } from '@mui/icons-material'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { login } from '../../../app/slices/authSlice'
+import { setIsLoggedIn } from '../../../app/slices/authSlice'
 import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
 import { useAppSelector } from '../../../app/hooks'
 import { useNavigate } from 'react-router-dom'
@@ -81,6 +81,7 @@ export const InputLogin: React.FC = (): JSX.Element => {
                             autoHideDuration: 3000,
                         })
                     )
+                    dispatch(setIsLoggedIn(true))
                     setTimeout(() => navigate('/settings'), 3000)
                 } else {
                     //TODO: pending to deal with this scenario
@@ -159,7 +160,7 @@ export const InputLogin: React.FC = (): JSX.Element => {
         <Box
             component="form"
             noValidate
-            autoComplete="off"
+            autoComplete="on"
             onSubmit={handleSubmit(onSubmit)}
             sx={{
                 display: 'flex',

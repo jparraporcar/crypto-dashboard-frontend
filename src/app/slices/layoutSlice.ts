@@ -21,6 +21,7 @@ export interface ILayoutState {
         chartIndex: number | undefined
     }
     isLoading: boolean
+    isAllowedForward: boolean
 }
 
 const initialState: ILayoutState = {
@@ -44,6 +45,7 @@ const initialState: ILayoutState = {
         chartIndex: undefined,
     },
     isLoading: false,
+    isAllowedForward: false,
 }
 
 export const layoutSlice = createSlice({
@@ -84,10 +86,18 @@ export const layoutSlice = createSlice({
         setIsLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload
         },
+        setIsAllowedForward: (state, action: PayloadAction<boolean>) => {
+            state.isAllowedForward = action.payload
+        },
     },
 })
 
-export const { setSnackbarCustom, setChartView, setEvolSymbol, setIsLoading } =
-    layoutSlice.actions
+export const {
+    setSnackbarCustom,
+    setChartView,
+    setEvolSymbol,
+    setIsLoading,
+    setIsAllowedForward,
+} = layoutSlice.actions
 
 export default layoutSlice.reducer

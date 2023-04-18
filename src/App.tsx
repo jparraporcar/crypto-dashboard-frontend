@@ -6,6 +6,7 @@ import { WelcomePage } from './components/pages/WelcomePage'
 import { MultiplePVDataPage } from './components/pages/MultiplePVDataPage'
 import { CredentialsPage } from './components/pages/CredentialsPage'
 import { settingsLoader, SettingsPage } from './components/pages/SettingsPage'
+import { PrivatePageWrapper } from './components/pages/PrivatePageWrapper'
 
 // modifications log:
 // -> Added new pages for multiple rolling window and authentication
@@ -25,12 +26,20 @@ const router = createBrowserRouter([
             },
             {
                 path: '/settings',
-                element: <SettingsPage />,
+                element: (
+                    <PrivatePageWrapper>
+                        <SettingsPage />
+                    </PrivatePageWrapper>
+                ),
                 loader: settingsLoader,
             },
             {
                 path: '/multiplePVData',
-                element: <MultiplePVDataPage />,
+                element: (
+                    <PrivatePageWrapper>
+                        <MultiplePVDataPage />
+                    </PrivatePageWrapper>
+                ),
             },
         ],
     },

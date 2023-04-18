@@ -1,6 +1,10 @@
 import { SxProps, MenuItem } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import { ILayoutState, setChartView } from '../../../app/slices/layoutSlice'
+import {
+    ILayoutState,
+    setChartView,
+    setEvolSymbol,
+} from '../../../app/slices/layoutSlice'
 import React from 'react'
 
 const selectedStyle: SxProps = {
@@ -20,6 +24,13 @@ export const MenuPVData: React.FC = () => {
                         event.currentTarget
                             .id as keyof ILayoutState['chartView']
                     ],
+            })
+        )
+        dispatch(
+            setEvolSymbol({
+                chartTitle: '',
+                chartSymbol: '',
+                chartIndex: undefined,
             })
         )
     }

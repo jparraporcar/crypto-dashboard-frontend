@@ -3,23 +3,31 @@ import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
-    BarElement,
     Title,
     Tooltip,
     Legend,
     ChartData,
+    PointElement,
+    LineElement,
 } from 'chart.js'
-import { Bar } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { setEvolSymbol } from '../../../app/slices/layoutSlice'
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
-
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+)
 interface IPropsData {
-    dataChart: ChartData<'bar', number[], string>
+    dataChart: ChartData<'line', number[], string>
 }
 
-export const ChartCustomBar: React.FC<IPropsData> = ({
+export const ChartCustomLineMain: React.FC<IPropsData> = ({
     dataChart,
 }): JSX.Element => {
     const dispatch = useAppDispatch()
@@ -64,9 +72,9 @@ export const ChartCustomBar: React.FC<IPropsData> = ({
     }
 
     return (
-        <Bar
+        <Line
             options={options}
-            data={dataChart as ChartData<'bar', number[], string>}
+            data={dataChart as ChartData<'line', number[], string>}
         />
     )
 }

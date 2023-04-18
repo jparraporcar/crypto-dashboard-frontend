@@ -1,4 +1,4 @@
-import { Box, Fab, SxProps, Typography } from '@mui/material'
+import { Box, Fab, SxProps, Typography, useMediaQuery } from '@mui/material'
 import { ChartData } from 'chart.js'
 import React, { useEffect, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -13,7 +13,7 @@ import {
 import { NavBar } from '../common/NavBar/NavBar'
 import { Hourglass } from '../common/Hourglass/Hourglass'
 import { MenuPVData } from '../common/MenuPVData/MenuPVData'
-import { ChartCustomBar } from '../common/ChartCustom/ChartCustomBar'
+import { ChartCustomLineMain } from '../common/ChartCustom/ChartCustomLineMain'
 import { ChartCustomLine } from '../common/ChartCustom/ChartCustomLine'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setIsLoading } from '../../app/slices/layoutSlice'
@@ -25,14 +25,14 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [fetchCounter, setFetchCounter] = useState<number>(0)
     const [normCandle, setNormCandle] = useState<TNamedCandles[]>([])
     const [chartVolumeData, setChartVolumeData] =
-        useState<ChartData<'bar', number[], string>>()
+        useState<ChartData<'line', number[], string>>()
     const [chartPriceData, setChartPriceData] =
-        useState<ChartData<'bar', number[], string>>()
-    useState<ChartData<'bar', number[], string>>()
+        useState<ChartData<'line', number[], string>>()
+    useState<ChartData<'line', number[], string>>()
     const [chartMavgVolumeData, setChartMavgVolumeData] =
-        useState<ChartData<'bar', number[], string>>()
+        useState<ChartData<'line', number[], string>>()
     const [chartMavgPriceData, setChartMavgPriceData] =
-        useState<ChartData<'bar', number[], string>>()
+        useState<ChartData<'line', number[], string>>()
     const [chartMavgVolumeDataEvol, setChartMavgVolumeDataEvol] =
         useState<ChartData<'line', number[], string>>()
     const [chartMavgPriceDataEvol, setChartMavgPriceDataEvol] =
@@ -53,6 +53,8 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const location = useLocation()
+    const isMobile = useMediaQuery('(max-width: 600px)')
+
     useEffect(() => {
         console.log('inside useEffect')
         // handling the transition between /multiplePVData -> /settings and avoiding setting the state to true in each data refetch
@@ -328,26 +330,28 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             }}
         >
             <NavBar
-                mainTitle={`V&P stats: ${settingsState.interval} / ${settingsState.windowLength} candles`}
+                mainTitle={`V&P stats: ${settingsState.interval} / ${settingsState.windowLength}`}
                 menuContent={<MenuPVData />}
                 position="fixed"
                 zIndex={2000}
                 top={0}
             />
-            <Fab
-                sx={{
-                    position: 'fixed',
-                    top: '40px',
-                    marginLeft: '5px',
-                    marginTop: '5px',
-                }}
-                color="primary"
-                aria-label="add"
-                size="small"
-                onClick={() => navigate(-1)}
-            >
-                <ArrowBackIcon />
-            </Fab>
+            {isMobile && (
+                <Fab
+                    sx={{
+                        position: 'fixed',
+                        top: '40px',
+                        marginLeft: '5px',
+                        marginTop: '5px',
+                    }}
+                    color="primary"
+                    aria-label="add"
+                    size="small"
+                    onClick={() => navigate(-1)}
+                >
+                    <ArrowBackIcon />
+                </Fab>
+            )}
             <Box
                 component="div"
                 sx={{
@@ -374,7 +378,12 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     !chartViewState.multipleOfPriceAvg &&
                     !chartViewState.multipleOfVolume &&
                     !chartViewState.multipleOfVolumeAvg && (
-                        <Box>
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: 'calc(50vh - 57px)',
+                            }}
+                        >
                             <Typography variant="h3">
                                 Please choose a chart to show
                             </Typography>
@@ -382,22 +391,22 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     )}
                 {chartViewState.multipleOfVolume && chartVolumeData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomBar dataChart={chartVolumeData} />
+                        <ChartCustomLineMain dataChart={chartVolumeData} />
                     </Box>
                 )}
                 {chartViewState.multipleOfPrice && chartPriceData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomBar dataChart={chartPriceData} />
+                        <ChartCustomLineMain dataChart={chartPriceData} />
                     </Box>
                 )}
                 {chartViewState.multipleOfVolumeAvg && chartMavgVolumeData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomBar dataChart={chartMavgVolumeData} />
+                        <ChartCustomLineMain dataChart={chartMavgVolumeData} />
                     </Box>
                 )}
                 {chartViewState.multipleOfPriceAvg && chartMavgPriceData && (
                     <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomBar dataChart={chartMavgPriceData} />
+                        <ChartCustomLineMain dataChart={chartMavgPriceData} />
                     </Box>
                 )}
                 {evolSymbolState.chartSymbol !== '' &&
