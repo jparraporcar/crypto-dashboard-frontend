@@ -313,18 +313,24 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const sxChartContainer: SxProps = {
         position: 'relative',
         margin: 'auto',
-        height: 'calc(50vh - 25px)',
-        width: '75vw',
+        height: 'calc(50vh - 20px)',
+        width: isMobile ? '1500px' : '85vw',
+    }
+
+    const sxChartContainerOuterMobile: SxProps = {
+        overflowX: 'scroll',
+        width: '85vw',
     }
 
     return (
         <Box
+            id="multiplePVData-outer1"
             component="div"
             sx={{
-                position: 'relative',
                 width: '100vw',
+                height: '100vh',
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'flex-start',
             }}
@@ -341,6 +347,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     sx={{
                         position: 'fixed',
                         top: '40px',
+                        left: '0px',
                         marginLeft: '5px',
                         marginTop: '5px',
                     }}
@@ -353,17 +360,15 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 </Fab>
             )}
             <Box
+                id="multiplePVData-outer2"
                 component="div"
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-start',
                     alignItems: 'center',
-                    position: 'absolute',
-                    top: '40px',
                     width: '100vw',
-                    padding: '0px 40px 30px 30px',
-                    height: 'calc(100vh - 40px)',
+                    margin: '30px 30px 40px 30px',
                 }}
             >
                 {isLoadingState && (
@@ -390,23 +395,35 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         </Box>
                     )}
                 {chartViewState.multipleOfVolume && chartVolumeData && (
-                    <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomLineMain dataChart={chartVolumeData} />
+                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                        <Box component="div" sx={sxChartContainer}>
+                            <ChartCustomLineMain dataChart={chartVolumeData} />
+                        </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfPrice && chartPriceData && (
-                    <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomLineMain dataChart={chartPriceData} />
+                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                        <Box component="div" sx={sxChartContainer}>
+                            <ChartCustomLineMain dataChart={chartPriceData} />
+                        </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfVolumeAvg && chartMavgVolumeData && (
-                    <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomLineMain dataChart={chartMavgVolumeData} />
+                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                        <Box component="div" sx={sxChartContainer}>
+                            <ChartCustomLineMain
+                                dataChart={chartMavgVolumeData}
+                            />
+                        </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfPriceAvg && chartMavgPriceData && (
-                    <Box component="div" sx={sxChartContainer}>
-                        <ChartCustomLineMain dataChart={chartMavgPriceData} />
+                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                        <Box component="div" sx={sxChartContainer}>
+                            <ChartCustomLineMain
+                                dataChart={chartMavgPriceData}
+                            />
+                        </Box>
                     </Box>
                 )}
                 {evolSymbolState.chartSymbol !== '' &&
@@ -414,20 +431,24 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         evolSymbolState.chartTitle ===
                             'Multiple of volume average') &&
                     chartMavgVolumeDataEvol && (
-                        <Box component="div" sx={sxChartContainer}>
-                            <ChartCustomLine
-                                dataChart={chartMavgVolumeDataEvol}
-                            />
+                        <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                            <Box component="div" sx={sxChartContainer}>
+                                <ChartCustomLine
+                                    dataChart={chartMavgVolumeDataEvol}
+                                />
+                            </Box>
                         </Box>
                     )}
                 {evolSymbolState.chartSymbol !== '' &&
                     (evolSymbolState.chartTitle === 'Returns' ||
                         evolSymbolState.chartTitle === 'Average returns') &&
                     chartMavgPriceDataEvol && (
-                        <Box component="div" sx={sxChartContainer}>
-                            <ChartCustomLine
-                                dataChart={chartMavgPriceDataEvol}
-                            />
+                        <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                            <Box component="div" sx={sxChartContainer}>
+                                <ChartCustomLine
+                                    dataChart={chartMavgPriceDataEvol}
+                                />
+                            </Box>
                         </Box>
                     )}
             </Box>

@@ -128,16 +128,18 @@ export const SettingsPage: React.FC = (): JSX.Element => {
     console.log('isAllowedForwardState', isAllowedForwardState)
     return (
         <Box
+            id="settings-outer1"
             sx={{
                 width: '100vw',
                 height: '100vh',
+                overflow: 'hidden',
             }}
         >
             <Box>
                 <NavBar
                     mainTitle="User personal settings"
                     menuContent={<MenuGeneric />}
-                    position="fixed"
+                    position="static"
                     zIndex={2000}
                 />
             </Box>
@@ -159,16 +161,17 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                 </Fab>
             )}
             <Box
+                id="settings-outer2"
                 sx={{
                     width: '100vw',
                     height: '100vh',
-                    marginTop: '70px',
                 }}
             >
                 <Box
+                    id="settings-outer3-1"
                     sx={{
                         height: '25vh',
-                        padding: '0px 25px 25px 25px',
+                        padding: '25px 25px 25px 25px',
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'flex-start',
@@ -176,6 +179,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                     }}
                 >
                     <Box
+                        id="settings-outer4"
                         sx={{
                             height: '100%',
                             display: 'flex',
@@ -251,13 +255,14 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                     </Box>
                 </Box>
                 <Box
+                    id="settings-outer3-2"
                     sx={{
                         border: '2px solid #f7d759',
                         borderRadius: '10px',
                         marginLeft: '25px',
                         marginRight: '25px',
                         height: '60vh',
-                        overflow: 'scroll',
+                        overflow: 'hidden',
                     }}
                 >
                     <Box

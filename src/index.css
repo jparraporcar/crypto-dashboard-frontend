@@ -9,10 +9,7 @@ body {
     height: 100vh;
     width: 100vw;
     font-family: 'PT Sans Narrow', sans-serif;
-}
-
-html {
-    overflow: scroll;
+    overflow-x: hidden;
 }
 
 code {
