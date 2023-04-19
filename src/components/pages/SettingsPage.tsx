@@ -139,7 +139,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                 <NavBar
                     mainTitle="User personal settings"
                     menuContent={<MenuGeneric />}
-                    position="static"
+                    position="fixed"
                     zIndex={2000}
                 />
             </Box>
@@ -165,6 +165,7 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                 sx={{
                     width: '100vw',
                     height: '100vh',
+                    marginTop: '40px',
                 }}
             >
                 <Box

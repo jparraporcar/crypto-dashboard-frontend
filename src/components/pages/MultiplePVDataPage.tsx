@@ -54,6 +54,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const dispatch = useAppDispatch()
     const location = useLocation()
     const isMobile = useMediaQuery('(max-width: 600px)')
+    const isMobileLandscape = useMediaQuery('(max-height: 500px)')
 
     useEffect(() => {
         console.log('inside useEffect')
@@ -313,7 +314,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const sxChartContainer: SxProps = {
         position: 'relative',
         margin: 'auto',
-        height: 'calc(50vh - 20px)',
+        height: isMobileLandscape ? 'calc(100vh - 20px)' : 'calc(50vh - 20px)',
         width: isMobile ? '1500px' : '85vw',
     }
 
