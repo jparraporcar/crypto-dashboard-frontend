@@ -53,7 +53,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const location = useLocation()
-    const isMobile = useMediaQuery('(max-width: 600px)')
+    const isSmallScreen = useMediaQuery('(max-width: 1500px)')
     const isMobileLandscape = useMediaQuery('(max-height: 500px)')
 
     useEffect(() => {
@@ -315,7 +315,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         position: 'relative',
         margin: 'auto',
         height: isMobileLandscape ? 'calc(100vh - 20px)' : 'calc(50vh - 20px)',
-        width: isMobile ? '1500px' : '85vw',
+        width: isSmallScreen ? '2500px' : '95vw',
     }
 
     const sxChartContainerOuterMobile: SxProps = {
@@ -343,7 +343,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 zIndex={2000}
                 top={0}
             />
-            {isMobile && (
+            {isSmallScreen && (
                 <Fab
                     sx={{
                         position: 'fixed',
@@ -396,21 +396,21 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         </Box>
                     )}
                 {chartViewState.multipleOfVolume && chartVolumeData && (
-                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                    <Box sx={isSmallScreen ? sxChartContainerOuterMobile : {}}>
                         <Box component="div" sx={sxChartContainer}>
                             <ChartCustomLineMain dataChart={chartVolumeData} />
                         </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfPrice && chartPriceData && (
-                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                    <Box sx={isSmallScreen ? sxChartContainerOuterMobile : {}}>
                         <Box component="div" sx={sxChartContainer}>
                             <ChartCustomLineMain dataChart={chartPriceData} />
                         </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfVolumeAvg && chartMavgVolumeData && (
-                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                    <Box sx={isSmallScreen ? sxChartContainerOuterMobile : {}}>
                         <Box component="div" sx={sxChartContainer}>
                             <ChartCustomLineMain
                                 dataChart={chartMavgVolumeData}
@@ -419,7 +419,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     </Box>
                 )}
                 {chartViewState.multipleOfPriceAvg && chartMavgPriceData && (
-                    <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                    <Box sx={isSmallScreen ? sxChartContainerOuterMobile : {}}>
                         <Box component="div" sx={sxChartContainer}>
                             <ChartCustomLineMain
                                 dataChart={chartMavgPriceData}
@@ -432,7 +432,11 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         evolSymbolState.chartTitle ===
                             'Multiple of volume average') &&
                     chartMavgVolumeDataEvol && (
-                        <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                        <Box
+                            sx={
+                                isSmallScreen ? sxChartContainerOuterMobile : {}
+                            }
+                        >
                             <Box component="div" sx={sxChartContainer}>
                                 <ChartCustomLine
                                     dataChart={chartMavgVolumeDataEvol}
@@ -444,7 +448,11 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     (evolSymbolState.chartTitle === 'Returns' ||
                         evolSymbolState.chartTitle === 'Average returns') &&
                     chartMavgPriceDataEvol && (
-                        <Box sx={isMobile ? sxChartContainerOuterMobile : {}}>
+                        <Box
+                            sx={
+                                isSmallScreen ? sxChartContainerOuterMobile : {}
+                            }
+                        >
                             <Box component="div" sx={sxChartContainer}>
                                 <ChartCustomLine
                                     dataChart={chartMavgPriceDataEvol}
