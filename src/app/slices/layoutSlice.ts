@@ -14,6 +14,8 @@ export interface ILayoutState {
         multipleOfPriceAvg: boolean
         multipleOfVolumeAvgEvol: boolean
         multipleOfPriceAvgEvol: boolean
+        multipleOfVolumeRocAccum: boolean
+        multipleOfPriceRocAccum: boolean
     }
     evolSymbol: {
         chartTitle: string
@@ -34,10 +36,12 @@ const initialState: ILayoutState = {
     chartView: {
         multipleOfVolume: false,
         multipleOfPrice: false,
-        multipleOfVolumeAvg: true,
+        multipleOfVolumeAvg: false,
         multipleOfPriceAvg: true,
         multipleOfVolumeAvgEvol: false,
         multipleOfPriceAvgEvol: false,
+        multipleOfVolumeRocAccum: false,
+        multipleOfPriceRocAccum: false,
     },
     evolSymbol: {
         chartTitle: '',
@@ -75,6 +79,9 @@ export const layoutSlice = createSlice({
                 multipleOfPriceAvg: action.payload.multipleOfPriceAvg,
                 multipleOfVolumeAvgEvol: action.payload.multipleOfVolumeAvgEvol,
                 multipleOfPriceAvgEvol: action.payload.multipleOfPriceAvgEvol,
+                multipleOfVolumeRocAccum:
+                    action.payload.multipleOfVolumeRocAccum,
+                multipleOfPriceRocAccum: action.payload.multipleOfPriceRocAccum,
             }
         },
         setEvolSymbol: (

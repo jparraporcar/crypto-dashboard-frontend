@@ -43,9 +43,9 @@ export type CandleChartInterval_LT =
     | '1w'
     | '1M'
 
-export type TVolumeVector = number[]
+export type TMultipleVolumeVector = number[]
 
-export type TPriceVector = number[]
+export type TMultiplePriceVector = number[]
 
 export type ObjCheck = { [key: string]: boolean } | null
 

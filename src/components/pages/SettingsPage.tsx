@@ -125,7 +125,6 @@ export const SettingsPage: React.FC = (): JSX.Element => {
         dispatch(setIsAllowedForward(true))
         navigate('/multiplePVData', { state: '/multiplePVData' })
     }
-    console.log('isAllowedForwardState', isAllowedForwardState)
     return (
         <Box
             id="settings-outer1"
@@ -312,7 +311,6 @@ export const settingsLoader = async () => {
         // USDT by default but later on the user must be able to choose between USDT or BUSD or any other one
         const dataLocal = localStorage.getItem('allSpotTickerNames')
         if (dataLocal) {
-            console.log('data from local storage')
             const dataLocalResponse = { data: JSON.parse(dataLocal) }
             return dataLocalResponse
         } else {

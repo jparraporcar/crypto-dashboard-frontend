@@ -15,7 +15,6 @@ export const MenuPVData: React.FC = () => {
     const chartViewState = useAppSelector((state) => state.layout.chartView)
     const dispatch = useAppDispatch()
     const handleMenuItemClick = (event: React.MouseEvent<HTMLLIElement>) => {
-        console.log(event.currentTarget.id)
         dispatch(
             setChartView({
                 ...chartViewState,
@@ -64,6 +63,22 @@ export const MenuPVData: React.FC = () => {
                 sx={chartViewState.multipleOfPriceAvg ? selectedStyle : {}}
             >
                 Average returns
+            </MenuItem>
+            <MenuItem
+                id="multipleOfVolumeRocAccum"
+                onClick={handleMenuItemClick}
+                sx={
+                    chartViewState.multipleOfVolumeRocAccum ? selectedStyle : {}
+                }
+            >
+                Accum roc of volume multiple
+            </MenuItem>
+            <MenuItem
+                id="multipleOfPriceRocAccum"
+                onClick={handleMenuItemClick}
+                sx={chartViewState.multipleOfPriceRocAccum ? selectedStyle : {}}
+            >
+                Accum roc of returns
             </MenuItem>
         </>
     )

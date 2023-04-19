@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { TNamedCandles, TNamedCandlesT } from '../../types'
 import {
     divideVectors,
+    getAccumRateOfChangeOfAllSymbols,
     getVectorOfOpenTime,
     getVectorsAverage,
     namedCandlesDataWindowToNormVectorOfConstants,
@@ -37,6 +38,14 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         useState<ChartData<'line', number[], string>>()
     const [chartMavgPriceDataEvol, setChartMavgPriceDataEvol] =
         useState<ChartData<'line', number[], string>>()
+    const [multipleVolumeAccRoc, setMultipleVolumeAccRoc] = useState<number[]>(
+        []
+    )
+    const [multiplePriceAccRoc, setMultiplePriceAccRoc] = useState<number[]>([])
+    const [chartAccRocVolumeData, setChartAccRocVolumeData] =
+        useState<ChartData<'line', number[], string>>()
+    const [chartAccRocPriceData, setChartAccRocPriceData] =
+        useState<ChartData<'line', number[], string>>()
 
     const [namedCandlesDataWindow, setNamedCandlesDataWindow] = useState<
         TNamedCandles[]
@@ -57,7 +66,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const isMobileLandscape = useMediaQuery('(max-height: 500px)')
 
     useEffect(() => {
-        console.log('inside useEffect')
         // handling the transition between /multiplePVData -> /settings and avoiding setting the state to true in each data refetch
         // at each scheduled interval since it is smoother not to see the loader in that scenario
         if (location.state === '/multiplePVData') {
@@ -67,9 +75,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 '',
                 newLocation.pathname + newLocation.search
             )
-            console.log(isLoadingState, 'before dispatching true')
             dispatch(setIsLoading(true))
-            console.log(isLoadingState, 'after dispatching true')
         }
     }, [])
 
@@ -119,13 +125,11 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 setcandlesData(dataParsedInst)
                 setNamedCandlesDataWindow(transformFromT(dataParsedWindow))
                 dispatch(setIsLoading(false))
-                console.log('setting isLoading to false')
             }
         }
 
         try {
             // execute fetchData functions without delay first time
-            console.log('effect is running')
             fetchData()
             const intervalMilliseconds =
                 Number(settingsState.interval.replace('m', '')) * 60 * 1000
@@ -225,19 +229,56 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
             setMultipleVolumePriceAvg(
                 divideVectors(multipleVolumeAvg, multiplePriceAvg)
             )
+            setMultiplePriceAccRoc(
+                getAccumRateOfChangeOfAllSymbols(
+                    vArrayWindowMultiplesAvgPrice,
+                    Number(settingsState.interval.replace('m', ''))
+                )
+            )
+            setMultipleVolumeAccRoc(
+                getAccumRateOfChangeOfAllSymbols(
+                    vArrayWindowMultiplesAvgVolume,
+                    Number(settingsState.interval.replace('m', ''))
+                )
+            )
         }
-    }, [namedCandlesDataWindow, normCandle])
+    }, [namedCandlesDataWindow, normCandle, settingsState.interval])
+
+    useEffect(() => {
+        if (
+            multipleVolumeAccRoc.length > 0 &&
+            multiplePriceAccRoc.length > 0 &&
+            candlesData.length > 0
+        ) {
+            setChartAccRocVolumeData({
+                labels: Object.keys(candlesData[0]).sort(),
+                datasets: [
+                    {
+                        label: 'Accum roc of volume multiple',
+                        data: multipleVolumeAccRoc,
+                        backgroundColor: '#f7d759',
+                    },
+                ],
+            })
+            setChartAccRocPriceData({
+                labels: Object.keys(candlesData[0]).sort(),
+                datasets: [
+                    {
+                        label: 'Accum roc of returns',
+                        data: multiplePriceAccRoc,
+                        backgroundColor: '#f7d759',
+                    },
+                ],
+            })
+        }
+    }, [multipleVolumeAccRoc, multiplePriceAccRoc, candlesData])
 
     useEffect(() => {
         if (
             namedCandlesDataWindow.length > 0 &&
             evolSymbolState.chartIndex !== undefined
         ) {
-            console.log(namedCandlesDataWindow)
-            console.log(Object.keys(namedCandlesDataWindow[0]).length)
-            console.log(evolSymbolState)
             const vOpenTime = getVectorOfOpenTime(namedCandlesDataWindow)
-            console.log(vOpenTime)
             const vArrayWindowMultiplesAvgVolume =
                 namedCandlesDataWindowToNormVectorOfConstants(
                     namedCandlesDataWindow,
@@ -383,7 +424,9 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     !chartViewState.multipleOfPrice &&
                     !chartViewState.multipleOfPriceAvg &&
                     !chartViewState.multipleOfVolume &&
-                    !chartViewState.multipleOfVolumeAvg && (
+                    !chartViewState.multipleOfVolumeAvg &&
+                    !chartViewState.multipleOfVolumeRocAccum &&
+                    !chartViewState.multipleOfPriceRocAccum && (
                         <Box
                             sx={{
                                 position: 'absolute',
@@ -427,10 +470,41 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         </Box>
                     </Box>
                 )}
+                {chartViewState.multipleOfVolumeRocAccum &&
+                    chartAccRocVolumeData && (
+                        <Box
+                            sx={
+                                isSmallScreen ? sxChartContainerOuterMobile : {}
+                            }
+                        >
+                            <Box component="div" sx={sxChartContainer}>
+                                <ChartCustomLineMain
+                                    dataChart={chartAccRocVolumeData}
+                                />
+                            </Box>
+                        </Box>
+                    )}
+                {chartViewState.multipleOfPriceRocAccum &&
+                    chartAccRocPriceData && (
+                        <Box
+                            sx={
+                                isSmallScreen ? sxChartContainerOuterMobile : {}
+                            }
+                        >
+                            <Box component="div" sx={sxChartContainer}>
+                                <ChartCustomLineMain
+                                    dataChart={chartAccRocPriceData}
+                                />
+                            </Box>
+                        </Box>
+                    )}
+
                 {evolSymbolState.chartSymbol !== '' &&
                     (evolSymbolState.chartTitle === 'Multiple of volume' ||
                         evolSymbolState.chartTitle ===
-                            'Multiple of volume average') &&
+                            'Multiple of volume average' ||
+                        evolSymbolState.chartTitle ===
+                            'Accum roc of volume multiple') &&
                     chartMavgVolumeDataEvol && (
                         <Box
                             sx={
@@ -446,7 +520,9 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     )}
                 {evolSymbolState.chartSymbol !== '' &&
                     (evolSymbolState.chartTitle === 'Returns' ||
-                        evolSymbolState.chartTitle === 'Average returns') &&
+                        evolSymbolState.chartTitle === 'Average returns' ||
+                        evolSymbolState.chartTitle ===
+                            'Accum roc of returns') &&
                     chartMavgPriceDataEvol && (
                         <Box
                             sx={

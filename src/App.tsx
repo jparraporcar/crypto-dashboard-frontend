@@ -27,18 +27,18 @@ const router = createBrowserRouter([
             {
                 path: '/settings',
                 element: (
-                    <PrivatePageWrapper>
-                        <SettingsPage />
-                    </PrivatePageWrapper>
+                    // <PrivatePageWrapper>
+                    <SettingsPage />
+                    // </PrivatePageWrapper>
                 ),
                 loader: settingsLoader,
             },
             {
                 path: '/multiplePVData',
                 element: (
-                    <PrivatePageWrapper>
-                        <MultiplePVDataPage />
-                    </PrivatePageWrapper>
+                    // <PrivatePageWrapper>
+                    <MultiplePVDataPage />
+                    // </PrivatePageWrapper>
                 ),
             },
         ],
