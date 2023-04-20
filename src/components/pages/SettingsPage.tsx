@@ -16,6 +16,7 @@ import { json, useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
     setIsAllowedForward,
+    setIsLoading,
     setSnackbarCustom,
 } from '../../app/slices/layoutSlice'
 import { setSettings } from '../../app/slices/tickersSlice'
@@ -154,7 +155,10 @@ export const SettingsPage: React.FC = (): JSX.Element => {
                     aria-label="add"
                     size="small"
                     disabled={!isAllowedForwardState}
-                    onClick={() => navigate(1)}
+                    onClick={() => {
+                        dispatch(setIsLoading(true))
+                        navigate(1)
+                    }}
                 >
                     <ArrowForwardIcon />
                 </Fab>
