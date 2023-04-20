@@ -34,10 +34,10 @@ const initialState: ILayoutState = {
         autoHideDuration: undefined,
     },
     chartView: {
-        multipleOfVolume: false,
+        multipleOfVolume: true,
         multipleOfPrice: false,
         multipleOfVolumeAvg: false,
-        multipleOfPriceAvg: true,
+        multipleOfPriceAvg: false,
         multipleOfVolumeAvgEvol: false,
         multipleOfPriceAvgEvol: false,
         multipleOfVolumeRocAccum: false,
