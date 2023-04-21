@@ -561,7 +561,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                             </Box>
                         </Box>
                     )}
-
                 {evolSymbolState.chartSymbol !== '' &&
                     (evolSymbolState.chartTitle === 'Multiple of volume' ||
                         evolSymbolState.chartTitle ===
@@ -569,11 +568,23 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         evolSymbolState.chartTitle ===
                             'Accum roc of volume multiple') &&
                     chartMavgVolumeDataEvol && (
-                        <Box sx={isSmallScreen ? sxOuterMobileScrollable : {}}>
-                            <Box component="div" sx={sxInner}>
-                                <ChartCustomLine
+                        <Box sx={{ position: 'relative' }}>
+                            {isSmallScreen && (
+                                <ChartCustomScrollHelper
+                                    sxInner={sxInner}
                                     dataChart={chartMavgVolumeDataEvol}
                                 />
+                            )}
+                            <Box
+                                sx={
+                                    isSmallScreen ? sxOuterMobileScrollable : {}
+                                }
+                            >
+                                <Box component="div" sx={sxInner}>
+                                    <ChartCustomLine
+                                        dataChart={chartMavgVolumeDataEvol}
+                                    />
+                                </Box>
                             </Box>
                         </Box>
                     )}
@@ -583,11 +594,23 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         evolSymbolState.chartTitle ===
                             'Accum roc of returns') &&
                     chartMavgPriceDataEvol && (
-                        <Box sx={isSmallScreen ? sxOuterMobileScrollable : {}}>
-                            <Box component="div" sx={sxInner}>
-                                <ChartCustomLine
+                        <Box sx={{ position: 'relative' }}>
+                            {isSmallScreen && (
+                                <ChartCustomScrollHelper
+                                    sxInner={sxInner}
                                     dataChart={chartMavgPriceDataEvol}
                                 />
+                            )}
+                            <Box
+                                sx={
+                                    isSmallScreen ? sxOuterMobileScrollable : {}
+                                }
+                            >
+                                <Box component="div" sx={sxInner}>
+                                    <ChartCustomLine
+                                        dataChart={chartMavgPriceDataEvol}
+                                    />
+                                </Box>
                             </Box>
                         </Box>
                     )}
