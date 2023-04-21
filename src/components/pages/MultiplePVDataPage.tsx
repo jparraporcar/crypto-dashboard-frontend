@@ -19,6 +19,7 @@ import { ChartCustomLine } from '../common/ChartCustom/ChartCustomLine'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { setIsLoading } from '../../app/slices/layoutSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { ChartCustomScrollHelper } from '../common/ChartCustomScrollHelper/ChartCustomScrollHelper'
 
 export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [candlesData, setcandlesData] = useState<TNamedCandles[]>([])
@@ -353,24 +354,18 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         multipleVolumePriceAvg,
     ])
 
-    const sxChartContainer: SxProps = {
+    const sxInner: SxProps = {
         position: 'relative',
         margin: 'auto',
         height: isMobileLandscape ? 'calc(100vh - 20px)' : 'calc(50vh - 20px)',
         width: isSmallScreen ? '2500px' : '95vw',
     }
 
-    const sxChartContainerOuterMobileScrollable: SxProps = {
-        position: 'relative',
+    const sxOuterMobileScrollable: SxProps = {
+        position: 'absolute',
         overflowX: 'scroll',
         width: '85vw',
-        top: '-464.5px',
-        left: '-0.8px',
-    }
-    const sxChartContainerOuterMobileHidden: SxProps = {
-        position: 'relative',
-        overflowX: 'hidden',
-        width: '85vw',
+        top: '0px',
     }
 
     return (
@@ -448,121 +443,121 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         </Box>
                     )}
                 {chartViewState.multipleOfVolume && chartVolumeData && (
-                    <>
+                    <Box sx={{ position: 'relative' }}>
                         {isSmallScreen && (
-                            <Box
-                                className="outerMobileHidden"
-                                sx={
-                                    isSmallScreen
-                                        ? sxChartContainerOuterMobileHidden
-                                        : { position: 'relative' }
-                                }
-                            >
-                                <Box
-                                    className="innerRelativeHidden"
-                                    component="div"
-                                    sx={sxChartContainer}
-                                >
-                                    <ChartCustomLineMain
-                                        type="fixed"
-                                        dataChart={chartVolumeData}
-                                    />
-                                </Box>
-                            </Box>
+                            <ChartCustomScrollHelper
+                                sxInner={sxInner}
+                                dataChart={chartVolumeData}
+                            />
                         )}
                         <Box
                             className="outerMobileScrollable"
-                            sx={
-                                isSmallScreen
-                                    ? sxChartContainerOuterMobileScrollable
-                                    : { position: 'relative' }
-                            }
+                            sx={isSmallScreen ? sxOuterMobileScrollable : {}}
                         >
-                            <Box
-                                className="innerRelativeScrollable"
-                                component="div"
-                                sx={sxChartContainer}
-                            >
+                            <Box component="div" sx={sxInner}>
                                 <ChartCustomLineMain
                                     dataChart={chartVolumeData}
                                 />
                             </Box>
                         </Box>
-                    </>
+                    </Box>
                 )}
 
                 {chartViewState.multipleOfPrice && chartPriceData && (
-                    <Box
-                        sx={
-                            isSmallScreen
-                                ? sxChartContainerOuterMobileScrollable
-                                : {}
-                        }
-                    >
-                        <Box component="div" sx={sxChartContainer}>
-                            <ChartCustomLineMain dataChart={chartPriceData} />
+                    <Box sx={{ position: 'relative' }}>
+                        {isSmallScreen && (
+                            <ChartCustomScrollHelper
+                                sxInner={sxInner}
+                                dataChart={chartPriceData}
+                            />
+                        )}
+                        <Box
+                            className="outerMobileScrollable"
+                            sx={isSmallScreen ? sxOuterMobileScrollable : {}}
+                        >
+                            <Box component="div" sx={sxInner}>
+                                <ChartCustomLineMain
+                                    dataChart={chartPriceData}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfVolumeAvg && chartMavgVolumeData && (
-                    <Box
-                        sx={
-                            isSmallScreen
-                                ? sxChartContainerOuterMobileScrollable
-                                : {}
-                        }
-                    >
-                        <Box component="div" sx={sxChartContainer}>
-                            <ChartCustomLineMain
+                    <Box sx={{ position: 'relative' }}>
+                        {isSmallScreen && (
+                            <ChartCustomScrollHelper
+                                sxInner={sxInner}
                                 dataChart={chartMavgVolumeData}
                             />
+                        )}
+                        <Box sx={isSmallScreen ? sxOuterMobileScrollable : {}}>
+                            <Box component="div" sx={sxInner}>
+                                <ChartCustomLineMain
+                                    dataChart={chartMavgVolumeData}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfPriceAvg && chartMavgPriceData && (
-                    <Box
-                        sx={
-                            isSmallScreen
-                                ? sxChartContainerOuterMobileScrollable
-                                : {}
-                        }
-                    >
-                        <Box component="div" sx={sxChartContainer}>
-                            <ChartCustomLineMain
+                    <Box sx={{ position: 'relative' }}>
+                        {isSmallScreen && (
+                            <ChartCustomScrollHelper
+                                sxInner={sxInner}
                                 dataChart={chartMavgPriceData}
                             />
+                        )}
+                        <Box sx={isSmallScreen ? sxOuterMobileScrollable : {}}>
+                            <Box component="div" sx={sxInner}>
+                                <ChartCustomLineMain
+                                    dataChart={chartMavgPriceData}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                 )}
                 {chartViewState.multipleOfVolumeRocAccum &&
                     chartAccRocVolumeData && (
-                        <Box
-                            sx={
-                                isSmallScreen
-                                    ? sxChartContainerOuterMobileScrollable
-                                    : {}
-                            }
-                        >
-                            <Box component="div" sx={sxChartContainer}>
-                                <ChartCustomLineMain
+                        <Box sx={{ position: 'relative' }}>
+                            {isSmallScreen && (
+                                <ChartCustomScrollHelper
+                                    sxInner={sxInner}
                                     dataChart={chartAccRocVolumeData}
                                 />
+                            )}
+                            <Box
+                                sx={
+                                    isSmallScreen ? sxOuterMobileScrollable : {}
+                                }
+                            >
+                                <Box component="div" sx={sxInner}>
+                                    <ChartCustomLineMain
+                                        dataChart={chartAccRocVolumeData}
+                                    />
+                                </Box>
                             </Box>
                         </Box>
                     )}
                 {chartViewState.multipleOfPriceRocAccum &&
                     chartAccRocPriceData && (
-                        <Box
-                            sx={
-                                isSmallScreen
-                                    ? sxChartContainerOuterMobileScrollable
-                                    : {}
-                            }
-                        >
-                            <Box component="div" sx={sxChartContainer}>
-                                <ChartCustomLineMain
+                        <Box sx={{ position: 'relative' }}>
+                            {isSmallScreen && (
+                                <ChartCustomScrollHelper
+                                    sxInner={sxInner}
                                     dataChart={chartAccRocPriceData}
                                 />
+                            )}
+                            <Box
+                                sx={
+                                    isSmallScreen ? sxOuterMobileScrollable : {}
+                                }
+                            >
+                                <Box component="div" sx={sxInner}>
+                                    <ChartCustomLineMain
+                                        dataChart={chartAccRocPriceData}
+                                    />
+                                </Box>
                             </Box>
                         </Box>
                     )}
@@ -574,14 +569,8 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         evolSymbolState.chartTitle ===
                             'Accum roc of volume multiple') &&
                     chartMavgVolumeDataEvol && (
-                        <Box
-                            sx={
-                                isSmallScreen
-                                    ? sxChartContainerOuterMobileScrollable
-                                    : {}
-                            }
-                        >
-                            <Box component="div" sx={sxChartContainer}>
+                        <Box sx={isSmallScreen ? sxOuterMobileScrollable : {}}>
+                            <Box component="div" sx={sxInner}>
                                 <ChartCustomLine
                                     dataChart={chartMavgVolumeDataEvol}
                                 />
@@ -594,14 +583,8 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                         evolSymbolState.chartTitle ===
                             'Accum roc of returns') &&
                     chartMavgPriceDataEvol && (
-                        <Box
-                            sx={
-                                isSmallScreen
-                                    ? sxChartContainerOuterMobileScrollable
-                                    : {}
-                            }
-                        >
-                            <Box component="div" sx={sxChartContainer}>
+                        <Box sx={isSmallScreen ? sxOuterMobileScrollable : {}}>
+                            <Box component="div" sx={sxInner}>
                                 <ChartCustomLine
                                     dataChart={chartMavgPriceDataEvol}
                                 />
