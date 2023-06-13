@@ -32,6 +32,10 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
     </figure>
     <br />
     <br />
+where,
+M(t) : Multiple of price at time t
+P(t) : Price at time t
+P(0) : Price at the initial time
 
 - **Multiple of Volume**:
     <br />
@@ -76,8 +80,10 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
         <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-arc.jpg" alt="Accumulated Rate of Change of Multiple Volume">
     </figure>
     <br />
+    <figure>
+        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-arc-explanation.jpg" alt="Accumulated Rate of Change of Multiple Volume explanation">
+    </figure> 
     <br />
-
 ## Usage
 
 ## Technologies
