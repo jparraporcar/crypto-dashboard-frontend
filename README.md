@@ -24,53 +24,60 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 
 4. **Statistical Indicators**: Once the tokens have been chosen, users are guided to a screen where they can choose various statistical indicators, including:
 
-   - **Multiple of Price**:
+- **Multiple of Price**:
     <br />
     <br />
     <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price.jpg" alt="Multiple of Price">
+        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price.jpg" alt="Multiple of Price">
     </figure>
     <br />
     <br />
-   - **Multiple of Volume**:
+
+- **Multiple of Volume**:
     <br />
     <br />
     <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume.jpg" alt="Multiple of Volume">
+        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume.jpg" alt="Multiple of Volume">
     </figure>
     <br />
     <br />
-   - **Multiple of Price Average**:
-    <br />
-    <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-avg.jpg" alt="Multiple of Price Average">
-    </figure>
-    <br />
-    <br />
-   - **Multiple of Volume Average**:
+
+- **Multiple of Price Average**:
     <br />
     <br />
     <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-avg.jpg" alt="Multiple of Volume Average">
+        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-avg.jpg" alt="Multiple of Price Average">
     </figure>
     <br />
     <br />
-   - **Accumulated Rate of Change of Multiple Price**:
+
+- **Multiple of Volume Average**:
     <br />
     <br />
     <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-arc.jpg" alt="Accumulated Rate of Change of Multiple Pric">
+        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-avg.jpg" alt="Multiple of Volume Average">
     </figure>
     <br />
     <br />
-   - **Accumulated Rate of Change of Multiple Volume**:
+
+- **Accumulated Rate of Change of Multiple Price**:
     <br />
     <br />
     <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-arc.jpg" alt="Accumulated Rate of Change of Multiple Volume">
+        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-arc.jpg" alt="Accumulated Rate of Change of Multiple Price">
     </figure>
     <br />
     <br />
+
+- **Accumulated Rate of Change of Multiple Volume**:
+    <br />
+    <br />
+    <figure>
+        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-arc.jpg" alt="Accumulated Rate of Change of Multiple Volume">
+    </figure>
+    <br />
+    <br />
+
 ## Usage
 
 ## Technologies
