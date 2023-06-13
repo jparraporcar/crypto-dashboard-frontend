@@ -27,37 +27,37 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
    - **Multiple of Price**:
   <br />
    <figure>
-    <img src="./screenshots/multiple_of_price.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price.jpg" alt="Multiple of Price">
     </figure>
   <br />
    - **Multiple of Volume**:
      <br />
    <figure>
-    <img src="./screenshots/multiple_of_volume.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume.jpg" alt="Multiple of Price">
     </figure>
     <br />
    - **Multiple of Price Average**:
         <br />
    <figure>
-    <img src="./screenshots/multiple_of_price_avg.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price_avg.jpg" alt="Multiple of Price">
     </figure>
     <br />
    - **Multiple of Volume Average**:
         <br />
    <figure>
-    <img src="./screenshots/multiple_of_volume_avg.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume_avg.jpg" alt="Multiple of Price">
     </figure>
     <br />
    - **Accumulated Rate of Change of Multiple Price**:
         <br />
    <figure>
-    <img src="./screenshots/multiple_of_price_arc.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price_arc.jpg" alt="Multiple of Price">
     </figure>
     <br />
    - **Accumulated Rate of Change of Multiple Volume**:
         <br />
    <figure>
-    <img src="./screenshots/multiple_of_volume_arc.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume_arc.jpg" alt="Multiple of Price">
     </figure>
     <br />
 
