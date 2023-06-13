@@ -81,7 +81,7 @@ P(0) : Price at the initial time
     </figure>
     <br />
     <figure>
-        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-arc-explanation.jpg" alt="Accumulated Rate of Change of Multiple Volume explanation">
+        <img style="width:100%; height:auto;" src="./screenshots/multiple-of-volume-arc-explanation.jpg" alt="Accumulated Rate of Change of Multiple Volume explanation">
     </figure> 
     <br />
 ## Usage
