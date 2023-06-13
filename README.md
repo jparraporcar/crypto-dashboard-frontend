@@ -70,7 +70,9 @@ P(0) : Price at the initial time
     <figure>
         <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-arc.jpg" alt="Accumulated Rate of Change of Multiple Price">
     </figure>
-    <br />
+    <figure>
+        <img style="width:125%; height:auto;" src="./screenshots/multiple-of-price-arc-explanation.jpg" alt="Accumulated Rate of Change of Multiple of Price explanation">
+    </figure> 
     <br />
 
 - **Accumulated Rate of Change of Multiple Volume**:
