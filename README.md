@@ -33,31 +33,31 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
    - **Multiple of Volume**:
      <br />
    <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume.jpg" alt="Multiple of Volume">
     </figure>
     <br />
    - **Multiple of Price Average**:
         <br />
    <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price_avg.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-avg.jpg" alt="Multiple of Price Average">
     </figure>
     <br />
    - **Multiple of Volume Average**:
         <br />
    <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume_avg.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-avg.jpg" alt="Multiple of Volume Average">
     </figure>
     <br />
    - **Accumulated Rate of Change of Multiple Price**:
         <br />
    <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price_arc.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-arc.jpg" alt="Accumulated Rate of Change of Multiple Pric">
     </figure>
     <br />
    - **Accumulated Rate of Change of Multiple Volume**:
         <br />
    <figure>
-    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume_arc.jpg" alt="Multiple of Price">
+    <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-arc.jpg" alt="Accumulated Rate of Change of Multiple Volume">
     </figure>
     <br />
 
