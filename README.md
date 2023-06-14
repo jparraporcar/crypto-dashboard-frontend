@@ -7,7 +7,7 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 ## Table of Contents
 
 - [Installation](#installation)
-- [Continuous Deployment & Project Setup](#cd-and-setup)
+- [Continuous Deployment & Project Setup](#continuous Deployment & Project Setup)
 - [Features](#features)
 - [Usage](#usage)
 - [Technologies](#technologies)
