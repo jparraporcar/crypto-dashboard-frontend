@@ -43,9 +43,7 @@ npm install
 
 ## Development & Local Testing
 
-For the development stage, you don't need to deploy the application in this repo in AWS for testing. You can run the project in your local machine by executing `npm start` and navigating to [http://localhost:3000](http://localhost:3000). However, the backend serverless infrastructure must be deployed in order to create the necessary resources in AWS. 
-
-Even though it is possible to create local API endpoints by using the `serverless-offline`, it would also be necessary to deploy a local version of the DynamoDB database for some endpoints and this is out of the scope of this project. More info about infrastructure in the backend repo: [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend).
+For the development stage, you don't need to deploy the application in this repo in AWS for testing. You can run the project in your local machine by executing `npm start` and navigating to [http://localhost:3000](http://localhost:3000). However, bear in mind that once you push the content to your main branch the deployment will be triggered
 
 ## Frontend Deployment
 
