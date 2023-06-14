@@ -76,13 +76,10 @@ export function namedCandlesDataWindowToNormVectorOfConstants(
             .map((key: string) => {
                 return Number(namedCandlesDataWindow[i][key][prop])
             })
-        console.log(v)
-        console.log(norm)
         result.push(divideVectors(v, norm)) // result is ordered as sort()
         // result is a matrix where each row is an array of length S (total amount of symbols) with all the multiples of volume
         // at the initial reference time (an array of ones of length S)
         // each row represents a different candle and thus an evolution in the multiple
-        console.log(result)
     }
     return result
 }
@@ -113,7 +110,6 @@ export const transformFromT = (input: TNamedCandlesT[]) => {
     const values = Object.keys(input[0])
         .sort()
         .map((key) => input[0][key])
-    console.log(values)
     const numberOfCandles = values[0].length
     const output: TNamedCandles[] = []
     for (let k = 0; k < numberOfCandles; k++) {

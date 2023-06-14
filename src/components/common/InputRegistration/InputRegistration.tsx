@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../../app/hooks'
 import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
 import { useNavigate } from 'react-router-dom'
+import { registerApi } from '../../../env'
 
 const userSchema = z
     .object({
@@ -77,7 +78,7 @@ export const InputRegistration: React.FC = (): JSX.Element => {
         if (Object.keys(errors).length === 0) {
             try {
                 const registerResponse = (await axios.post(
-                    'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/registerUser',
+                    `${registerApi}`,
                     data
                 )) as any
                 console.log(registerResponse)

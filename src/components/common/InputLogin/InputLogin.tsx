@@ -18,6 +18,7 @@ import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
 import { useAppSelector } from '../../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
+import { loginApi } from '../../../env'
 
 const loginSchema = z.object({
     userName: z
@@ -65,12 +66,11 @@ export const InputLogin: React.FC = (): JSX.Element => {
         if (Object.keys(errors).length === 0) {
             try {
                 const loginResponse = (await axios.post(
-                    'https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/loginUser',
+                    `${loginApi}`,
                     data
                 )) as any
                 if (loginResponse.data.message === 'USER_LOGGEDIN') {
                     const decoded = jwt_decode(loginResponse.data.token)
-                    console.log(decoded)
                     //TODO: Add personalized message
                     dispatch(
                         setSnackbarCustom({
@@ -85,10 +85,8 @@ export const InputLogin: React.FC = (): JSX.Element => {
                     setTimeout(() => navigate('/settings'), 3000)
                 } else {
                     //TODO: pending to deal with this scenario
-                    console.log(loginResponse)
                 }
             } catch (err: any) {
-                console.log('error', err)
                 if (err.response.data.name === 'EXISTING_RESOURCE_ERROR') {
                     dispatch(
                         setSnackbarCustom({

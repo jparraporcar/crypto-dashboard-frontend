@@ -40,7 +40,6 @@ export const ChartCustomLineMain: React.FC<IPropsData> = ({
         onClick: (event: any, elements: any) => {
             if (elements.length > 0) {
                 if (evolSymbolState.chartSymbol !== '') {
-                    console.log('here')
                     dispatch(
                         setEvolSymbol({
                             chartTitle: '',

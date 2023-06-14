@@ -8,9 +8,6 @@ import { CredentialsPage } from './components/pages/CredentialsPage'
 import { settingsLoader, SettingsPage } from './components/pages/SettingsPage'
 import { PrivatePageWrapper } from './components/pages/PrivatePageWrapper'
 
-// modifications log:
-// -> Added new pages for multiple rolling window and authentication
-
 const router = createBrowserRouter([
     {
         path: '/',
@@ -27,18 +24,18 @@ const router = createBrowserRouter([
             {
                 path: '/settings',
                 element: (
-                    // <PrivatePageWrapper>
+                    <PrivatePageWrapper>
                     <SettingsPage />
-                    // </PrivatePageWrapper>
+                    </PrivatePageWrapper>
                 ),
                 loader: settingsLoader,
             },
             {
                 path: '/multiplePVData',
                 element: (
-                    // <PrivatePageWrapper>
+                    <PrivatePageWrapper>
                     <MultiplePVDataPage />
-                    // </PrivatePageWrapper>
+                    </PrivatePageWrapper>
                 ),
             },
         ],

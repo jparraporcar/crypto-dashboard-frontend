@@ -20,6 +20,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { setIsLoading } from '../../app/slices/layoutSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ChartCustomScrollHelper } from '../common/ChartCustomScrollHelper/ChartCustomScrollHelper'
+import { priceVolumeDataApi, priceVolumeDataWindowApi } from '../../env'
 
 export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [candlesData, setcandlesData] = useState<TNamedCandles[]>([])
@@ -84,7 +85,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         const fetchData = async () => {
             // DEVELOPMENT REMOTE
             const dataInst = await fetch(
-                `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeData?interval=${
+                `${priceVolumeDataApi}?interval=${
                     settingsState.interval
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
@@ -100,7 +101,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
 
             // DEVELOPMENT REMOTE
             const dataWindow = await fetch(
-                `https://jxd8645qp7.execute-api.ap-northeast-1.amazonaws.com/dev/priceVolumeDataWindow?interval=${
+                `${priceVolumeDataWindowApi}?interval=${
                     settingsState.interval
                 }&windowLength=${
                     settingsState.windowLength
