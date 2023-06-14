@@ -16,18 +16,17 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 
 # Installation
 
-Before you start, please make sure you have the following prerequisites:
+### Prerequisites
 
 - Node.js and npm installed on your local development machine.
-- Backend setup. This frontend relies on a backend which can be found at this [repository](https://github.com/jparraporcar/crypto-dashboard-backend). Please setup the backend following the instructions provided in the backend repository README.
+- Backend setup: This frontend relies on a backend which can be found at this [repository](https://github.com/jparraporcar/crypto-dashboard-backend). Please setup the backend following the instructions provided in the backend repository README.
+- Environment Variables: After deploying the backend, you'll receive 4 endpoints. Declare these as strings in a `env.ts` file within the `/src` folder as follows:
 
-The 4 endpoints received from the backend deployment must be declared as a strings in a env.ts file within the /src folder as follows:
-
-```
-export const loginApi='xxx'
-export const registerApi='xxx'
-export const priceVolumeDataApi='xxx'
-export const priceVolumeDataWindowApi='xxx'
+```typescript
+export const loginApi = 'xxx'
+export const registerApi = 'xxx'
+export const priceVolumeDataApi = 'xxx'
+export const priceVolumeDataWindowApi = 'xxx'
 ```
 
 Once the prerequisites are met, you can install this project by following these steps:
@@ -80,13 +79,8 @@ This project uses GitHub Actions for its CD pipeline. The actions are triggered 
 
 4. **Deploy:** Finally, it deploys the application on AWS using Serverless Framework. It installs the `serverless-finch` plugin and deploys the frontend without asking for confirmation. The AWS credentials are provided as secrets.
 
+5. **Website:** Navigate in the "Static website hosting" within the AWS S3 section and find the link to the deployed website
 
-## Run the Project
-
-Now you can run the project in your local development environment or alternatively, 
-
-```
-npm start
 ```
 
 Open to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
