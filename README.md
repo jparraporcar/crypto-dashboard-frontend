@@ -5,8 +5,8 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 ## Table of Contents
 
 - [Installation](#installation)
-- [Development & Local Testing](#development--local-testing)
-- [Frontend Deployment](#frontend-deployment)
+- [Development](#development)
+- [Deployment](#deployment)
 - [Features](#features)
 - [Usage](#usage)
 - [Technologies](#technologies)
@@ -18,20 +18,27 @@ Before you start, please make sure you have the following prerequisites:
 
 - Node.js and npm installed on your local development machine.
 - AWS account with the necessary permissions.
+- Github CLI.
 
 ## Clone the Repository
 
 First, clone the repository to your local machine:
 
-```bash
+```
 git clone https://github.com/jparraporcar/crypto-dashboard.git
+```
+
+Then create a new branch (this step is mandatory if you want to work locally since any push to the main branch will triggered the github action for deployment.
+
+```
+gh repo checkout -b new-branch-name
 ```
 
 ## Install Dependencies
 
 Navigate to your cloned project's directory:
 
-```bash
+```
 cd crypto-dashboard
 ```
 
@@ -41,11 +48,12 @@ Then, install the project dependencies using npm:
 npm install
 ```
 
-## Development & Local Testing
+## Development
 
-For the development stage, you don't need to deploy the application in this repo in AWS for testing. You can run the project in your local machine by executing `npm start` and navigating to [http://localhost:3000](http://localhost:3000). However, bear in mind that once you push the content to your main branch the deployment will be triggered
+For the development stage, you don't need to deploy the application in this repo in AWS for testing. You can run the project in your local machine by executing `npm start` and navigating to [http://localhost:3000](http://localhost:3000).
+However you will still need the endpoints coming from the backend deployment as explained in the next section in points 1 and 2.
 
-## Frontend Deployment
+## Deployment
 
 This project uses a Continuous Deployment (CD) pipeline with AWS. In order to ensure that the frontend is deployed correctly on AWS, you need to follow these steps:
 
