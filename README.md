@@ -24,7 +24,7 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 
 4. **Statistical Indicators**: Once the tokens have been chosen, users are guided to a screen where they can choose various statistical indicators, including:
 
-- **Multiple of Price**:
+- **Moving Multiple of Price**:
     <br />
     <br />
     <figure>
@@ -32,58 +32,69 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
     </figure>
     <br />
     <br />
-where,
-M(t) : Multiple of price at time t
-P(t) : Price at time t
-P(0) : Price at the initial time
-
-- **Multiple of Volume**:
+    <figure>
+        <img style="width:150%; height:auto;" src="./screenshots/moving-multiple-of-price-explanation.jpg" alt="Moving Multiple of price explanation">
+    </figure> 
+    <br />
+- **Moving Multiple of Volume**:
     <br />
     <br />
     <figure>
-        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume.jpg" alt="Multiple of Volume">
+        <img style="width:50%; height:auto;" src="./screenshots/moving-multiple-of-volume.jpg" alt="Moving Multiple of Volume">
     </figure>
     <br />
     <br />
-
-- **Multiple of Price Average**:
+    <figure>
+        <img style="width:150%; height:auto;" src="./screenshots/moving-multiple-of-volume-explanation.jpg" alt="Moving Multiple of volume explanation">
+    </figure> 
+    <br />
+- **Moving Average Multiple of Price**:
     <br />
     <br />
     <figure>
-        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-avg.jpg" alt="Multiple of Price Average">
+        <img style="width:50%; height:auto;" src="./screenshots/moving-multiple-of-price-avg.jpg" alt="Moving Multiple of Price Average">
     </figure>
     <br />
     <br />
-
-- **Multiple of Volume Average**:
-    <br />
-    <br />
     <figure>
-        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-avg.jpg" alt="Multiple of Volume Average">
-    </figure>
-    <br />
-    <br />
-
-- **Accumulated Rate of Change of Multiple Price**:
-    <br />
-    <br />
-    <figure>
-        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-price-arc.jpg" alt="Accumulated Rate of Change of Multiple Price">
-    </figure>
-    <figure>
-        <img style="width:125%; height:auto;" src="./screenshots/multiple-of-price-arc-explanation.jpg" alt="Accumulated Rate of Change of Multiple of Price explanation">
+        <img style="width:150%; height:auto;" src="./screenshots/moving-multiple-of-price-avg-explanation.jpg" alt="Moving Multiple of Price Average explanation">
     </figure> 
     <br />
 
-- **Accumulated Rate of Change of Multiple Volume**:
+- **Moving Average Multiple of Volume**:
     <br />
     <br />
     <figure>
-        <img style="width:50%; height:auto;" src="./screenshots/multiple-of-volume-arc.jpg" alt="Accumulated Rate of Change of Multiple Volume">
+        <img style="width:50%; height:auto;" src="./screenshots/moving-multiple-of-volume-avg.jpg" alt="Moving Multiple of Volume Average">
+    </figure>
+    <br />
+    <br />
+    <figure>
+        <img style="width:150%; height:auto;" src="./screenshots/moving-multiple-of-volume-avg-explanation.jpg" alt="Moving Multiple of Volume Average explanation">
+    </figure> 
+    <br />
+    
+
+- **Moving Accumulated Rate of Change of Multiple Price**:
+    <br />
+    <br />
+    <figure>
+        <img style="width:50%; height:auto;" src="./screenshots/moving-multiple-of-price-arc.jpg" alt="Moving Accumulated Rate of Change of Multiple Price">
+    </figure>
+    <figure>
+        <img style="width:150%; height:auto;" src="./screenshots/moving-multiple-of-price-arc-explanation.jpg" alt="Accumulated Rate of Change of Multiple of Price explanation">
+    </figure> 
+    <br />
+
+- **Moving Accumulated Rate of Change of Multiple Volume**:
+    <br />
+    <br />
+    <figure>
+        <img style="width:50%; height:auto;" src="./screenshots/moving-multiple-of-volume-arc.jpg" alt="Moving Accumulated Rate of Change of Multiple Volume">
     </figure>
     <br />
     <figure>
-        <img style="width:125%; height:auto;" src="./screenshots/multiple-of-volume-arc-explanation.jpg" alt="Accumulated Rate of Change of Multiple Volume explanation">
+        <img style="width:150%; height:auto;" src="./screenshots/moving-multiple-of-volume-arc-explanation.jpg" alt="Moving Accumulated Rate of Change of Multiple Volume explanation">
     </figure> 
     <br />
 ## Usage
