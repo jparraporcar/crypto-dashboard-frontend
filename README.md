@@ -12,7 +12,46 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 - [Technologies](#technologies)
 - [Contact](#contact)
 
-## Installation
+# Installation
+
+Before you start, please make sure you have the following prerequisites:
+
+- Node.js and npm installed on your local development machine.
+- Backend setup. This frontend relies on a backend which can be found at this [repository](https://github.com/jparraporcar/crypto-dashboard-backend). Please setup the backend following the instructions provided in the backend repository README.
+
+Once the prerequisites are met, you can install this project by following these steps:
+
+## Clone the Repository
+
+First, clone the repository to your local machine:
+
+```bash
+git clone https://github.com/jparraporcar/crypto-dashboard.git
+```
+
+## Install Dependencies
+
+Navigate to your cloned project's directory:
+
+```bash
+cd crypto-dashboard
+```
+
+Then, install the project dependencies using npm:
+
+```
+npm install
+```
+
+## Run the Project
+
+Now you can run the project in your local development environment:
+
+```
+npm start
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
 ## Features
 
