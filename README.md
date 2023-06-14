@@ -7,6 +7,7 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 ## Table of Contents
 
 - [Installation](#installation)
+- [Continuous Deployment & Project Setup](#cd-and-setup)
 - [Features](#features)
 - [Usage](#usage)
 - [Technologies](#technologies)
@@ -51,6 +52,25 @@ Then, install the project dependencies using npm:
 ```
 npm install
 ```
+## Continuous Deployment & Project Setup
+
+This project uses a Continuous Deployment (CD) pipeline with AWS. In order to ensure that the frontend is deployed correctly on AWS, you need to follow these steps:
+
+1. **Backend Deployment:** First, the backend must be deployed. You can find the backend repo at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). Follow the instructions there to deploy it correctly.
+
+2. **Defining Endpoints:** Once the backend is deployed, you need to define the endpoints in the `env.ts` file located in the `/src` directory of this repo (`crypto-dashboard-frontend`).
+
+3. **AWS Secrets Configuration:** You need to set the appropriate AWS secrets in your GitHub repository. These secrets should include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` which correspond to your AWS account.
+
+This project uses GitHub Actions for its CD pipeline. The actions are triggered on each push to the main branch. The workflow is defined in the `.github/workflows/main.yml` file and consists of the following steps:
+
+1. **Setup:** It sets up a job that runs on the latest Ubuntu version and uses Node.js version 16.x.
+
+2. **Install Dependencies:** It installs all the dependencies using `npm ci`.
+
+3. **Build:** It creates a production build of the app using `npm run build`.
+
+4. **Deploy:** Finally, it deploys the application on AWS using Serverless Framework. It installs the `serverless-finch` plugin and deploys the frontend without asking for confirmation. The AWS credentials are provided as secrets.
 
 ## Run the Project
 
