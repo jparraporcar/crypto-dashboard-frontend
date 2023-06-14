@@ -19,6 +19,15 @@ Before you start, please make sure you have the following prerequisites:
 - Node.js and npm installed on your local development machine.
 - Backend setup. This frontend relies on a backend which can be found at this [repository](https://github.com/jparraporcar/crypto-dashboard-backend). Please setup the backend following the instructions provided in the backend repository README.
 
+The 4 endpoints received from the backend deployment must be declared as a strings in a env.ts file within the /src folder as follows:
+
+```
+export const loginApi='xxx'
+export const registerApi='xxx'
+export const priceVolumeDataApi='xxx'
+export const priceVolumeDataWindowApi='xxx'
+```
+
 Once the prerequisites are met, you can install this project by following these steps:
 
 ## Clone the Repository
