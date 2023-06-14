@@ -1,5 +1,3 @@
-# crypto-dashboard
-
 ## Description
 
 CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. Users can select any tradable tokens listed on Binance and various statistical indicators to analyze.
@@ -16,20 +14,10 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 
 # Installation
 
-### Prerequisites
+Before you start, please make sure you have the following prerequisites:
 
 - Node.js and npm installed on your local development machine.
-- Backend setup: This frontend relies on a backend which can be found at this [repository](https://github.com/jparraporcar/crypto-dashboard-backend). Please setup the backend following the instructions provided in the backend repository README.
-- Environment Variables: After deploying the backend, you'll receive 4 endpoints. Declare these as strings in a `env.ts` file within the `/src` folder as follows:
-
-```typescript
-export const loginApi = 'xxx'
-export const registerApi = 'xxx'
-export const priceVolumeDataApi = 'xxx'
-export const priceVolumeDataWindowApi = 'xxx'
-```
-
-Once the prerequisites are met, you can install this project by following these steps:
+- AWS account with the necessary permissions.
 
 ## Clone the Repository
 
@@ -67,6 +55,15 @@ This project uses a Continuous Deployment (CD) pipeline with AWS. In order to en
 
 2. **Defining Endpoints:** Once the backend is deployed, you need to define the endpoints in the `env.ts` file located in the `/src` directory of this repo (`crypto-dashboard-frontend`).
 
+The 4 endpoints received from the backend deployment must be declared as a strings as follows:
+
+```
+export const loginApi='xxx'
+export const registerApi='xxx'
+export const priceVolumeDataApi='xxx'
+export const priceVolumeDataWindowApi='xxx'
+```
+
 3. **AWS Secrets Configuration:** You need to set the appropriate AWS secrets in your GitHub repository. These secrets should include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` which correspond to your AWS account.
 
 This project uses GitHub Actions for its CD pipeline. The actions are triggered on each push to the main branch. The workflow is defined in the `.github/workflows/main.yml` file and consists of the following steps:
@@ -80,10 +77,6 @@ This project uses GitHub Actions for its CD pipeline. The actions are triggered 
 4. **Deploy:** Finally, it deploys the application on AWS using Serverless Framework. It installs the `serverless-finch` plugin and deploys the frontend without asking for confirmation. The AWS credentials are provided as secrets.
 
 5. **Website:** Navigate in the "Static website hosting" within the AWS S3 section and find the link to the deployed website
-
-```
-
-Open to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
 ## Features
 
