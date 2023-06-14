@@ -7,7 +7,8 @@ CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. U
 ## Table of Contents
 
 - [Installation](#installation)
-- [Continuous Deployment & Project Setup](#continuous-deployment--project-setup)
+- [Development & Local Testing](#development--local-testing)
+- [Frontend Deployment](#frontend-deployment)
 - [Features](#features)
 - [Usage](#usage)
 - [Technologies](#technologies)
@@ -52,7 +53,16 @@ Then, install the project dependencies using npm:
 ```
 npm install
 ```
-## Continuous Deployment & Project Setup
+
+## Development & Local Testing
+
+For the development stage, you don't need to deploy the application in this repo in AWS for testing. You can run the project in your local machine by executing ```npm start``` and navigating to [http://localhost:3000](http://localhost:3000).  
+
+However the backend serverless infrastruture must be deployed in order to create the necessary resources in AWS. Eventhough it is posible to create local api endpoints by using the `serverless-offline`, it would be also necessary to deploy a local
+
+version of the DynamoDB database for some endpoints and this is out of the scope of this project. More info about infrastructure in the backend repo: [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend).
+
+## Frontend Deployment
 
 This project uses a Continuous Deployment (CD) pipeline with AWS. In order to ensure that the frontend is deployed correctly on AWS, you need to follow these steps:
 
@@ -72,15 +82,16 @@ This project uses GitHub Actions for its CD pipeline. The actions are triggered 
 
 4. **Deploy:** Finally, it deploys the application on AWS using Serverless Framework. It installs the `serverless-finch` plugin and deploys the frontend without asking for confirmation. The AWS credentials are provided as secrets.
 
+
 ## Run the Project
 
-Now you can run the project in your local development environment:
+Now you can run the project in your local development environment or alternatively, 
 
 ```
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
+Open to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
 ## Features
 
