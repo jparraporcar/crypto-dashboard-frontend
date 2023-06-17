@@ -68,7 +68,7 @@ export const loginApi='xxx'
 export const registerApi='xxx'
 export const priceVolumeDataApi='xxx'
 export const priceVolumeDataWindowApi='xxx'
-export const allSpotTickerNames='''xxx
+export const allSpotTickerNames='xxx'
 ```
 
 3. **AWS Secrets Configuration:** You need to set the appropriate AWS secrets in your GitHub repository. These secrets should include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` which correspond to your AWS account.
