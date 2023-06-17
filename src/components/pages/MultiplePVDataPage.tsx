@@ -83,23 +83,12 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         const fetchData = async () => {
-            // DEVELOPMENT REMOTE
             const dataInst = await fetch(
                 `${priceVolumeDataApi}?interval=${
                     settingsState.interval
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
-            // DEVELOPMENT REMOTE
 
-            // DEVELOPMENT LOCAL
-            // const dataInst = await fetch(
-            //     `http://localhost:4000/dev/priceVolumeData?interval=${
-            //         settingsState.interval
-            //     }&symbols=${localStorage.getItem('pairsListSelected')}`
-            // )
-            // DEVELOPMENT LOCAL
-
-            // DEVELOPMENT REMOTE
             const dataWindow = await fetch(
                 `${priceVolumeDataWindowApi}?interval=${
                     settingsState.interval
@@ -107,17 +96,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                     settingsState.windowLength
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
-            // DEVELOPMENT REMOTE
-
-            // DEVELOPMENT LOCAL
-            // const dataWindow = await fetch(
-            //     `http://localhost:4000/dev/priceVolumeDataWindow?interval=${
-            //         settingsState.interval
-            //     }&windowLength=${
-            //         settingsState.windowLength
-            //     }&symbols=${localStorage.getItem('pairsListSelected')}`
-            // )
-            // DEVELOPMENT LOCAL
 
             const dataParsedWindow =
                 (await dataWindow.json()) as TNamedCandlesT[]
@@ -131,7 +109,6 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
         }
 
         try {
-            // execute fetchData functions without delay first time
             fetchData()
             const intervalMilliseconds =
                 Number(settingsState.interval.replace('m', '')) * 60 * 1000
