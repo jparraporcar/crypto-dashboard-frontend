@@ -59,7 +59,7 @@ This project uses a Continuous Deployment (CD) pipeline with AWS. In order to en
 
 1. **Backend setup:** First. You can find the backend repo at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). Follow the instructions there to deploy it correctly.
 
-2. **Defining Endpoints:** Once the backend is deployed, you need to define the endpoints in the `env.ts` file located in the `/src` directory of this repo (`crypto-dashboard-frontend`).
+2. **Defining Endpoints:** Once the backend is deployed, you need to define the endpoints in the `env.ts` that you will create in the `/src` directory of this repo (`crypto-dashboard-frontend`).
 
 The 5 endpoints received from the backend deployment must be declared as a strings as follows:
 
