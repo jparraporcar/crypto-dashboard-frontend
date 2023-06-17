@@ -1,6 +1,6 @@
 ## Description
 
-CryptoDash is a tool for monitoring cryptocurrency price movements on Binance. Users can select any tradable tokens listed on Binance and various statistical indicators to analyze.
+crypto-dashboard-frontend is a tool for monitoring cryptocurrency price movements on Binance. Users can select any tradable tokens listed on Binance and various statistical indicators to analyze.
 
 ## Table of Contents
 
@@ -25,10 +25,10 @@ Before you start, please make sure you have the following prerequisites:
 First, clone the repository to your local machine:
 
 ```
-git clone https://github.com/jparraporcar/crypto-dashboard.git
+git clone https://github.com/jparraporcar/crypto-dashboard-frontend.git
 ```
 
-Then create a new branch (this step is mandatory if you want to work locally since any push to the main branch will triggered the github action for deployment.
+Then create a new branch (this step is mandatory if you want to work in development since any push to the main branch will trigger the github action for deployment.
 
 ```
 gh repo checkout -b new-branch-name
@@ -39,7 +39,7 @@ gh repo checkout -b new-branch-name
 Navigate to your cloned project's directory:
 
 ```
-cd crypto-dashboard
+cd crypto-dashboard-frontend
 ```
 
 Then, install the project dependencies using npm:
@@ -57,17 +57,18 @@ However you will still need the endpoints coming from the backend deployment as 
 
 This project uses a Continuous Deployment (CD) pipeline with AWS. In order to ensure that the frontend is deployed correctly on AWS, you need to follow these steps:
 
-1. **Backend Deployment:** First, the backend must be deployed. You can find the backend repo at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). Follow the instructions there to deploy it correctly.
+1. **Backend setup:** First. You can find the backend repo at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). Follow the instructions there to deploy it correctly.
 
 2. **Defining Endpoints:** Once the backend is deployed, you need to define the endpoints in the `env.ts` file located in the `/src` directory of this repo (`crypto-dashboard-frontend`).
 
-The 4 endpoints received from the backend deployment must be declared as a strings as follows:
+The 5 endpoints received from the backend deployment must be declared as a strings as follows:
 
 ```
 export const loginApi='xxx'
 export const registerApi='xxx'
 export const priceVolumeDataApi='xxx'
 export const priceVolumeDataWindowApi='xxx'
+export const allSpotTickerNames='''xxx
 ```
 
 3. **AWS Secrets Configuration:** You need to set the appropriate AWS secrets in your GitHub repository. These secrets should include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` which correspond to your AWS account.
