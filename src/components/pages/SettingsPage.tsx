@@ -26,7 +26,6 @@ import { NavBar } from '../common/NavBar/NavBar'
 import { SearchBar } from '../common/SearchBar/SearchBar'
 import { MenuGeneric } from '../common/MenuGeneric/MenuGeneric'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { env } from '../../env'
 export const SettingsPage: React.FC = (): JSX.Element => {
     const [windowLengthError, setWindowLengthError] = useState<
         | {

@@ -18,7 +18,7 @@ import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
 import { useAppSelector } from '../../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
-import { env } from '../../../env'
+
 const loginSchema = z.object({
     userName: z
         .string()

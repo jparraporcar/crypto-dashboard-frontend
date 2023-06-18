@@ -20,7 +20,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { setIsLoading } from '../../app/slices/layoutSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ChartCustomScrollHelper } from '../common/ChartCustomScrollHelper/ChartCustomScrollHelper'
-import { env } from '../../env'
+
 export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [candlesData, setcandlesData] = useState<TNamedCandles[]>([])
     const timerRef = useRef<NodeJS.Timer>()
