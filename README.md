@@ -51,12 +51,22 @@ The project dependencies are installed using npm:
 npm install
 ```
 
-## Development (This section definition is ongoing...)
+## Development
 
 A new branch is created (this step is mandatory for development work as any push to the main branch will trigger the GitHub action for deployment).
 
 ```
 gh repo checkout -b new-branch-name
+```
+
+A .env.development file is created in the root directory and the endpoints coming from the backend deployment are defined within as below:
+
+```
+    REACT_APP_LOGIN_API = https://.../apiResourceName
+    REACT_APP_REGISTER_API = https://.../apiResourceName
+    REACT_APP_PRICE_VOLUME_DATA_API = https://.../apiResourceName
+    REACT_APP_PRICE_VOLUME_DATA_WINDOW_API = https://.../apiResourceName
+    REACT_APP_ALL_SPOT_TICKER_NAMES = https://.../apiResourceName
 ```
 
 ## Deployment
@@ -74,7 +84,6 @@ This project employs a Continuous Deployment (CD) pipeline with AWS. The followi
     REACT_APP_PRICE_VOLUME_DATA_WINDOW_API
     REACT_APP_ALL_SPOT_TICKER_NAMES
 ```
-
 
 3. **AWS credentials: secrets Configuration:** The appropriate AWS secrets are set in the GitHub repository. These secrets include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` corresponding to the AWS account.
 
