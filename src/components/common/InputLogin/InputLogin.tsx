@@ -18,8 +18,7 @@ import { setSnackbarCustom } from '../../../app/slices/layoutSlice'
 import { useAppSelector } from '../../../app/hooks'
 import { useNavigate } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
-import { loginApi } from '../../../env'
-
+import { env } from '../../../env'
 const loginSchema = z.object({
     userName: z
         .string()
@@ -66,7 +65,7 @@ export const InputLogin: React.FC = (): JSX.Element => {
         if (Object.keys(errors).length === 0) {
             try {
                 const loginResponse = (await axios.post(
-                    `${loginApi}`,
+                    `${env.LOGIN_API}`,
                     data
                 )) as any
                 if (loginResponse.data.message === 'USER_LOGGEDIN') {

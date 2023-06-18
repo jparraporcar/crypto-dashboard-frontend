@@ -26,8 +26,7 @@ import { NavBar } from '../common/NavBar/NavBar'
 import { SearchBar } from '../common/SearchBar/SearchBar'
 import { MenuGeneric } from '../common/MenuGeneric/MenuGeneric'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { allSpotTickerNames } from '../../env'
-
+import { env } from '../../env'
 export const SettingsPage: React.FC = (): JSX.Element => {
     const [windowLengthError, setWindowLengthError] = useState<
         | {
@@ -320,7 +319,7 @@ export const settingsLoader = async () => {
             return dataLocalResponse
         } else {
             const response = await axios.get(
-                    `${allSpotTickerNames}?stableCoinName=USDT`
+                    `${env.ALL_SPOT_TICKER_NAMES}?stableCoinName=USDT`
                 )
             localStorage.setItem(
                 'allSpotTickerNames',

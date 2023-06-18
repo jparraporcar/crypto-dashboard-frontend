@@ -20,8 +20,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { setIsLoading } from '../../app/slices/layoutSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ChartCustomScrollHelper } from '../common/ChartCustomScrollHelper/ChartCustomScrollHelper'
-import { priceVolumeDataApi, priceVolumeDataWindowApi } from '../../env'
-
+import { env } from '../../env'
 export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     const [candlesData, setcandlesData] = useState<TNamedCandles[]>([])
     const timerRef = useRef<NodeJS.Timer>()
@@ -84,13 +83,13 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     useEffect(() => {
         const fetchData = async () => {
             const dataInst = await fetch(
-                `${priceVolumeDataApi}?interval=${
+                `${env.PRICE_VOLUME_DATA_API}?interval=${
                     settingsState.interval
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
 
             const dataWindow = await fetch(
-                `${priceVolumeDataWindowApi}?interval=${
+                `${env.PRICE_VOLUME_DATA_WINDOW_API}?interval=${
                     settingsState.interval
                 }&windowLength=${
                     settingsState.windowLength
