@@ -20,12 +20,12 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - run: npm ci
             - run: npm run build
-                  env: 
-                    LOGIN_API: ${{ secrets.LOGIN_API }}
-                    REGISTER_API: ${{ secrets.REGISTER_API }}
-                    PRICE_VOLUME_DATA_API: ${{ secrets.PRICE_VOLUME_DATA_API }}
-                    PRICE_VOLUME_DATA_WINDOW_API: ${{ secrets.PRICE_VOLUME_DATA_WINDOW_API }}
-                    ALL_SPOT_TICKER_NAMES: ${{ secrets.ALL_SPOT_TICKER_NAMES }}
+              env: 
+                LOGIN_API: ${{ secrets.LOGIN_API }}
+                REGISTER_API: ${{ secrets.REGISTER_API }}
+                PRICE_VOLUME_DATA_API: ${{ secrets.PRICE_VOLUME_DATA_API }}
+                PRICE_VOLUME_DATA_WINDOW_API: ${{ secrets.PRICE_VOLUME_DATA_WINDOW_API }}
+                ALL_SPOT_TICKER_NAMES: ${{ secrets.ALL_SPOT_TICKER_NAMES }}
             - name: Install Plugin and Deploy
               uses: serverless/github-action@v3.1
               with:
