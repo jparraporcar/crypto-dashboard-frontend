@@ -8,7 +8,7 @@ This repository and its contents, including installation and deployment instruct
 
 ## Description
 
-crypto-dashboard-frontend is a tool for monitoring cryptocurrency price movements on Binance. Users can select any tradable tokens listed on Binance and various statistical indicators to analyze.
+crypto-dashboard-frontend operates as a tool for monitoring cryptocurrency price movements on Binance. It enables selection of any tradable tokens listed on Binance, with a wide range of statistical indicators available for analysis.
 
 ## Table of Contents
 
@@ -20,23 +20,23 @@ crypto-dashboard-frontend is a tool for monitoring cryptocurrency price movement
 - [Technologies](#technologies)
 - [Contact](#contact)
 
-# Installation
+## Installation
 
-Before you start, please make sure you have the following prerequisites:
+Ensure the following prerequisites are met before proceeding:
 
-- Node.js and npm installed on your local development machine.
-- AWS account with the necessary permissions.
-- Github CLI.
+- Node.js and npm are installed on the local development machine.
+- An AWS account with the necessary permissions is available.
+- Github CLI is installed.
 
-## Clone the Repository
+### Clone the Repository
 
-First, clone the repository to your local machine:
+The repository should be cloned to the local machine:
 
 ```
 git clone https://github.com/jparraporcar/crypto-dashboard-frontend.git
 ```
 
-Then create a new branch (this step is mandatory if you want to work in development since any push to the main branch will trigger the github action for deployment.
+A new branch should then be created (this step is mandatory for development work as any push to the main branch will trigger the GitHub action for deployment).
 
 ```
 gh repo checkout -b new-branch-name
@@ -44,32 +44,27 @@ gh repo checkout -b new-branch-name
 
 ## Install Dependencies
 
-Navigate to your cloned project's directory:
+After navigating to the cloned project's directory:
 
 ```
 cd crypto-dashboard-frontend
 ```
 
-Then, install the project dependencies using npm:
+The project dependencies should be installed using npm:
 
 ```
 npm install
 ```
 
-## Development
-
-For the development stage, you don't need to deploy the application in this repo in AWS for testing. You can run the project in your local machine by executing `npm start` and navigating to [http://localhost:3000](http://localhost:3000).
-However you will still need the endpoints coming from the backend deployment as explained in the next section in points 1 and 2.
-
 ## Deployment
 
-This project uses a Continuous Deployment (CD) pipeline with AWS. In order to ensure that the frontend is deployed correctly on AWS, you need to follow these steps:
+This project employs a Continuous Deployment (CD) pipeline with AWS. The following steps are required to ensure the frontend is correctly deployed on AWS:
 
-1. **Backend setup:** First. You can find the backend repo at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). Follow the instructions there to deploy it correctly.
+1. **Backend setup:** Firstly, the backend repository can be found at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). The instructions there should be followed to deploy it correctly.
 
-2. **Defining Endpoints:** Once the backend is deployed, you need to define the endpoints in the `env.ts` that you will create in the `/src` directory of this repo (`crypto-dashboard-frontend`).
+2. **Defining Endpoints:** Once the backend has been deployed, the endpoints need to be defined in a `.ts` file which should be created in the `/src` directory of this repository (`crypto-dashboard-frontend`).
 
-The 5 endpoints received from the backend deployment must be declared as a strings as follows:
+The 5 endpoints resulting from the backend deployment need to be declared as strings in the following way:
 
 ```
 export const loginApi='xxx'
@@ -79,29 +74,30 @@ export const priceVolumeDataWindowApi='xxx'
 export const allSpotTickerNames='xxx'
 ```
 
-3. **AWS Secrets Configuration:** You need to set the appropriate AWS secrets in your GitHub repository. These secrets should include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` which correspond to your AWS account.
+3. **AWS Secrets Configuration:** It is necessary to set the appropriate AWS secrets in the GitHub repository. These secrets should include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` corresponding to the AWS account.
 
-This project uses GitHub Actions for its CD pipeline. The actions are triggered on each push to the main branch. The workflow is defined in the `.github/workflows/main.yml` file and consists of the following steps:
+This project employs GitHub Actions for its CD pipeline. The actions are triggered with each push to the main branch. The workflow, defined in the `.github/workflows/main.yml` file, consists of the following steps:
 
-1. **Setup:** It sets up a job that runs on the latest Ubuntu version and uses Node.js version 16.x.
+1. **Setup:** A job is established to run on the latest Ubuntu version, utilizing Node.js version 16.x.
 
-2. **Install Dependencies:** It installs all the dependencies using `npm ci`.
+2. **Install Dependencies:** All dependencies are installed using `npm ci`.
 
-3. **Build:** It creates a production build of the app using `npm run build`.
+3. **Build:** A production build of the application is generated using `npm run build`.
 
-4. **Deploy:** Finally, it deploys the application on AWS using Serverless Framework. It installs the `serverless-finch` plugin and deploys the frontend without asking for confirmation. The AWS credentials are provided as secrets.
+4. **Deploy:** The application is subsequently deployed on AWS via the Serverless Framework. The `serverless-finch` plugin is installed and the frontend is deployed without the need for confirmation. AWS credentials are supplied as secrets.
 
-5. **Website:** Navigate in the "Static website hosting" within the AWS S3 section and find the link to the deployed website
+5. **Website:** In the "Static website hosting" section within AWS S3, the link to the deployed website can be located.
 
 ## Features
 
-1. **Token Selection**: Upon signing up and logging in, users are provided with a list of all tokens that can be traded on Binance.
+1. **Token Selection**: Upon completion of signup and login, users are presented with a list of all tokens that are tradable on Binance.
 
-2. **Timeframe Selection**: Users can select their preferred timeframe to analyze the token's performance.
+2. **Timeframe Selection**: A preferred timeframe for token performance analysis can be selected by the user.
 
-3. **Window Length for Statistical Indicators**: Users can select the window length for which they want the statistical indicators to be calculated.
+3. **Window Length for Statistical Indicators**: The window length for the calculation of statistical indicators can be selected by the user.
 
-4. **Statistical Indicators**: Once the tokens have been chosen, users are guided to a screen where they can choose various statistical indicators, including:
+4. **Statistical Indicators**: Upon selection of the tokens, users are directed to a screen where various statistical indicators can be chosen, including:
+
 
 - **Moving Multiple of Price**:
     <br />
