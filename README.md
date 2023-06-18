@@ -8,7 +8,7 @@ This repository and its contents, including installation and deployment instruct
 
 ## Description
 
-crypto-dashboard-frontend operates as a tool for monitoring cryptocurrency price movements on Binance. It enables selection of any tradable tokens listed on Binance, with a wide range of statistical indicators available for analysis.
+crypto-dashboard-frontend operates as a tool for monitoring cryptocurrency price movements on Binance. It enables selection of any tradable tokens listed on Binance, with 6 statistical indicators available for analysis.
 
 ## Table of Contents
 
@@ -22,7 +22,7 @@ crypto-dashboard-frontend operates as a tool for monitoring cryptocurrency price
 
 ## Installation
 
-Ensure the following prerequisites are met before proceeding:
+The following prerequisites are required:
 
 - Node.js and npm are installed on the local development machine.
 - An AWS account with the necessary permissions is available.
@@ -30,17 +30,12 @@ Ensure the following prerequisites are met before proceeding:
 
 ### Clone the Repository
 
-The repository should be cloned to the local machine:
+The repository is cloned to the local machine:
 
 ```
 git clone https://github.com/jparraporcar/crypto-dashboard-frontend.git
 ```
 
-A new branch should then be created (this step is mandatory for development work as any push to the main branch will trigger the GitHub action for deployment).
-
-```
-gh repo checkout -b new-branch-name
-```
 
 ## Install Dependencies
 
@@ -50,53 +45,61 @@ After navigating to the cloned project's directory:
 cd crypto-dashboard-frontend
 ```
 
-The project dependencies should be installed using npm:
+The project dependencies are installed using npm:
 
 ```
 npm install
 ```
 
+## Development (This section definition is ongoing...)
+
+A new branch is created (this step is mandatory for development work as any push to the main branch will trigger the GitHub action for deployment).
+
+```
+gh repo checkout -b new-branch-name
+```
+
 ## Deployment
 
-This project employs a Continuous Deployment (CD) pipeline with AWS. The following steps are required to ensure the frontend is correctly deployed on AWS:
+This project employs a Continuous Deployment (CD) pipeline with AWS. The following steps ensure the frontend is correctly deployed on AWS:
 
-1. **Backend setup:** Firstly, the backend repository can be found at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). The instructions there should be followed to deploy it correctly.
+1. **Backend setup:** The backend repository is located at [https://github.com/jparraporcar/crypto-dashboard-backend](https://github.com/jparraporcar/crypto-dashboard-backend). The instructions there are followed for successful deployment.
 
-2. **Defining Endpoints:** Once the backend has been deployed, the endpoints need to be defined in a `.ts` file which should be created in the `/src` directory of this repository (`crypto-dashboard-frontend`).
-
-The 5 endpoints resulting from the backend deployment need to be declared as strings in the following way:
+2. **Defining Endpoints:** Following backend deployment, the endpoints are included in the repository as secrets. Five secrets are defined using the names below:
 
 ```
-export const loginApi='xxx'
-export const registerApi='xxx'
-export const priceVolumeDataApi='xxx'
-export const priceVolumeDataWindowApi='xxx'
-export const allSpotTickerNames='xxx'
+    REACT_APP_LOGIN_API
+    REACT_APP_REGISTER_API
+    REACT_APP_PRICE_VOLUME_DATA_API
+    REACT_APP_PRICE_VOLUME_DATA_WINDOW_API
+    REACT_APP_ALL_SPOT_TICKER_NAMES
 ```
 
-3. **AWS Secrets Configuration:** It is necessary to set the appropriate AWS secrets in the GitHub repository. These secrets should include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` corresponding to the AWS account.
 
-This project employs GitHub Actions for its CD pipeline. The actions are triggered with each push to the main branch. The workflow, defined in the `.github/workflows/main.yml` file, consists of the following steps:
+3. **AWS credentials: secrets Configuration:** The appropriate AWS secrets are set in the GitHub repository. These secrets include `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` corresponding to the AWS account.
 
-1. **Setup:** A job is established to run on the latest Ubuntu version, utilizing Node.js version 16.x.
+This project employs GitHub Actions for its CD pipeline. Actions are triggered with each push to the main branch. The workflow is defined in the `.github/workflows/main.yml` file and consists of the following steps:
 
-2. **Install Dependencies:** All dependencies are installed using `npm ci`.
+1. **Setup:** A job runs on the latest Ubuntu version, using Node.js version 16.x.
+
+2. **Install Dependencies:** Dependencies are installed using `npm ci`.
 
 3. **Build:** A production build of the application is generated using `npm run build`.
 
-4. **Deploy:** The application is subsequently deployed on AWS via the Serverless Framework. The `serverless-finch` plugin is installed and the frontend is deployed without the need for confirmation. AWS credentials are supplied as secrets.
+4. **Deploy:** The application is deployed on AWS via the Serverless Framework. The `serverless-finch` plugin is installed and the frontend is deployed without confirmation. AWS credentials are provided as secrets.
 
-5. **Website:** In the "Static website hosting" section within AWS S3, the link to the deployed website can be located.
+5. **Website:** The link to the deployed website is found in the "Static website hosting" section within AWS S3.
 
 ## Features
 
-1. **Token Selection**: Upon completion of signup and login, users are presented with a list of all tokens that are tradable on Binance.
+1. **Token Selection**: Upon signup and login, a list of all tokens that are tradable on Binance is provided.
 
-2. **Timeframe Selection**: A preferred timeframe for token performance analysis can be selected by the user.
+2. **Timeframe Selection**: A preferred timeframe for token performance analysis can be selected.
 
-3. **Window Length for Statistical Indicators**: The window length for the calculation of statistical indicators can be selected by the user.
+3. **Window Length for Statistical Indicators**: The window length for the calculation of statistical indicators can be chosen.
 
-4. **Statistical Indicators**: Upon selection of the tokens, users are directed to a screen where various statistical indicators can be chosen, including:
+4. **Statistical Indicators**: Once tokens are selected, the screen guides to a selection of various statistical indicators, including:
+
 
 
 - **Moving Multiple of Price**:
@@ -179,7 +182,7 @@ This project employs GitHub Actions for its CD pipeline. The actions are trigger
 
 ### Technologies
 
-The CryptoDash application leverages several libraries and frameworks to build an effective, dynamic, and interactive user interface. Below are the main technologies used:
+The crypto-dashboard-frontend application leverages several libraries and frameworks to build an effective, dynamic, and interactive user interface. Below are the main technologies used:
 
 - **ReactJS**: A JavaScript library for building user interfaces. React allows developers to create large web applications that can change data, without reloading the page.
 
@@ -195,8 +198,6 @@ The CryptoDash application leverages several libraries and frameworks to build a
 
 - **React Hook Form**: A performant, flexible and extensible forms library with easy-to-use validation.
 
-- **React-Router-Dom**: A dynamic, client-side routing library for React, allowing the application to maintain the seamless user experience of a single page application.
-
 - **React Three Fiber and Drei**: Libraries that bring React's component model to Three.js, a cross-browser JavaScript library used to create and display animated 3D computer graphics on a Web browser.
 
 - **Chart.js and React-Chartjs-2**: Charting libraries that help in the visual representation of data in form of charts.
@@ -211,7 +212,6 @@ The CryptoDash application leverages several libraries and frameworks to build a
 
 - **ESLint and Prettier**: Tools for identifying and reporting on patterns in JavaScript, enhancing code quality and formatting.
 
-Remember to keep your dependencies up to date to have the latest features and security updates.
 
 ## Contact
 
