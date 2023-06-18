@@ -77,7 +77,7 @@ export const InputRegistration: React.FC = (): JSX.Element => {
         if (Object.keys(errors).length === 0) {
             try {
                 const registerResponse = (await axios.post(
-                    `${env.REGISTER_API}`,
+                    `${process.env.REACT_APP_REGISTER_API}`,
                     data
                 )) as any
                 console.log(registerResponse)

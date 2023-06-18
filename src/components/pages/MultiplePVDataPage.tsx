@@ -83,13 +83,13 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
     useEffect(() => {
         const fetchData = async () => {
             const dataInst = await fetch(
-                `${env.PRICE_VOLUME_DATA_API}?interval=${
+                `${process.env.REACT_APP_PRICE_VOLUME_DATA_API}?interval=${
                     settingsState.interval
                 }&symbols=${localStorage.getItem('pairsListSelected')}`
             )
 
             const dataWindow = await fetch(
-                `${env.PRICE_VOLUME_DATA_WINDOW_API}?interval=${
+                `${process.env.REACT_APP_PRICE_VOLUME_DATA_WINDOW_API}?interval=${
                     settingsState.interval
                 }&windowLength=${
                     settingsState.windowLength

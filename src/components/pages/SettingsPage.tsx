@@ -319,7 +319,7 @@ export const settingsLoader = async () => {
             return dataLocalResponse
         } else {
             const response = await axios.get(
-                    `${env.ALL_SPOT_TICKER_NAMES}?stableCoinName=USDT`
+                    `${process.env.REACT_APP_ALL_SPOT_TICKER_NAMES}?stableCoinName=USDT`
                 )
             localStorage.setItem(
                 'allSpotTickerNames',

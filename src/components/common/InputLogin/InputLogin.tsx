@@ -65,7 +65,7 @@ export const InputLogin: React.FC = (): JSX.Element => {
         if (Object.keys(errors).length === 0) {
             try {
                 const loginResponse = (await axios.post(
-                    `${env.LOGIN_API}`,
+                    `${process.env.REACT_APP_LOGIN_API}`,
                     data
                 )) as any
                 if (loginResponse.data.message === 'USER_LOGGEDIN') {

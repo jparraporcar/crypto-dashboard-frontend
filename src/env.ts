@@ -1,7 +1,0 @@
-export const env = {
-    LOGIN_API: process.env.LOGIN_API,
-    REGISTER_API:process.env.REGISTER_API,
-    PRICE_VOLUME_DATA_API:process.env.PRICE_VOLUME_DATA_API,
-    PRICE_VOLUME_DATA_WINDOW_API:process.env.PRICE_VOLUME_DATA_WINDOW_API,
-    ALL_SPOT_TICKER_NAMES:process.env.ALL_SPOT_TICKER_NAMES
-} 
