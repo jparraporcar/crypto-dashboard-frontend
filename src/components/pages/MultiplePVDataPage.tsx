@@ -274,7 +274,7 @@ export const MultiplePVDataPage: React.FC = (): JSX.Element => {
                 labels: vOpenTime,
                 datasets: [
                     {
-                        label: `Multiple of volume window of ${evolSymbolState.chartSymbol}`,
+                        label: `Multiple of volume average window of ${evolSymbolState.chartSymbol}`,
                         data: vArrayWindowMultiplesAvgVolume.map(
                             (el) => el[evolSymbolState.chartIndex!]
                         ),
